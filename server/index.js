@@ -21,7 +21,7 @@ const posts = [
 
 
 
-app.get("/posts", (req,res) => {
+app.get("/posts", authenticateToken, (req,res) => {
     res.json(posts)
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
     res.json({accessToken: accessToken}) //access token has user information saved in it
@@ -38,3 +38,14 @@ app.post('/login', (req, res) => {
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
     res.json({accessToken: accessToken}) //access token has user information saved in it
 })
+
+function authenticateToken(red, res, nex) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split('')[1]
+    if (token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403)
+        req.user = usernext()
+    })
+}
