@@ -10,7 +10,7 @@ export default function Home() {
       </div>
       
       <div className="content">
-        <h1 className="app-title">GSW App</h1>
+        <h1 className="app-title">Study Spot Reviewer</h1>
         <div className="image-container">
           <img 
             src="/path-to-your-image.jpg" 
