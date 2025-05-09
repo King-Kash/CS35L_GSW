@@ -5,6 +5,7 @@ import Navbar from './components/NavBar';
 import Home from './pages/Home';
 import Reviews from './pages/Reviews';
 import MapView from './pages/MapView';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/map" element={<MapView />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   )
