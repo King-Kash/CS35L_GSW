@@ -1,8 +1,9 @@
-GET http://localhost:3000/posts
+GET http://localhost:3000/users/getUsers
 ###
-POST http://localhost:3000/login
+POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-    "username": "Kyle"
+    "username": "Kash",
+    "password": "pass"
 }
