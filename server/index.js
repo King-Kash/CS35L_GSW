@@ -3,6 +3,8 @@ import { connectDB } from './config/db.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import userRouter from './routers/user_router.js'
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 //establish backend + connect to mongo
 const app = express();
@@ -10,6 +12,13 @@ connectDB();
 app.listen(3000, () => {
     console.log('Server started at http://localhost:3000');
 });
+
+/// EJS rendering (comment out post testing)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+///
 
 //req configurations
 dotenv.config();
