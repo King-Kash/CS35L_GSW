@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "../models/user_model.js";
+import bcrypt from "bcrypt"
 
 const users = []
 
@@ -8,14 +9,27 @@ const getUsers = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const user = { username: req.body.name, password: req.body.password}
-    users.push(user)
-    res.status(201).send()
+    /*TODO*/
+}
+
+/* TODO */
+const signup = async (req, res) => {
+    try {
+        const salt = await bcrypt.genSalt()
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        const user = { username: req.body.username, password: hashedPassword}
+        users.push(user)
+        res.status(201).send()  
+    } catch (err) {
+        console.error(err)
+        res.status(500).send(err.message)
+    }
 }
 
 export {
     login,
     getUsers,
+    signup,
 }
 
 

@@ -1,9 +1,9 @@
 GET http://localhost:3000/users/getUsers
 ###
-POST http://localhost:3000/users/login
+POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
     "username": "Kash",
-    "password": "pass"
+    "password": "password"
 }
