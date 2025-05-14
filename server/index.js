@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import userRouter from './routers/user_router.js'
 import { fileURLToPath } from 'url';
 import path from 'path';
+// import { fileURLToPath } from 'module';
 
 //establish backend + connect to mongo
 const app = express();
@@ -23,11 +24,12 @@ app.set('view engine', 'ejs');
 //req configurations
 dotenv.config();
 app.use(express.json());
+app.use(express.urlencoded({ extended: false })); //only for .ejs file
+
 
 //called mounting
 //any time /user is appeneded to route, the routes specfically within userRouter can be used.
 app.use("/users", userRouter);
-
 
 
 

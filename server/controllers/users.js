@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import User from "../models/user_model.js";
 import bcrypt from "bcrypt"
+import passport from "passport";
+import initializePassport from "../passport-config.js"
 
 const users = []
 
@@ -9,7 +11,16 @@ const getUsers = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    /*TODO*/
+    try {
+        console.log("hit")
+        user1 = user[0]
+        const match = await bcrypt.compare(req.password, user1.password)
+        if (match){
+            console.log("login succeful")
+        }
+    } catch (error) {
+        
+    }
 }
 
 const renderlogin = (req, res) => {
@@ -23,11 +34,14 @@ const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
         const user = { email: req.body.email, name: req.body.name, password: hashedPassword}
         users.push(user)
-        res.status(201).send()  
+        res.redirect('/users/login')
+        res.status(201).send()
     } catch (err) {
         console.error(err)
+        res.redirect('/users/signup')
         res.status(500).send(err.message)
     }
+     console.log(users)
 }
 
 const rendersignup = (req, res) => {
