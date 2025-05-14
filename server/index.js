@@ -1,20 +1,23 @@
+import util from 'util';
+util.isArray = Array.isArray;
+import methodOverride from 'method-override'
 import express from 'express';
 import { connectDB } from './config/db.js';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+dotenv.config();
+
 import userRouter from './routers/user_router.js'
 import { fileURLToPath } from 'url';
 import path from 'path';
-// import { fileURLToPath } from 'module';
+import flash from 'express-flash';
+import session from 'express-session';
+import passport from 'passport';
+import { checkAuthenticated, checkNotAuthenticated } from './middleware/auth.js';
 
 //establish backend + connect to mongo
 const app = express();
-connectDB();
-app.listen(3000, () => {
-    console.log('Server started at http://localhost:3000');
-});
 
-/// EJS rendering (comment out post testing)
+/// EJS rendering (comment out after testing)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set('views', path.join(__dirname, 'views'));
@@ -22,42 +25,36 @@ app.set('view engine', 'ejs');
 ///
 
 //req configurations
-dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //only for .ejs file
 
+//passport sessions configuration
+app.use(flash()) //used by passport.js
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(methodOverride('_method'))
 
 //called mounting
 //any time /user is appeneded to route, the routes specfically within userRouter can be used.
 app.use("/users", userRouter);
-
-
-
-
-
-// app.get("/posts", authenticateToken, (req,res) => {
-//     res.json(posts)
-//     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-//     res.json({accessToken: accessToken}) //access token has user information saved in it
-// });
-
-
-
-// app.post('/login', (req, res) => {
-//     const username = req.body.username
-//     const user = {name: username}
-
-//     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-//     res.json({accessToken: accessToken}) //access token has user information saved in it
-// })
-
-// function authenticateToken(red, res, nex) {
-//     const authHeader = req.headers['authorization']
-//     const token = authHeader && authHeader.split('')[1]
-//     if (token == null) return res.sendStatus(401)
-
-//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-//         if (err) return res.sendStatus(403)
-//         req.user = usernext()
-//     })
-// }
+app.get("/", checkAuthenticated, (req, res) => {
+    res.render('index.ejs', {name: req.user.name})
+});
+app.delete('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) {
+        return next(err);
+    }
+    res.redirect('/users/login')
+  });
+});
+//establish connections
+connectDB();
+app.listen(3000, () => {
+    console.log('Server started at http://localhost:3000');
+});
