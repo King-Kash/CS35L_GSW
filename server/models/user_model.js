@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        lowercase: true,
     },
     email: {
         type: String,
@@ -16,29 +17,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    bootysize: {
-        type: Number,
-        min: 0,
-    },
-    id: {
-        type: String,
-    },
     followers: {
-        type: Array,
-        required: true,
-        default: [],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     following: {
-        type: Array,
-        required: true,
-        default: [],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     bio: {
         type: String,
         maxlength: 500,
     },
     posts: {
-        type: JSON
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
     },
     profile_pic: {
         type: String
@@ -49,5 +42,5 @@ const userSchema = new mongoose.Schema({
 });
 
 //User model
-const Users = mongoose.model('User', userSchema); //Singular and Capital for model name.
-export default Users;
+const User = mongoose.model('User', userSchema); //Singular and Capital for model name.
+export default User;

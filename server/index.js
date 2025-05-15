@@ -1,11 +1,8 @@
-import util from 'util';
-util.isArray = Array.isArray;
 import methodOverride from 'method-override'
 import express from 'express';
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 dotenv.config();
-
 import userRouter from './routers/user_router.js'
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -13,9 +10,11 @@ import flash from 'express-flash';
 import session from 'express-session';
 import passport from 'passport';
 import { checkAuthenticated, checkNotAuthenticated } from './middleware/auth.js';
+import cors from 'cors'
 
 //establish backend + connect to mongo
 const app = express();
+connectDB();
 
 /// EJS rendering (comment out after testing)
 const __filename = fileURLToPath(import.meta.url);
@@ -30,14 +29,23 @@ app.use(express.urlencoded({ extended: false })); //only for .ejs file
 
 //passport sessions configuration
 app.use(flash()) //used by passport.js
-app.use(session({
+//This sets up express sessions (cookies)
+app.use(session({ 
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
 }))
+//tells express to use passport on every request
 app.use(passport.initialize())
+//hooks passport onto express session
 app.use(passport.session())
 app.use(methodOverride('_method'))
+
+//cors
+app.use(cors({
+    origin: 'http://localhost:3001',
+    //credentials: true
+}));
 
 //called mounting
 //any time /user is appeneded to route, the routes specfically within userRouter can be used.
@@ -53,8 +61,9 @@ app.delete('/logout', (req, res, next) => {
     res.redirect('/users/login')
   });
 });
-//establish connections
-connectDB();
+
+
+//establish connection
 app.listen(3000, () => {
     console.log('Server started at http://localhost:3000');
 });

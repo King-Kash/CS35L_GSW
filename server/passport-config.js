@@ -1,12 +1,13 @@
 import {Strategy as LocalStrategy} from 'passport-local' 
 import bcrypt from "bcrypt"
 import mongoose from "mongoose";
+import User from './models/user_model.js';
 
 
-function initialize(passport, getUserByEmail, getUserById) {
+function initialize(passport) {
     const authenticateUser = async (email, password, done) => {
-        const user = await getUserByEmail(email) //change to mongoose findOne function using eamil
-        if (user == null) {
+        const user = await User.findOne({email}) //change to mongoose findOne function using eamil
+        if (!user) {
             return done(null, false, {message: 'No user with that email'}) //replace null with database error 
         }
         try {
@@ -23,7 +24,7 @@ function initialize(passport, getUserByEmail, getUserById) {
     passport.serializeUser((user, done) => done(null, user.id))    
     passport.deserializeUser((id, done) => {
             try {
-                const user = getUserById(id)
+                const user = User.findById(id).select('-password') //prevents password from getting exposed
                 return done(null, user) //might have to change this
             } catch (error) {
                 return done(error);
