@@ -1,0 +1,250 @@
+.reviews-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  
+  .reviews-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+  }
+  
+  /* Filter column styling */
+  .filter-column {
+    flex: 1;
+    max-width: 300px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+  }
+  
+  .filter-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-card h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .filter-section {
+    margin-bottom: 25px;
+  }
+  
+  .filter-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #555;
+  }
+  
+  .rating-filter {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filter-star {
+    font-size: 1.5rem;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .filter-star:hover {
+    color: #ffd700;
+  }
+  
+  .filter-star.selected {
+    color: #ffc107;
+  }
+  
+  .rating-text {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .filter-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+  }
+  
+  .date-filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .date-filter-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .clear-filters-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    color: #555;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+  }
+  
+  .clear-filters-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Reviews content styling */
+  .reviews-content {
+    flex: 3;
+  }
+  
+  .reviews-heading {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .no-reviews {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Review card styling */
+  .review-card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaeaea;
+    transition: transform 0.2s;
+  }
+  
+  .review-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .review-main-content {
+    flex: 2;
+    padding-right: 20px;
+  }
+  
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  
+  .review-location {
+    font-size: 1.4rem;
+    margin: 0;
+    color: #333;
+  }
+  
+  .review-username {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .review-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .star {
+    color: #e0e0e0;
+  }
+  
+  .star.filled {
+    color: #ffc107;
+  }
+  
+  .review-content {
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .review-date {
+    display: block;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .review-image-container {
+    flex: 1;
+    max-width: 250px;
+    height: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .review-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .review-card:hover .review-image {
+    transform: scale(1.05);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 900px) {
+    .reviews-container {
+      flex-direction: column;
+    }
+    
+    .filter-column {
+      max-width: 100%;
+      position: static;
+      margin-bottom: 20px;
+    }
+    
+    .review-card {
+      flex-direction: column;
+    }
+    
+    .review-main-content {
+      padding-right: 0;
+      padding-bottom: 15px;
+    }
+    
+    .review-image-container {
+      max-width: 100%;
+      height: 200px;
+    }
+  }
