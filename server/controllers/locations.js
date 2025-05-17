@@ -57,8 +57,19 @@ const modifyLocation = async (req, res) => {
   }
 };
 
-// Route to handle POST /locations
+// Controller function to get all locations
+const getAllLocations = async (req, res) => {
+  try {
+    const locations = await Location.find().populate('reviews');
+    res.status(200).json(locations);
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+    res.status(500).json({ message: "Failed to fetch locations", error: error.message });
+  }
+};
+
 router.post("/createLocation", createLocation);
 router.post("/modifyLocation/:id", modifyLocation);
+router.get("/all", getAllLocations);
 
 export default router
