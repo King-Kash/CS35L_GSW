@@ -42,6 +42,9 @@ export default function MapView() {
     const [spots, setSpots] = useState(studySpots);
     const [newSpotName, setNewSpotName] = useState('');
     const [newSpotDescription, setNewSpotDescription] = useState('');
+    const [newSpotImage, setNewSpotImage] = useState(null);
+    const [newSpotRating, setNewSpotRating] = useState(0);
+    const [imagePreview, setImagePreview] = useState(null);
 
     useEffect(() => {
         isAddModeRef.current = isAddMode;
@@ -187,6 +190,23 @@ export default function MapView() {
         }
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setNewSpotImage(file);
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleRatingChange = (rating) => {
+        setNewSpotRating(rating);
+    };
+
     const handleAddSpot = () => {
         if (!selectedSpot || !newSpotName) return;
 
@@ -197,7 +217,8 @@ export default function MapView() {
                 ...selectedSpot,
                 name: newSpotName,
                 description: newSpotDescription,
-                rating: 0
+                rating: newSpotRating,
+                image: imagePreview
             };
 
             // Convert temporary marker to permanent marker
@@ -234,12 +255,13 @@ export default function MapView() {
                 }
             });*/
 
-            // Create info window
+            // Create info window with image
             const infoWindow = new window.google.maps.InfoWindow({
                 content: `
                     <div class="info-window">
                         <h3>${newSpot.name}</h3>
-                        <p>Rating: ${newSpot.rating} ⭐</p>
+                        ${newSpot.image ? `<img src="${newSpot.image}" alt="${newSpot.name}" style="max-width: 200px; margin: 10px 0;">` : ''}
+                        <p>Rating: ${'⭐'.repeat(newSpot.rating)}</p>
                         <p>${newSpot.description}</p>
                     </div>
                 `
@@ -269,6 +291,11 @@ export default function MapView() {
             setNewSpotName('');
             setNewSpotDescription('');
             setSelectedSpot(newSpot);
+
+            setNewSpotImage(null);
+            setNewSpotRating(0);
+            setImagePreview(null);
+
         } catch (error) {
             console.error('Error adding spot:', error);
         }
@@ -351,6 +378,9 @@ export default function MapView() {
         setSelectedSpot(null);
         setNewSpotName('');
         setNewSpotDescription('');
+        setNewSpotImage(null);
+        setNewSpotRating(0);
+        setImagePreview(null);
     };
 
     if (error) {
@@ -419,6 +449,19 @@ export default function MapView() {
                               maxLength={200}
                           />
                           <div className="image-placeholder">ADD IMAGE HERE</div>
+                          <div className="image-upload">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        id="spot-image"
+                                    />
+                                    {imagePreview && (
+                                        <div className="image-preview">
+                                            <img src={imagePreview} alt="Preview" />
+                                        </div>
+                                    )}
+                                </div>
                           <button onClick={handleAddSpot}>Add Spot</button>
                         </div>
                      </div>
@@ -433,7 +476,10 @@ export default function MapView() {
                 {/*!isAddMode && selectedSpot && (
                     <div className="spot-details">
                         <h3>{selectedSpot.name}</h3>
-                        <p>Rating: {selectedSpot.rating} ⭐</p>
+                        {selectedSpot.image && (
+                            <img src={selectedSpot.image} alt={selectedSpot.name} className="spot-image" />
+                        )}
+                        <p>Rating: {'⭐'.repeat(selectedSpot.rating)}</p>
                         <p>{selectedSpot.description}</p>
                     </div>
                 )*/}
