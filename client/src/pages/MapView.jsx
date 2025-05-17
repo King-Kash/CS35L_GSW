@@ -21,6 +21,7 @@ export default function MapView() {
                 const map = new window.google.maps.Map(mapRef.current, {
                     center: { lat: 34.0522, lng: -118.2437 }, // Default to Los Angeles
                     zoom: 12,
+                    fullscreenControl: false,
                     styles: [
                         {
                             featureType: "poi",
@@ -88,7 +89,7 @@ export default function MapView() {
     return (
         <div className="mapview-container">
             <div className="mapview-content">
-                <form className="search-box" onSubmit={handleSearch}>
+                {/*<form className="search-box" onSubmit={handleSearch}>
                     <input
                         type="text"
                         className="search-input"
@@ -96,7 +97,8 @@ export default function MapView() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                </form>
+                </form>*/}
+                <button className="add-button">Add Study Spot</button>
                 <div className="map-container">
                     <div ref={mapRef} className="map"></div>
                 </div>
