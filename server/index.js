@@ -2,6 +2,7 @@ import express from 'express';
 import { connectDB } from './config/db.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import reviewRoutes from "./routers/review_router.js";
 
 const app = express();
 connectDB();
@@ -19,7 +20,8 @@ const posts = [
     }
 ]
 
-
+app.use(express.json()); // Middleware to parse JSON
+app.use("/reviews", reviewRoutes); // Add review routes at /reviews
 
 app.get("/posts", authenticateToken, (req,res) => {
     res.json(posts)
