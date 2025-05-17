@@ -1,10 +1,8 @@
 import express from "express";
 import Location from "../models/location_model.js";
 
-const router = express.Router();
-
 // Controller function to create a new location
-const createLocation = async (req, res) => {
+export const createLocation = async (req, res) => {
   try {
     const {
       name,
@@ -34,7 +32,7 @@ const createLocation = async (req, res) => {
 };
 
 // Controller function to modify a location
-const modifyLocation = async (req, res) => {
+export const modifyLocation = async (req, res) => {
   try {
     const locationId = req.params.id;  // ID of location to update
     const updateData = req.body;       // New fields to update
@@ -58,7 +56,7 @@ const modifyLocation = async (req, res) => {
 };
 
 // Controller function to get all locations
-const getAllLocations = async (req, res) => {
+export const getAllLocations = async (req, res) => {
   try {
     const locations = await Location.find().populate('reviews');
     res.status(200).json(locations);
@@ -67,9 +65,3 @@ const getAllLocations = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch locations", error: error.message });
   }
 };
-
-router.post("/createLocation", createLocation);
-router.post("/modifyLocation/:id", modifyLocation);
-router.get("/all", getAllLocations);
-
-export default router
