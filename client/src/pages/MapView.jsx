@@ -155,7 +155,7 @@ export default function MapView() {
                 icon: {
                     path: window.google.maps.SymbolPath.CIRCLE,
                     scale: 10,
-                    fillColor: "#FF0000",
+                    fillColor: "#4285F4",  // Google Maps blue
                     fillOpacity: 1,
                     strokeColor: "#FFFFFF",
                     strokeWeight: 2,
@@ -180,6 +180,8 @@ export default function MapView() {
                 rating: 0,
                 description: ''
             });
+            setShowLocationView(true)
+            
         } catch (error) {
             console.error('Error creating marker:', error);
         }
@@ -187,6 +189,8 @@ export default function MapView() {
 
     const handleAddSpot = () => {
         if (!selectedSpot || !newSpotName) return;
+
+        setIsAddMode(false)
 
         try {
             const newSpot = {
@@ -200,6 +204,7 @@ export default function MapView() {
             if (tempMarkerRef.current) {
                 tempMarkerRef.current.setMap(null);
                 tempMarkerRef.current = null;
+                console.log("DOING SOMETHING WIHT TEMPORARY")
             }
 
             // Add the new spot to the list
@@ -208,6 +213,12 @@ export default function MapView() {
 
             // Create a permanent marker for the new spot
             const marker = new window.google.maps.Marker({
+              position: newSpot.location,
+              map: mapInstanceRef.current,
+              title: newSpot.name,
+              draggable: false
+          });
+            /*new window.google.maps.Marker({
                 position: newSpot.location,
                 map: mapInstanceRef.current,
                 title: newSpot.name,
@@ -221,7 +232,7 @@ export default function MapView() {
                     strokeWeight: 2,
                     anchor: new window.google.maps.Point(0, 0)
                 }
-            });
+            });*/
 
             // Create info window
             const infoWindow = new window.google.maps.InfoWindow({
@@ -244,8 +255,10 @@ export default function MapView() {
                 });
 
                 // Open this marker's info window
-                infoWindow.open(mapInstanceRef.current, marker);
+                //infoWindow.open(mapInstanceRef.current, marker);
+                setShowLocationView(true)
                 setSelectedSpot(newSpot);
+          
             });
 
             // Store marker and its info window
@@ -255,7 +268,7 @@ export default function MapView() {
             // Reset form
             setNewSpotName('');
             setNewSpotDescription('');
-            setSelectedSpot(null);
+            setSelectedSpot(newSpot);
         } catch (error) {
             console.error('Error adding spot:', error);
         }
@@ -296,8 +309,9 @@ export default function MapView() {
                 });
 
                 // Open this marker's info window
-                infoWindow.open(map, markerView);
+                //infoWindow.open(map, markerView);
                 setSelectedSpot(spot);
+                setShowLocationView(true)
             });
 
             // Store marker and its info window
@@ -349,15 +363,18 @@ export default function MapView() {
         );
     }
 
+    console.log("opening")
+    console.log(selectedSpot)
+
     return (
         <div className="mapview-container">
             <div className="mapview-content">
 
-                {showLocationView && <LocationView setShowLocationView={setShowLocationView} />}
+                {showLocationView && <LocationView selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
                 
-                <button className="add-button" onClick={() => setShowLocationView(!showLocationView)}>Add Study Spot</button>
+                {/*<button className="add-button" onClick={() => setShowLocationView(!showLocationView)}>Add Study Spot</button>*/}
                 <div className="controls">
-                    <form className="search-box" onSubmit={handleSearch}>
+                    {/*<form className="search-box" onSubmit={handleSearch}>
                         <input
                             type="text"
                             className="search-input"
@@ -365,51 +382,61 @@ export default function MapView() {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                    </form>
+                    </form>*/}
                     <button 
                         className={`mode-toggle ${isAddMode ? 'active' : ''}`}
                         onClick={(e) => {
                             e.preventDefault();
                             console.log('Mode toggle button clicked. Current mode:', isAddMode);
                             toggleMode();
+                            setShowLocationView(false)
                         }}
                     >
-                        {isAddMode ? 'View Mode' : 'Add Mode'}
+                        {isAddMode ? 'Cancel' : 'Add Spot'}
                     </button>
                 </div>
                 <div className="map-container">
                     <div ref={mapRef} className="map"></div>
                 </div>
                 {isAddMode && (
+                  <div>
+                  {selectedSpot ? (
                     <div className="add-spot-form">
-                        <h3>Add New Study Spot</h3>
-                        {selectedSpot ? (
-                            <>
-                                <input
-                                    type="text"
-                                    placeholder="Name of the study spot"
-                                    value={newSpotName}
-                                    onChange={(e) => setNewSpotName(e.target.value)}
-                                />
-                                <textarea
-                                    placeholder="Description"
-                                    value={newSpotDescription}
-                                    onChange={(e) => setNewSpotDescription(e.target.value)}
-                                />
-                                <button onClick={handleAddSpot}>Add Spot</button>
-                            </>
-                        ) : (
-                            <p>Click on the map to add a new study spot</p>
-                        )}
-                    </div>
+                        <div className="add-spot-flex-box">
+                          <h2>Add New Study Spot</h2>
+                          <input
+                              type="text"
+                              className="add-spot-name"
+                              placeholder="Name of the study spot"
+                              value={newSpotName}
+                              onChange={(e) => setNewSpotName(e.target.value)}
+                          />
+                          <textarea
+                              className="add-spot-description"
+                              placeholder="Description"
+                              value={newSpotDescription}
+                              onChange={(e) => setNewSpotDescription(e.target.value)}
+                              maxLength={200}
+                          />
+                          <div className="image-placeholder">ADD IMAGE HERE</div>
+                          <button onClick={handleAddSpot}>Add Spot</button>
+                        </div>
+                     </div>
+                      ) : (
+                        <div className="add-spot-guide">
+                          <h3>Add New Study Spot</h3> 
+                          <p>Click on the map to add a new study spot</p>
+                        </div>
+                      )}
+                  </div>
                 )}
-                {!isAddMode && selectedSpot && (
+                {/*!isAddMode && selectedSpot && (
                     <div className="spot-details">
                         <h3>{selectedSpot.name}</h3>
                         <p>Rating: {selectedSpot.rating} ⭐</p>
                         <p>{selectedSpot.description}</p>
                     </div>
-                )}
+                )*/}
             </div>
         </div>
     );
