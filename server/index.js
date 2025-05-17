@@ -13,7 +13,11 @@ import { checkAuthenticated, checkNotAuthenticated } from './middleware/auth.js'
 import cors from 'cors'
 
 //establish backend + connect to mongo
+import reviewRoutes from "./routers/review_router.js";
+import locationRoutes from './routers/location_router.js';
+
 const app = express();
+app.use(express.json());
 connectDB();
 
 /// EJS rendering (comment out after testing)
@@ -60,6 +64,27 @@ app.delete('/logout', (req, res, next) => {
     }
     res.redirect('/users/login')
   });
+});
+
+const posts = [
+    {
+        username: "Kash",
+        title: "Post 1"
+    },
+    {
+        username: "Aki",
+        title: "Post 1"
+    }
+]
+
+app.use(express.json()); // Middleware to parse JSON
+app.use("/reviews", reviewRoutes); // Add review routes at /reviews
+app.use("/locations", locationRoutes); // Add location routes at /locations
+
+app.get("/posts", checkAuthenticated, (req,res) => {
+    res.json(posts)
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+    res.json({accessToken: accessToken}) //access token has user information saved in it
 });
 
 
