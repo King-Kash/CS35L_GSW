@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import './MapView.css';
+import LocationView from './LocationView';
 
 export default function MapView() {
     const mapRef = useRef(null);
     const [map, setMap] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [showLocationView, setShowLocationView] = useState(false)
 
     useEffect(() => {
         // Initialize the map when the component mounts
@@ -22,6 +24,7 @@ export default function MapView() {
                     center: { lat: 34.0522, lng: -118.2437 }, // Default to Los Angeles
                     zoom: 12,
                     fullscreenControl: false,
+                    mapTypeControl: false,
                     styles: [
                         {
                             featureType: "poi",
@@ -98,7 +101,9 @@ export default function MapView() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </form>*/}
-                <button className="add-button">Add Study Spot</button>
+                {showLocationView && <LocationView setShowLocationView={setShowLocationView} />}
+                
+                <button className="add-button" onClick={() => setShowLocationView(!showLocationView)}>Add Study Spot</button>
                 <div className="map-container">
                     <div ref={mapRef} className="map"></div>
                 </div>
