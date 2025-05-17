@@ -4,10 +4,18 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import reviewRoutes from "./routers/review_router.js";
 
+import userRoutes from './controllers/users.js';
+import reviewRoutes from './controllers/reviews.js';
+import locationRoutes from './controllers/locations.js';
+
 const app = express();
+app.use(express.json());
 connectDB();
 dotenv.config();
 
+app.use("/users", userRoutes);
+app.use("/reviews", reviewRoutes);
+app.use("/locations", locationRoutes);
 
 const posts = [
     {
