@@ -36,10 +36,10 @@ export default function MapView() {
     const [error, setError] = useState(null);
     const [isAddMode, setIsAddMode] = useState(false);
     const isAddModeRef = useRef(false);
+    const tempMarkerRef = useRef(null);
     const [spots, setSpots] = useState(studySpots);
     const [newSpotName, setNewSpotName] = useState('');
     const [newSpotDescription, setNewSpotDescription] = useState('');
-    const [tempMarker, setTempMarker] = useState(null);
 
     useEffect(() => {
         isAddModeRef.current = isAddMode;
@@ -137,10 +137,9 @@ export default function MapView() {
 
         try {
             // Remove previous temporary marker if it exists
-            if (tempMarker) {
+            if (tempMarkerRef.current) {
                 console.log('Removing previous temporary marker');
-                tempMarker.setMap(null);
-                setTempMarker(null);
+                tempMarkerRef.current.setMap(null);
             }
 
             // Create a new temporary marker using standard Marker
@@ -169,7 +168,7 @@ export default function MapView() {
             });
 
             console.log('Created a new temporary marker');
-            setTempMarker(marker);
+            tempMarkerRef.current = marker;
             setSelectedSpot({
                 id: Date.now(), // Temporary ID
                 name: '',
@@ -181,17 +180,6 @@ export default function MapView() {
             console.error('Error creating marker:', error);
         }
     };
-
-    // Add cleanup effect for temporary marker
-    useEffect(() => {
-        return () => {
-            if (tempMarker) {
-                console.log('Cleaning up temporary marker on unmount');
-                tempMarker.setMap(null);
-                setTempMarker(null);
-            }
-        };
-    }, [tempMarker]);
 
     const handleAddSpot = () => {
         if (!selectedSpot || !newSpotName) return;
@@ -205,9 +193,9 @@ export default function MapView() {
             };
 
             // Convert temporary marker to permanent marker
-            if (tempMarker) {
-                tempMarker.setMap(null);
-                setTempMarker(null);
+            if (tempMarkerRef.current) {
+                tempMarkerRef.current.setMap(null);
+                tempMarkerRef.current = null;
             }
 
             // Add the new spot to the list
@@ -337,10 +325,10 @@ export default function MapView() {
         });
         
         // Clear any temporary marker when toggling modes
-        if (tempMarker) {
+        if (tempMarkerRef.current) {
             console.log('Removing temporary marker when toggling modes');
-            tempMarker.setMap(null);
-            setTempMarker(null);
+            tempMarkerRef.current.setMap(null);
+            tempMarkerRef.current = null;
         }
         setSelectedSpot(null);
         setNewSpotName('');
