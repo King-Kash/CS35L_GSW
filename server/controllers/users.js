@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "../models/user_model";
+import User from "../models/user_model.js";
 
 
 const createUser = async (req, res) => {
@@ -18,3 +18,5 @@ const createUser = async (req, res) => {
         console.error("Error is creating user, please chek you included Booty Size:", error.message);
     }
 }
+
+export default createUser;
