@@ -31,20 +31,6 @@
   width: 400px; /* Adjust width as needed */
 }
 
-.search-input {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  font-size: 0.9rem;
-}
-
-.tag-input {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  font-size: 0.9rem;
-}
-
 .search-button {
   background-color: #112132;
   color: white;
@@ -58,11 +44,6 @@
 }
 .search-button:hover {
   background-color: #0056b3;
-}
-
-.search-input:focus,
-.tag-input:focus {
-  outline: none;
 }
 
 .divider {

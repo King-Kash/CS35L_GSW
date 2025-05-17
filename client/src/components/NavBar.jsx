@@ -1,63 +1,119 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import './NavBar.css';
+import DropdownInput from './DropdownInput';
 
 export default function Navbar() {
-  const [tagTerm, setTagTerm] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(-1); // Track the highlighted item
+  const [tagTerm, setTagTerm] = useState('');
+  const [isSearchDropdownVisible, setIsSearchDropdownVisible] = useState(false);
+  const [isTagDropdownVisible, setIsTagDropdownVisible] = useState(false);
+  const [highlightedSearchIndex, setHighlightedSearchIndex] = useState(-1); // Track the highlighted item
+  const [highlightedTagIndex, setHighlightedTagIndex] = useState(-1); // Track the highlighted item
   const navigate = useNavigate();
-
+  
   const tags = ['quiet', 'aesthetic', 'good for collaboration', 'any']; // Some sample tags
+  const spots = [ {
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            -118.2437,
+            34.0522
+        ]
+    },
+    "_id": "6828d5c6590e03c2a8fb3e68",
+    "name": "Peets Coffee",
+    "rating": {
+        "$numberDecimal": "4.5"
+    },
+    "reviews": [],
+    "image": "https://example.com/new-image.jpg",
+    "description": "This is an updated description of the location.",
+    "tags": ["library", "quiet", "crowded"],
+    "createdAt": "2025-05-17T18:30:30.767Z",
+    "updatedAt": "2025-05-17T18:39:34.332Z",
+    "__v": 0
+  } ,
+  {
+    "location": {
+        "type": "Point",
+        "coordinates": [
+            -118.2437,
+            34.0522
+        ]
+    },
+    "_id": "6828d5c6590e03c2a8fb3e68",
+    "name": "Quiet Library",
+    "rating": {
+        "$numberDecimal": "4.5"
+    },
+    "reviews": [],
+    "image": "https://example.com/new-image.jpg",
+    "description": "This is an updated description of the location.",
+    "tags": ["library", "quiet", "crowded"],
+    "createdAt": "2025-05-17T18:30:30.767Z",
+    "updatedAt": "2025-05-17T18:39:34.332Z",
+    "__v": 0
+  }];
+  const common_searches = ['library', 'coffee shop', 'study spot', 'quiet place']; // Some sample searches
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    // TODO: implement search autofill logic
+    setIsSearchDropdownVisible(true);
+    setHighlightedSearchIndex(-1);
   };
 
   const handleTagChange = (event) => {
     setTagTerm(event.target.value);
-    setIsDropdownVisible(true); // Show dropdown when typing
-    setHighlightedIndex(-1); // Reset highlighted index
+    setIsTagDropdownVisible(true); // Show dropdown when typing
+    setHighlightedTagIndex(-1); // Reset highlighted index
   };
 
-  const handleSearchClick = () => {
+  const handleSearchDropdownClick = (search) => {
+    setSearchTerm(search);
+    setIsSearchDropdownVisible(false);
+  };
+
+  const handleSearchButtonClick = () => {
     // TODO: ADJUST AS NEEDED TO ACTUAL SEARCH RESULTS PAGE
     navigate(`/results?search=${searchTerm}&tag=${tagTerm}`); // Navigate to search results page
   };
 
   const handleTagClick = (tag) => {
     setTagTerm(tag); // Populate the input with the selected tag
-    setIsDropdownVisible(false); // Hide dropdown after selecting a tag
+    setIsTagDropdownVisible(false); // Hide dropdown after selecting a tag
   };
 
-  const handleBlur = () => {
-    setTimeout(() => setIsDropdownVisible(false), 100); // Delay to allow click event on dropdown items
+  const handleBlur = (setDropdownVisible) => {
+    setTimeout(() => setDropdownVisible(false), 100);
   };
 
-  const handleFocus = () => {
-    setIsDropdownVisible(true); // Show dropdown when input is focused
-  };
-
-  const handleKeyDown = (event) => {
-    if (!isDropdownVisible || filteredTags.length === 0) return;
+  const handleKeyDown = (event, filteredItems, highlightedIndex, setHighlightedIndex, onItemClick) => {
+    if (!filteredItems.length) return;
 
     if (event.key === 'ArrowDown') {
-      // Move down the list
       setHighlightedIndex((prevIndex) =>
-        prevIndex < filteredTags.length - 1 ? prevIndex + 1 : 0
+        prevIndex < filteredItems.length - 1 ? prevIndex + 1 : 0
       );
     } else if (event.key === 'ArrowUp') {
-      // Move up the list
       setHighlightedIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : filteredTags.length - 1
+        prevIndex > 0 ? prevIndex - 1 : filteredItems.length - 1
       );
     } else if (event.key === 'Enter' && highlightedIndex >= 0) {
-      // Select the highlighted item
-      handleTagClick(filteredTags[highlightedIndex]);
+      onItemClick(filteredItems[highlightedIndex]);
     }
   };
+
+  const filteredSearches = [
+    ...spots
+      .map((spot) => spot.name) // Extract names from the spots array
+      .filter((name) =>
+        name.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    ...common_searches.filter((search) =>
+      search.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  ];
 
   const filteredTags = tags.filter((tag) =>
     tag.toLowerCase().includes(tagTerm.toLowerCase())
@@ -71,48 +127,49 @@ export default function Navbar() {
         <Link to="/map" className="nav-link">Map</Link>
       </div>
       <div className="search-tag-container">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="search-input"
+      <DropdownInput
           value={searchTerm}
           onChange={handleSearchChange}
+          onItemClick={handleSearchDropdownClick}
+          onFocus={() => setIsSearchDropdownVisible(true)}
+          onBlur={() => handleBlur(setIsSearchDropdownVisible)}
+          onKeyDown={(event) =>
+            handleKeyDown(
+              event,
+              filteredSearches,
+              highlightedSearchIndex,
+              setHighlightedSearchIndex,
+              handleSearchClick
+            )
+          }
+          isDropdownVisible={isSearchDropdownVisible}
+          filteredItems={filteredSearches}
+          highlightedIndex={highlightedSearchIndex}
+          placeholder="Search..."
         />
         <div className="divider"></div>
-        <div className="dropdown-container">
-          <input
-            type="text"
-            placeholder="Enter tag..."
-            value={tagTerm}
-            onChange={handleTagChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            className="tag-input"
-          />
-          {isDropdownVisible && (
-            <ul className="dropdown">
-              {filteredTags.map((tag, index) => (
-                <li
-                  key={tag}
-                  onClick={() => handleTagClick(tag)}
-                  className={`dropdown-item ${
-                    index === highlightedIndex ? 'highlighted' : ''
-                  }`}
-                >
-                  {tag}
-                </li>
-              ))}
-              {filteredTags.length === 0 && (
-                <li className="dropdown-item no-matches unclickable">
-                  No matches
-                </li>
-              )}
-            </ul>
-          )}
-        </div>
+        <DropdownInput
+          value={tagTerm}
+          onChange={handleTagChange}
+          onItemClick={handleTagClick}
+          onFocus={() => setIsTagDropdownVisible(true)}
+          onBlur={() => handleBlur(setIsTagDropdownVisible)}
+          onKeyDown={(event) =>
+            handleKeyDown(
+              event,
+              filteredTags,
+              highlightedTagIndex,
+              setHighlightedTagIndex,
+              handleTagClick
+            )
+          }
+          isDropdownVisible={isTagDropdownVisible}
+          filteredItems={filteredTags}
+          highlightedIndex={highlightedTagIndex}
+          placeholder="Enter tag..."
+        />
       </div>
-      <button className="search-button" onClick={handleSearchClick}>
+      <button className="search-button" onClick={handleSearchButtonClick}>
           Search
       </button>
     </nav>
