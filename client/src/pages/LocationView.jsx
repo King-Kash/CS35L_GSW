@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './LocationView.css';
 
-export default function LocationView({ setShowLocationView }) {
+export default function LocationView({ selectedSpot, setShowLocationView }) {
 
     const locationObject = {
         "location": {
@@ -25,14 +25,36 @@ export default function LocationView({ setShowLocationView }) {
         "__v": 0
     }
 
-    console.log("locationObject:", locationObject);
+    const goToReviews = () => {
+      console.log("go to reviews")
+    }
 
     return (
+      <div className="location-view-container">
         <div className="location-view">
-            {locationObject.name}
-            {locationObject.description}
-            Rating: {locationObject.rating.$numberDecimal}
-            <button onClick={() => setShowLocationView(false)}>CLOSE</button>
+            <button className="close-button" onClick={() => setShowLocationView(false)}>×</button>
+            <h1>{selectedSpot.name}</h1>
+            <div className="location-image"></div>
+            <p>{selectedSpot.description || "No description available."}</p>
+            <div className="rating">
+              {selectedSpot.rating === 0 ? (
+                <span>Be the first to review this study spot!</span>
+              ) : (
+                <>
+                  <span>Rating: </span>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} style={{ color: i < selectedSpot.rating ? "#FFD700" : "#ccc" }}>
+                      &#9733;
+                    </span>
+                  ))}
+                  &nbsp; ({selectedSpot.rating})
+                </>
+              )}
+            </div>
+            <button className="reviews-button" onClick={goToReviews}>
+              Go to Reviews
+            </button>
         </div>
+      </div>
     );
 }
