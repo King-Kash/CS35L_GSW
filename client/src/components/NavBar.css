@@ -1,6 +1,6 @@
 .navbar {
   background-color: #978080;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -9,7 +9,7 @@
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 0.5rem;
 }
 
 .nav-link {
@@ -26,16 +26,14 @@
 .search-tag-container {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 400px; /* Adjust width as needed */
+  width: 800; /* Adjust width as needed */
 }
 
 .search-button {
   background-color: #112132;
   color: white;
   border: 1px solid #000000;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem;
   cursor: pointer;
   font-size: 1rem;
   display: flex;
@@ -54,7 +52,69 @@
 
 .dropdown-container {
   position: relative;
-  display: inline-block;
+}
+
+.search-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  background-color: white;
+  white-space: nowrap;
+  width: 200px;
+}
+
+.tag-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0rem;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
+  background-color: white;
+  white-space: nowrap;
+  width: 400px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
+  scrollbar-color: #ccc transparent; /* For Firefox: customize scrollbar colors */
+}
+
+.tag {
+  background-color: #007bff;
+  color: white;
+  padding: 0.3rem 0.3rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag-button {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.remove-tag-button:hover {
+  color: #ff4d4d;
+}
+
+.dropdown-input {
+  border: none !important;
+  flex: 1;
+  font-size: 1rem;
+  outline: none;
+  min-width: 10px; /* Ensure the input is always visible */
 }
 
 .dropdown {
@@ -71,7 +131,7 @@
 }
 
 .dropdown-item {
-  padding: 8px;
+  padding: 4px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
 }
