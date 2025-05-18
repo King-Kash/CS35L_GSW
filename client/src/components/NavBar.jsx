@@ -5,7 +5,8 @@ import DropdownInput from './DropdownInput';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [tagTerm, setTagTerm] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]); // Store multiple selected tags
+  const [tagInput, setTagInput] = useState(''); // Input for typing new tags
   const [isSearchDropdownVisible, setIsSearchDropdownVisible] = useState(false);
   const [isTagDropdownVisible, setIsTagDropdownVisible] = useState(false);
   const [highlightedSearchIndex, setHighlightedSearchIndex] = useState(-1); // Track the highlighted item
@@ -63,29 +64,35 @@ export default function Navbar() {
     setHighlightedSearchIndex(-1);
   };
 
-  const handleTagChange = (event) => {
-    setTagTerm(event.target.value);
+  const handleTagInputChange = (event) => {
+    setTagInput(event.target.value);
     setIsTagDropdownVisible(true); // Show dropdown when typing
     setHighlightedTagIndex(-1); // Reset highlighted index
   };
 
+  const handleTagClick = (tag) => {
+    if (!selectedTags.includes(tag)) {
+      setSelectedTags([...selectedTags, tag]); // Add the selected tag to the array
+    }
+    setTagInput(''); // Clear the input field
+  };
+
+  const handleTagRemove = (tagToRemove) => {
+    setSelectedTags(selectedTags.filter((tag) => tag !== tagToRemove)); // Remove the tag
+  };
+
   const handleSearchDropdownClick = (search) => {
     setSearchTerm(search);
-    setIsSearchDropdownVisible(false);
+    setTimeout(() => setIsSearchDropdownVisible(false), 200);
   };
 
   const handleSearchButtonClick = () => {
     // TODO: ADJUST AS NEEDED TO ACTUAL SEARCH RESULTS PAGE
-    navigate(`/results?search=${searchTerm}&tag=${tagTerm}`); // Navigate to search results page
-  };
-
-  const handleTagClick = (tag) => {
-    setTagTerm(tag); // Populate the input with the selected tag
-    setIsTagDropdownVisible(false); // Hide dropdown after selecting a tag
+    navigate(`/results?search=${searchTerm}&tag=${selectedTags.join(',')}`); // Navigate to search results page
   };
 
   const handleBlur = (setDropdownVisible) => {
-    setTimeout(() => setDropdownVisible(false), 100);
+    setTimeout(() => setDropdownVisible(false), 200);
   };
 
   const handleKeyDown = (event, filteredItems, highlightedIndex, setHighlightedIndex, onItemClick) => {
@@ -107,17 +114,13 @@ export default function Navbar() {
   const filteredSearches = [
     ...spots
       .map((spot) => spot.name) // Extract names from the spots array
-      .filter((name) =>
-        name.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    ...common_searches.filter((search) =>
-      search.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+      .filter((name) => name.toLowerCase().includes(searchTerm.toLowerCase())),
+    ...common_searches.filter((search) => search.toLowerCase().includes(searchTerm.toLowerCase()))
   ];
 
-  const filteredTags = tags.filter((tag) =>
-    tag.toLowerCase().includes(tagTerm.toLowerCase())
-  );
+  const filteredTags = tags
+    .filter((tag) => !selectedTags.includes(tag)) // Exclude selected tags
+    .filter((tag) => tag.toLowerCase().includes(tagInput.toLowerCase())); // Filter based on input
 
   return (
     <nav className="navbar">
@@ -127,7 +130,7 @@ export default function Navbar() {
         <Link to="/map" className="nav-link">Map</Link>
       </div>
       <div className="search-tag-container">
-      <DropdownInput
+        <DropdownInput
           value={searchTerm}
           onChange={handleSearchChange}
           onItemClick={handleSearchDropdownClick}
@@ -139,35 +142,43 @@ export default function Navbar() {
               filteredSearches,
               highlightedSearchIndex,
               setHighlightedSearchIndex,
-              handleSearchClick
+              handleSearchDropdownClick
             )
           }
           isDropdownVisible={isSearchDropdownVisible}
           filteredItems={filteredSearches}
           highlightedIndex={highlightedSearchIndex}
           placeholder="Search..."
+          selectedItems={[]} // No selected items for search input
+          onRemoveItem={() => {}} // No remove function for search input
+          className="search-wrapper" // Add a class for styling
         />
         <div className="divider"></div>
-        <DropdownInput
-          value={tagTerm}
-          onChange={handleTagChange}
-          onItemClick={handleTagClick}
-          onFocus={() => setIsTagDropdownVisible(true)}
-          onBlur={() => handleBlur(setIsTagDropdownVisible)}
-          onKeyDown={(event) =>
-            handleKeyDown(
-              event,
-              filteredTags,
-              highlightedTagIndex,
-              setHighlightedTagIndex,
-              handleTagClick
-            )
-          }
-          isDropdownVisible={isTagDropdownVisible}
-          filteredItems={filteredTags}
-          highlightedIndex={highlightedTagIndex}
-          placeholder="Enter tag..."
-        />
+        <div className="tag-input-container">
+          <DropdownInput
+            value={tagInput}
+            onChange={handleTagInputChange}
+            onItemClick={handleTagClick}
+            onFocus={() => setIsTagDropdownVisible(true)}
+            onBlur={() => {handleBlur(setIsTagDropdownVisible)}}
+            onKeyDown={(event) =>
+              handleKeyDown(
+                event,
+                filteredTags,
+                highlightedTagIndex,
+                setHighlightedTagIndex,
+                handleTagClick
+              )
+            }
+            isDropdownVisible={isTagDropdownVisible}
+            filteredItems={filteredTags}
+            highlightedIndex={highlightedTagIndex}
+            placeholder="Enter tag..."
+            selectedItems={selectedTags} // Pass selected tags to the input
+            onRemoveItem={handleTagRemove} // Pass the remove function
+            className="tag-wrapper" // Add a class for styling
+          />
+        </div>
       </div>
       <button className="search-button" onClick={handleSearchButtonClick}>
           Search
