@@ -210,6 +210,8 @@ export default function MapView() {
     const handleAddSpot = () => {
         if (!selectedSpot || !newSpotName) return;
 
+        console.log("adding")
+
         setIsAddMode(false)
 
         try {
@@ -448,8 +450,8 @@ export default function MapView() {
                               onChange={(e) => setNewSpotDescription(e.target.value)}
                               maxLength={200}
                           />
-                          <div className="image-placeholder">ADD IMAGE HERE</div>
-                          <div className="image-upload">
+                          <div className="image-placeholder">
+                              <div className="image-upload">
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -462,6 +464,8 @@ export default function MapView() {
                                         </div>
                                     )}
                                 </div>
+                          </div>
+                          
                           <button onClick={handleAddSpot}>Add Spot</button>
                         </div>
                      </div>

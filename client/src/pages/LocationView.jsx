@@ -29,6 +29,7 @@ export default function LocationView({ selectedSpot, setShowLocationView }) {
       console.log("go to reviews")
     }
 
+    console.log(selectedSpot.image)
     return (
       <div className="location-view-container">
         <div className="location-view">
