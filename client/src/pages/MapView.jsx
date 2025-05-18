@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './MapView.css';
 import LocationView from './LocationView';
+import NavBar from '../components/NavBar';
 
 // Sample study spots data - you can replace this with data from your backend
 const studySpots = [
@@ -400,6 +401,7 @@ export default function MapView() {
 
     return (
         <div className="mapview-container">
+            <NavBar />
             <div className="mapview-content">
 
                 {showLocationView && <LocationView selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
