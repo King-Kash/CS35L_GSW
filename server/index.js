@@ -48,7 +48,7 @@ app.use(methodOverride('_method'))
 //cors
 app.use(cors({
     origin: 'http://localhost:5173',
-    //credentials: true
+    credentials: true //needed for cookies to go back and forth
 }));
 
 //called mounting
@@ -62,20 +62,8 @@ app.delete('/logout', (req, res, next) => {
     if (err) {
         return next(err);
     }
-    res.redirect('/users/login')
   });
 });
-
-const posts = [
-    {
-        username: "Kash",
-        title: "Post 1"
-    },
-    {
-        username: "Aki",
-        title: "Post 1"
-    }
-]
 
 app.use(express.json()); // Middleware to parse JSON
 app.use("/reviews", reviewRoutes); // Add review routes at /reviews
