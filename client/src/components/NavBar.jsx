@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
+import './NavBar.css';
 
-export default function Navbar() {
+export default function NavBar() {
   return (
-    <nav>
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/reviews">Reviews</Link>
-        <Link to="/map">Map</Link>
+    <nav className="navbar">
+      <div className="nav-links">
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/reviews" className="nav-link">Reviews</Link>
+        <Link to="/map" className="nav-link">Map</Link>
       </div>
-      <div>
-        <input type="text" placeholder="Search..." />
+      <div className="search-container">
+        <input type="text" placeholder="Search..." className="search-input" />
       </div>
     </nav>
   );
