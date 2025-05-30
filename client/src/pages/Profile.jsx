@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
+import NavBar from '../components/NavBar';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -82,6 +83,7 @@ export default function Profile() {
 
   return (
     <div className="profile-page">
+      <NavBar />
       <div className="profile-container">
         <div className="profile-left-column">
           <div className="profile-card">
