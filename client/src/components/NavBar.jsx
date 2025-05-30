@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './NavBar.css';
 import DropdownInput from './DropdownInput';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -179,6 +180,9 @@ export default function Navbar() {
             className="tag-wrapper" // Add a class for styling
           />
         </div>
+      </div>
+      <div className="search-container">
+        <input type="text" placeholder="Search..." className="search-input" />
       </div>
       <button className="search-button" onClick={handleSearchButtonClick}>
           Search
