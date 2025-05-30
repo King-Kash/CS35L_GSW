@@ -44,8 +44,8 @@ export default function Home() {
           <div className="feature-section">
             <div className="feature-content">
               <h2>Pinning Spots</h2>
-              <p>Users can “pin” or “save” study spots that they find through the application. Pinned locations will remain visible to the user across multiple sessions.</p>
-              <p>A user’s pinned locations will be stored in the database alongside other user information.</p>
+              <p>Users can "pin" or "save" study spots that they find through the application. Pinned locations will remain visible to the user across multiple sessions.</p>
+              <p>A user's pinned locations will be stored in the database alongside other user information.</p>
             </div>
             <div className="feature-image">
               <img src="/assets/feature1.png" alt="Feature 1" />
