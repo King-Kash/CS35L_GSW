@@ -1,31 +1,41 @@
 .reviews-page {
-    background-color: #f8f9fa;
+    background-color: #f0ead9;
     min-height: 100vh;
     padding: 40px 20px;
   }
   
   .reviews-container {
+    background-color: #f0ead9;
     display: flex;
-    max-width: 1200px;
+    width: 95%;
     margin: 0 auto;
-    gap: 30px;
+    padding: 20px;
+    position: relative;
   }
   
   /* Filter column styling */
   .filter-column {
-    flex: 1;
+    flex: 0 0 280px;
     max-width: 300px;
     position: sticky;
     top: 20px;
     align-self: flex-start;
+    padding-left: 20px;
+    padding-right: 25px;
+    margin-right: 20px;
+    border-right: 1px solid #9e937c;
+    height: calc(100vh-120px);
+    overflow-y: auto;
   }
   
   .filter-card {
-    background-color: #ffffff;
+    background-color: #fef7ed;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 25px;
     margin-bottom: 20px;
+    position: sticky;
+    top: 20px;
   }
   
   .filter-card h2 {
@@ -99,10 +109,10 @@
   .clear-filters-button {
     width: 100%;
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     border: none;
     border-radius: 5px;
-    color: #555;
+    color: #665c5c;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -115,7 +125,10 @@
   
   /* Reviews content styling */
   .reviews-content {
-    flex: 3;
+    flex: 1;
+    padding-left: 10px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
   }
   
   .reviews-heading {
