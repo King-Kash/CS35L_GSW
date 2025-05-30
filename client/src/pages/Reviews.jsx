@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../styles/Reviews.css'; 
+import NavBar from '../components/NavBar';
 
 export default function Reviews() {
   // Sample reviews data
