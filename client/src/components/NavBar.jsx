@@ -1,9 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './NavBar.css';
 import DropdownInput from './DropdownInput';
 import { Link } from 'react-router-dom';
-import './NavBar.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -124,13 +123,7 @@ export default function Navbar() {
     .filter((tag) => !selectedTags.includes(tag)) // Exclude selected tags
     .filter((tag) => tag.toLowerCase().includes(tagInput.toLowerCase())); // Filter based on input
 
-export default function NavBar() {
   return (
-    <nav className="navbar">
-      <div className="nav-links">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/reviews" className="nav-link">Reviews</Link>
-        <Link to="/map" className="nav-link">Map</Link>
     <nav className="navbar">
       <div className="nav-links">
         <Link to="/" className="nav-link">Home</Link>
@@ -187,6 +180,7 @@ export default function NavBar() {
             className="tag-wrapper" // Add a class for styling
           />
         </div>
+      </div>
       <div className="search-container">
         <input type="text" placeholder="Search..." className="search-input" />
       </div>
