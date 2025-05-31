@@ -1,11 +1,16 @@
+/* Ensure proper body and root styling for reviews page */
+body, #root, .app {
+  background-color: #f0ead9 !important;
+}
+
 .reviews-page {
-    background-color: #f0ead9;
+    background-color: #f0ead9 !important;
     min-height: 100vh;
     padding: 40px 20px;
   }
   
   .reviews-container {
-    background-color: #f0ead9;
+    background-color: #f0ead9 !important;
     display: flex;
     width: 95%;
     margin: 0 auto;
@@ -147,7 +152,7 @@
     text-align: center;
     padding: 40px;
     color: #888;
-    background-color: #fff;
+    background-color: #efdfdf;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
@@ -156,7 +161,7 @@
   .review-card {
     display: grid;
     grid-template-columns: 280px 1fr 250px;
-    background-color: #faf6eb;
+    background-color: #faf6eb !important;
     border-radius: 12px;
     padding: 30px;
     min-height: 220px;
