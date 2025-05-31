@@ -139,6 +139,7 @@ export default function Reviews() {
 
   return (
     <div className="reviews-page">
+      <NavBar />
       <div className="reviews-container">
         <div className="filter-column">
           <div className="filter-card">

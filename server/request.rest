@@ -1,8 +1,73 @@
-GET http://localhost:3000/posts
+GET http://localhost:3000/posts 
+
+
+### 
+
+POST http://localhost:3000/login 
+Content-Type: application/json
+
+{
+"username": "Kyle"
+}
+
+### 
+
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test2@example.com",
+  "password": "password123",
+  "username": "testuser2"
+}
+
 ###
+
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "username": "Kyle"
+  "email": "test2@example.com",
+  "password": "password123"
+}
+
+### 
+
+POST http://localhost:3000/locations/createLocation
+Content-Type: application/json
+
+{
+  "name": "Westwood Coffee House",
+  "location": {
+    "type": "Point",
+    "coordinates": [-118.445082, 34.063900]
+  },
+  "rating": 4.5,
+  "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+  "description": "A cozy coffee shop in the heart of Westwood with free WiFi and plenty of seating for studying."
+}
+
+###
+
+POST http://localhost:3000/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 4,
+  "contents": "This is a test review from the API"
+}
+
+###
+
+POST http://localhost:3000/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 4,
+  "contents": "This place has a great atmosphere and friendly staff. The coffee was excellent!"
 }
