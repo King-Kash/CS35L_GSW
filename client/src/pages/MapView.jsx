@@ -216,16 +216,25 @@ export default function MapView() {
         }
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setNewSpotImage(file);
-            // Create preview URL
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                setNewSpotImage(data.imageUrl); // Store the URL instead of the file
+                setImagePreview(data.imageUrl);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image');
+            }
         }
     };
 
