@@ -208,6 +208,44 @@ export default function MapView() {
         setNewSpotRating(rating);
     };
 
+    const addSpotToDatabase = async (spot) => {
+      try {
+    
+        const body = {
+          name: spot.name,
+          location: {
+            type: "Point",
+            coordinates: [spot.location["lng"], spot.location["lat"]],
+          },
+          image: spot.image,
+          description: spot.description
+        };
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/locations/createLocation`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+    
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Server error:', errorData);
+          throw new Error(`Failed to create location: ${errorData.message || response.status}`);
+        }
+    
+        const data = await response.json();
+        console.log('Location added successfully:', data);
+        return data;
+    
+      } catch (error) {
+        console.error('Error adding spot:', error);
+        throw error;
+      }
+    };
+    
+
     const handleAddSpot = () => {
         if (!selectedSpot || !newSpotName) return;
 
@@ -221,19 +259,17 @@ export default function MapView() {
                 name: newSpotName,
                 description: newSpotDescription,
                 rating: newSpotRating,
-                image: imagePreview
+                image: imagePreview,
             };
 
             // Convert temporary marker to permanent marker
             if (tempMarkerRef.current) {
                 tempMarkerRef.current.setMap(null);
                 tempMarkerRef.current = null;
-                console.log("DOING SOMETHING WIHT TEMPORARY")
             }
 
             // Add the new spot to the list
             setSpots(prevSpots => [...prevSpots, newSpot]);
-            console.log('Added new spot:', newSpot);
 
             // Create a permanent marker for the new spot
             const marker = new window.google.maps.Marker({
@@ -242,6 +278,7 @@ export default function MapView() {
               title: newSpot.name,
               draggable: false
           });
+          addSpotToDatabase(newSpot)
             /*new window.google.maps.Marker({
                 position: newSpot.location,
                 map: mapInstanceRef.current,
@@ -395,9 +432,6 @@ export default function MapView() {
             </div>
         );
     }
-
-    console.log("opening")
-    console.log(selectedSpot)
 
     return (
         <div className="mapview-container">
