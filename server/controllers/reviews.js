@@ -2,7 +2,8 @@ import Review from "../models/review_model.js";
 import Location from "../models/location_model.js";
 
 export const addReview = async (req, res) => {
-    const { user, location, rating, contents } = req.body;
+    const { location, rating, contents } = req.body;
+    const user = req.user.userId; // Get user ID from authenticated token
 
     // Verify that all required fields are present
     if (!user || !location || !rating || !contents) {
