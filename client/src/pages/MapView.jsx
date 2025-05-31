@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/MapView.css';
-import LocationView from './LocationView';
+import LocationViewModal from '../components/LocationViewModal';
 import NavBar from '../components/NavBar';
 
 // Sample study spots data - you can replace this with data from your backend
@@ -485,7 +485,7 @@ export default function MapView() {
             <NavBar />
             <div className="mapview-content">
 
-                {showLocationView && <LocationView selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
+                {showLocationView && <LocationViewModal selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
                 
                 {/*<button className="add-button" onClick={() => setShowLocationView(!showLocationView)}>Add Study Spot</button>*/}
                 <div className="controls">
