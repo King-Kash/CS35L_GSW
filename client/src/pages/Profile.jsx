@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Profile.css';
+import '../styles/Profile.css';
 import NavBar from '../components/NavBar';
 
 const API_URL = 'http://localhost:5000';
