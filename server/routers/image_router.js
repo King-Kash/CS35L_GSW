@@ -24,19 +24,4 @@ const upload = multer({
 router.post('/upload', upload.single('image'), uploadImage);
 router.get('/:fileId', getImage);
 
-// Test route
-router.get('/test/upload', (req, res) => {
-  res.send(`
-    <html>
-      <body>
-        <h2>Test Image Upload</h2>
-        <form action="/api/images/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="image" accept="image/*">
-          <button type="submit">Upload</button>
-        </form>
-      </body>
-    </html>
-  `);
-});
-
 export default router;
