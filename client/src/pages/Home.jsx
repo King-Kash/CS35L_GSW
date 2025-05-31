@@ -7,11 +7,6 @@ export default function Home() {
   return (
     <div className="homepage">
       <NavBar />
-      {/* Login/Register Buttons */}
-      <div className="auth-buttons">
-        <Link to="/login" className="log-btn">LOGIN</Link>
-        <Link to="/register" className="reg-btn">REGISTER</Link>
-      </div>
 
       {/* Main Content */}
       <div className="content">
