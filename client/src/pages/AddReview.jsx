@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddReview.css';
+import '../styles/AddReview.css';
 import NavBar from '../components/NavBar';
 
 const LocationSelector = ({ onLocationSelect }) => {

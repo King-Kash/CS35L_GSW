@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import './LocationView.css';
+import '../styles/LocationView.css';
 import NavBar from '../components/NavBar';
 
 export default function LocationView({ selectedSpot, setShowLocationView }) {
