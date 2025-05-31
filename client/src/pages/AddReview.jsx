@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../styles/AddReview.css';
 import NavBar from '../components/NavBar';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const LocationSelector = ({ onLocationSelect }) => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const LocationSelector = ({ onLocationSelect }) => {
 
   const fetchLocations = async () => {
     try {
-      const response = await fetch('http://localhost:3000/locations/all');
+      const response = await fetch(API_URL + '/locations/all');
       const data = await response.json();
       setLocations(data);
     } catch (error) {
@@ -101,7 +103,7 @@ const ReviewForm = ({ location, onBack, onSubmitSuccess }) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:3000/reviews/addReview', {
+      const response = await fetch(API_URL + '/reviews/addReview', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
