@@ -25,6 +25,10 @@ const reviewSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
     required: true
+  },
+  tags: {
+    type: [String],
+    default: []
   }
 }, {
   timestamps: true //Adds createdAt and updatedAt

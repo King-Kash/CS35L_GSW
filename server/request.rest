@@ -75,15 +75,16 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/reviews/addReview
+POST http://localhost:3001/reviews/addReview
 Content-Type: application/json
 
 {
   "user": "683b5cb4f8e36cacd54c8c9d", 
   "location": "683b605c9fa056c3a2d94281", 
   "rating": 4,
-  "contents": "This is a test review from the API"
+  "contents": "TAG REVIEW",
+  "tags": ["cozy", "wifi", "study"]
 }
 ###
 
-GET http://localhost:3000/reviews
+GET http://localhost:3001/reviews
