@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './NavBar.css';
+import '../styles/NavBar.css';
 import DropdownInput from './DropdownInput';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
