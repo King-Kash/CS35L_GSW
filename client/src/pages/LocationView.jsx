@@ -30,7 +30,11 @@ export default function LocationView({ selectedSpot, setShowLocationView }) {
       console.log("go to reviews")
     }
 
-    console.log(selectedSpot.image)
+    selectedSpot = {
+      ...selectedSpot,
+      rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
+    };
+
     return (
       <div className="location-view-container">
         <div className="location-view">
