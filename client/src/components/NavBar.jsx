@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import './NavBar.css';
+import '../styles/NavBar.css';
 import DropdownInput from './DropdownInput';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -129,6 +130,7 @@ export default function Navbar() {
         <Link to="/" className="nav-link">Home</Link>
         <Link to="/reviews" className="nav-link">Reviews</Link>
         <Link to="/map" className="nav-link">Map</Link>
+        <Link to="/add-review" className="nav-link">Add Review</Link>
       </div>
       <div className="search-tag-container">
         <DropdownInput
@@ -180,13 +182,15 @@ export default function Navbar() {
             className="tag-wrapper" // Add a class for styling
           />
         </div>
+        <button className="search-button" onClick={handleSearchButtonClick}>
+            <FaSearch />
+        </button>
       </div>
-      <div className="search-container">
-        <input type="text" placeholder="Search..." className="search-input" />
+      {/* Login/Register Buttons */}
+      <div className="auth-buttons">
+        <Link to="/login" className="log-btn">LOGIN</Link>
+        <Link to="/signup" className="reg-btn">REGISTER</Link>
       </div>
-      <button className="search-button" onClick={handleSearchButtonClick}>
-          Search
-      </button>
     </nav>
   );
 }

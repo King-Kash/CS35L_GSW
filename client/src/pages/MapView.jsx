@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import './MapView.css';
+import '../styles/MapView.css';
 import LocationView from './LocationView';
 import NavBar from '../components/NavBar';
 
