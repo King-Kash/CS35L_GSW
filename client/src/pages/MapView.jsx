@@ -46,6 +46,7 @@ export default function MapView() {
     const [newSpotImage, setNewSpotImage] = useState(null);
     const [newSpotRating, setNewSpotRating] = useState(0);
     const [imagePreview, setImagePreview] = useState(null);
+    const [addError, setAddError] = useState('')
 
     useEffect(() => {
         isAddModeRef.current = isAddMode;
@@ -271,8 +272,14 @@ export default function MapView() {
     
 
     const handleAddSpot = () => {
-        if (!selectedSpot || !newSpotName) return;
-
+        if (!selectedSpot || !newSpotName) {
+          if (!newSpotName) {
+            setAddError("Study spot name required")
+          } else {
+            setAddError("Client error")
+          }
+          return;
+        }
         console.log("adding")
 
         setIsAddMode(false)
@@ -438,6 +445,7 @@ export default function MapView() {
             console.log('New mode will be:', newMode);
             return newMode;
         });
+        setAddError('')
         
         // Clear any temporary marker when toggling modes
         if (tempMarkerRef.current) {
@@ -533,6 +541,7 @@ export default function MapView() {
                           </div>
                           
                           <button onClick={handleAddSpot}>Add Spot</button>
+                          <div className="add-error">{addError}</div>
                         </div>
                      </div>
                       ) : (
