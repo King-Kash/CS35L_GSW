@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css'; // We can reuse the login styles
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: '',
@@ -31,7 +33,7 @@ export default function Signup() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch(API_URL + '/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
