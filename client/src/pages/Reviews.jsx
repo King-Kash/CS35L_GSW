@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Reviews.css'; 
 import NavBar from '../components/NavBar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Reviews() {
+  const navigate = useNavigate();
   // State for reviews and loading/error states
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,6 +17,11 @@ export default function Reviews() {
   const [locationFilter, setLocationFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const [locations, setLocations] = useState([]);
+
+  // Handle navigation to add review page
+  const handleAddReview = () => {
+    navigate('/add-review');
+  };
 
   // Fetch reviews from the backend
   useEffect(() => {
@@ -108,6 +115,14 @@ export default function Reviews() {
       <NavBar />
       <div className="reviews-container">
         <div className="filter-column">
+          <div className="add-review-container">
+            <button 
+              className="add-review-button"
+              onClick={handleAddReview}
+            >
+              <span className="add-icon">+</span> Add Review
+            </button>
+          </div>
           <div className="filter-card">
             <h2>Filters</h2>
             
