@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/MapView.css';
-import LocationView from './LocationView';
+import LocationViewModal from '../components/LocationViewModal';
 import NavBar from '../components/NavBar';
 
 // Sample study spots data - you can replace this with data from your backend
@@ -216,16 +216,25 @@ export default function MapView() {
         }
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            setNewSpotImage(file);
-            // Create preview URL
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                setNewSpotImage(data.imageUrl); // Store the URL instead of the file
+                setImagePreview(data.imageUrl);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image');
+            }
         }
     };
 
@@ -476,7 +485,7 @@ export default function MapView() {
             <NavBar />
             <div className="mapview-content">
 
-                {showLocationView && <LocationView selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
+                {showLocationView && <LocationViewModal selectedSpot={selectedSpot} setShowLocationView={setShowLocationView} />}
                 
                 {/*<button className="add-button" onClick={() => setShowLocationView(!showLocationView)}>Add Study Spot</button>*/}
                 <div className="controls">

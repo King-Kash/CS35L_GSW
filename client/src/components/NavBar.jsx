@@ -130,7 +130,7 @@ export default function Navbar() {
         <Link to="/" className="nav-link">Home</Link>
         <Link to="/reviews" className="nav-link">Reviews</Link>
         <Link to="/map" className="nav-link">Map</Link>
-        <Link to="/add-review" className="nav-link">Add Review</Link>
+        <Link to="/locations" className="nav-link">Locations</Link>
       </div>
       <div className="search-tag-container">
         <DropdownInput
