@@ -7,7 +7,6 @@ const storage = new Storage({
 
 const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
-// Upload image
 export const uploadImage = async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
@@ -22,8 +21,7 @@ export const uploadImage = async (req, res) => {
             res.status(500).json({ message: 'Upload failed', error: error.message });
         });
 
-        blobStream.on('finish', async () => {
-            await blob.makePublic();
+        blobStream.on('finish', () => {
             const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
             res.status(201).json({ imageUrl: publicUrl });
         });
@@ -34,7 +32,6 @@ export const uploadImage = async (req, res) => {
     }
 };
 
-// Get image URL
 export const getImage = async (req, res) => {
     try {
         const { filename } = req.params;
@@ -49,3 +46,4 @@ export const getImage = async (req, res) => {
         res.status(500).json({ message: 'Failed to get image', error: error.message });
     }
 };
+
