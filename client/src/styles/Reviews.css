@@ -5,17 +5,62 @@ body, #root, .app {
 
 .reviews-page {
     background-color: #f0ead9 !important;
-    min-height: 100vh;
-    padding: 40px 20px;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
   }
   
   .reviews-container {
     background-color: #f0ead9 !important;
     display: flex;
-    width: 95%;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
+    width: 100%;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Add Review Button Container */
+  .add-review-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  /* Add Review Button */
+  .add-review-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px 15px;
+    background-color: #938878; /* Google blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .add-review-button:hover {
+    background-color: #c7c0a5; /* Darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .add-review-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .add-icon {
+    font-size: 18px;
+    margin-right: 8px;
+    font-weight: bold;
   }
 
   /* Add Review Button Container */
@@ -64,13 +109,13 @@ body, #root, .app {
     flex: 0 0 280px;
     max-width: 300px;
     position: sticky;
-    top: 20px;
+    top: 0;
     align-self: flex-start;
     padding-left: 20px;
     padding-right: 25px;
     margin-right: 20px;
     border-right: 1px solid #9e937c;
-    height: calc(100vh-120px);
+    height: 100%;
     overflow-y: auto;
   }
   
@@ -173,7 +218,7 @@ body, #root, .app {
   .reviews-content {
     flex: 1;
     padding-left: 10px;
-    height: calc(100vh - 120px);
+    height: 100%;
     overflow-y: auto;
   }
   

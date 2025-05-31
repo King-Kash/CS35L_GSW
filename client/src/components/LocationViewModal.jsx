@@ -1,16 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import '../styles/LocationView.css';
-import NavBar from '../components/NavBar';
+import { useNavigate } from 'react-router-dom';
+import '../styles/LocationViewModal.css';
 
-export default function LocationView() {
+export default function LocationViewModal({ selectedSpot, setShowLocationView }) {
     const navigate = useNavigate();
-    const location = useLocation();
-    const selectedSpot = location.state?.location;
 
-    // Redirect if no location data is provided
     if (!selectedSpot) {
-        navigate('/locations');
         return null;
     }
 
@@ -18,8 +12,12 @@ export default function LocationView() {
         navigate('/review', { state: { location: selectedSpot } });
     }
 
-    const goBack = () => {
-        navigate('/locations');
+    const goToLocationPage = () => {
+        navigate('/location-view', { state: { location: selectedSpot } });
+    }
+
+    const closeModal = () => {
+        setShowLocationView(false);
     }
 
     // Process rating data
@@ -28,25 +26,11 @@ export default function LocationView() {
         rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
     };
 
-    let label;
-    if (selectedSpot.reviews?.length == 0 || !selectedSpot.reviews) {
-      label = "No Reviews Yet"
-    }
-    if (selectedSpot.reviews?.length > 0 && selectedSpot.reviews?.length < 5) {
-      label = "Underground Spot"
-    }
-    if (selectedSpot.reviews?.length > 5) {
-      label = "Popular Spot"
-    }
-
     return (
-        <div className="location-view-page">
-            <NavBar />
+        <div className="location-view-modal-overlay">
             <div className="location-view-container">
                 <div className="location-view">
-                    <button className="back-button" onClick={goBack}>
-                        ← Back to All Locations
-                    </button>
+                    <button className="close-button" onClick={closeModal}>×</button>
                     <h1>{processedSpot.name}</h1>
                     <div className="location-image">
                         {processedSpot.image && (
@@ -69,6 +53,9 @@ export default function LocationView() {
                             </>
                         )}
                     </div>
+                    <button className="location-view-link" onClick={goToLocationPage}>
+                        Go to Location Page
+                    </button>
                     <button className="reviews-button" onClick={goToReviews}>
                         Write a Review
                     </button>
@@ -76,4 +63,4 @@ export default function LocationView() {
             </div>
         </div>
     );
-}
+} 

@@ -1,4 +1,4 @@
-.add-review-page {
+.locations-page {
   margin: 0 auto;
   min-height: 100vh;
 }
@@ -252,7 +252,7 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .add-review-page {
+  .locations-page {
     padding: 10px;
   }
 

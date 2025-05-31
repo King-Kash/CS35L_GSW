@@ -1,32 +1,53 @@
-.location-view {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 40%;
-  bottom: 10px;
-  z-index: 1000;
+/* Full page container for dedicated LocationView page */
+.location-view-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.location-view-page .location-view-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px); /* Account for navbar */
+  padding: 0;
+  width: 100%;
+}
+
+.location-view-page .location-view {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  min-height: calc(100vh - 80px);
   background: white;
-  padding: 20px;
-  border-radius: 8px;
-  border: none;
+  padding: 40px;
+  border-radius: 0;
+  box-shadow: none;
   color: black;
 }
 
-.close-button {
+.location-view-page .back-button {
   position: absolute;
-  top: 1px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+  top: 20px;
+  left: 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
   cursor: pointer;
-  z-index: 1000;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.close-button:hover {
-  color: #6a6a6a;
+.location-view-page .back-button:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  color: #212529;
+  transform: translateX(-2px);
 }
 
 .top-part {
@@ -57,29 +78,69 @@
   font-size: 15px;
 }
 
-.location-image {
-  background-color: red;
-  width: 50% !important;
-  height: 275px !important;
-  border-radius: 5px;
-  aspect-ratio: 1;
+.location-view-page .location-image {
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.reviews-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+.location-view-page .location-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.location-view-page .reviews-button {
+  display: block;
+  margin: 40px auto 0;
   background-color: #007bff;
   color: white;
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 18px 40px;
+  font-size: 20px;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
-  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
 }
 
-.reviews-button:hover {
+.location-view-page .reviews-button:hover {
   background-color: #0056b3;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
 }
+
+/* Page rating styles */
+.location-view-page .rating {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 24px;
+}
+
+/* Page title */
+.location-view-page .location-view h1 {
+  text-align: center;
+  margin: 80px 0 30px 0;
+  color: #333;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+/* Page description */
+.location-view-page .location-view p {
+  text-align: center;
+  color: #666;
+  line-height: 1.8;
+  margin: 25px auto;
+  font-size: 18px;
+  max-width: 800px;
+}
+  
