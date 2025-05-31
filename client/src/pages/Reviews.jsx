@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import '../styles/Reviews.css'; 
 import NavBar from '../components/NavBar';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Reviews() {
   // State for reviews and loading/error states
   const [reviews, setReviews] = useState([]);
@@ -27,10 +29,19 @@ export default function Reviews() {
         if (dateFilter) params.append('dateFilter', dateFilter);
         
         const queryString = params.toString() ? `?${params.toString()}` : '';
-        const response = await fetch(`http://localhost:3000/reviews${queryString}`);
+        const url = `${API_URL}reviews${queryString}`;
+        console.log("Fetching from:", url);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors'
+        });
         
         if (!response.ok) {
-          throw new Error('Failed to fetch reviews');
+          console.error("Response error:", response.status, response.statusText);
+          throw new Error(`Failed to fetch reviews: ${response.status}`);
         }
         
         const data = await response.json();

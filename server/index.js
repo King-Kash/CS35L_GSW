@@ -14,6 +14,8 @@ const app = express();
 // Enable CORS for all routes
 app.use(cors({
   origin: 'http://localhost:5173', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
@@ -232,6 +234,6 @@ function authenticateToken(req, res, next) {
     });
 }
 
-app.listen(3000, () => {
-    console.log('Server started at http://localhost:3000');
+app.listen(3001, () => {
+    console.log('Server started at http://localhost:3001');
 });
