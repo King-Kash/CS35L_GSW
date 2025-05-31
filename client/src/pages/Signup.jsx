@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // We can reuse the login styles
+import '../styles/Login.css'; // We can reuse the login styles
 
 export default function Signup() {
   const [formData, setFormData] = useState({
