@@ -129,6 +129,7 @@ export default function Navbar() {
         <Link to="/" className="nav-link">Home</Link>
         <Link to="/reviews" className="nav-link">Reviews</Link>
         <Link to="/map" className="nav-link">Map</Link>
+        <Link to="/add-review" className="nav-link">Add Review</Link>
       </div>
       <div className="search-tag-container">
         <DropdownInput
@@ -180,9 +181,6 @@ export default function Navbar() {
             className="tag-wrapper" // Add a class for styling
           />
         </div>
-      </div>
-      <div className="search-container">
-        <input type="text" placeholder="Search..." className="search-input" />
       </div>
       <button className="search-button" onClick={handleSearchButtonClick}>
           Search
