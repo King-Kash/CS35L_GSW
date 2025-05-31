@@ -230,32 +230,40 @@ export default function Reviews() {
           {filteredReviews.length === 0 ? (
             <p className="no-reviews">No reviews match your filters.</p>
           ) : (
-            <div className="reviews-list">
-              {filteredReviews.map(review => (
-                <div key={review.id} className="review-card">
-                  <div className="review-main-content">
-                    <div className="review-header">
-                      <h3 className="review-location">{review.locationName}</h3>
-                      <span className="review-username">by {review.username}</span>
-                    </div>
-                    <div className="review-rating">
-                      {Array(5).fill().map((_, i) => (
-                        <span key={i} className={i < review.rating ? "star filled" : "star"}>★</span>
-                      ))}
-                    </div>
-                    <p className="review-content">{review.content}</p>
-                    <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>
-                  </div>
-                  <div className="review-image-container">
-                    <img 
-                      src={review.image} 
-                      alt={review.locationName}
-                      className="review-image" 
-                    />
+          <div className="reviews-list">
+            {filteredReviews.map(review => (
+              <div key={review.id} className="review-card">
+                <div className="review-info">
+                  <h3 className="review-location">{review.locationName}</h3>
+                  <span className="review-username">by {review.username}</span>
+                  <span className="review-city-state">{review.cityState}</span>
+                  <div className="review-rating">
+                    {Array(5).fill().map((_, i) => (
+                      <span key={i} className={i < review.rating ? "star filled" : "star"}>★</span>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
+                
+                <div className="review-main-content">
+                  <div className="review-content">
+                    <p>{review.content}</p>
+                    <span className="review-date">{new Date(review.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}</span>
+                  </div>
+                </div>
+                <div className="review-image-container">
+                  <img 
+                    src={review.image} 
+                    alt={review.locationName}
+                    className="review-image" 
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
           )}
         </div>
       </div>
