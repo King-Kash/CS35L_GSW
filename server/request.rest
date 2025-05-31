@@ -1,13 +1,38 @@
-GET http://localhost:3000/posts 
 
-
-### 
-
-POST http://localhost:3000/login 
+POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-"username": "Kyle"
+  "name": "Test User",
+  "email": "test2@example.com",
+  "password": "password123",
+  "username": "testuser2"
+}
+
+### 
+
+POST http://localhost:3000/locations
+Content-Type: application/json
+
+{
+  "name": "Test Coffee Shop",
+  "address": "123 Test Street",
+  "city": "Los Angeles",
+  "state": "CA",
+  "zipCode": "90001",
+  "type": "cafe"
+}
+
+###
+
+POST http://localhost:3000/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "REPLACE_WITH_USER_ID", 
+  "location": "REPLACE_WITH_LOCATION_ID", 
+  "rating": 4,
+  "contents": "This place has a great atmosphere and friendly staff. The coffee was excellent!"
 }
 
 ### 
@@ -59,15 +84,6 @@ Content-Type: application/json
   "rating": 4,
   "contents": "This is a test review from the API"
 }
-
 ###
 
-POST http://localhost:3000/reviews/addReview
-Content-Type: application/json
-
-{
-  "user": "683b5cb4f8e36cacd54c8c9d", 
-  "location": "683b605c9fa056c3a2d94281", 
-  "rating": 4,
-  "contents": "This place has a great atmosphere and friendly staff. The coffee was excellent!"
-}
+GET http://localhost:3000/reviews
