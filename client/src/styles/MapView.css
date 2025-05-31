@@ -1,6 +1,6 @@
 .mapview-container {
   width: 100%;
-  height: calc(100vh - 64px); /* Subtract navbar height */
+  height: calc(100vh - 74px); /* Subtract navbar height */
   position: relative;
 }
 
@@ -9,6 +9,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .controls {
