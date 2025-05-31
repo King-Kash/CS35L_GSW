@@ -29,6 +29,7 @@ const studySpots = [
 ];
 
 export default function MapView() {
+    const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const [map, setMap] = useState(null);
@@ -299,7 +300,7 @@ export default function MapView() {
                 name: newSpotName,
                 description: newSpotDescription,
                 rating: newSpotRating,
-                image: imagePreview,
+                image: imagePreview || DEFAULT_IMAGE,
             };
 
             // Convert temporary marker to permanent marker
@@ -421,9 +422,14 @@ export default function MapView() {
                     }
                 });
 
+                 const spotWithDefaultImage = {
+                    ...spot,
+                    image: spot.image || DEFAULT_IMAGE
+                };
+
                 // Open this marker's info window
                 //infoWindow.open(map, markerView);
-                setSelectedSpot(spot);
+                setSelectedSpot(spotWithDefaultImage);
                 setShowLocationView(true)
             });
 
