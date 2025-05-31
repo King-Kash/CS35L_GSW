@@ -1,23 +1,31 @@
 .navbar {
   background-color: #978080;
-  padding: 1rem 1rem;
+  padding: clamp(0.25rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
+  box-sizing: border-box;
 }
 
 .nav-links {
   display: flex;
-  gap: 0.5rem;
+  gap: clamp(0.25rem, 5vw, 6rem); /* Responsive gap */
+  flex-shrink: 1; /* Allow nav links to shrink */
+  align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  transition: color 0.3s;
+  font-size: clamp(0.75rem, 2.5vw, 1.25rem); /* Responsive font size */
+  transition: color 0.3s, font-size 0.3s; /* Smooth transitions */
+  white-space: nowrap; /* Prevent text wrapping */
+  padding: 0; /* Remove any default padding */
+  margin: 0; /* Remove any default margin */
+  display: inline-block; /* Only take up text width */
 }
 
 .nav-link:hover {
@@ -27,8 +35,10 @@
 .search-tag-container {
   display: flex;
   align-items: center;
-  width: 600px; /* Reduced width to make room for auth buttons */
-  flex-shrink: 1;
+  max-width: clamp(100px, 50vw, 600px); /* Smoothly scales from 200px to 600px */
+  min-width: 100px;
+  flex: 1;
+  margin: 0 clamp(0.25rem, 1vw, 1rem);
 }
 
 .search-button {
@@ -69,7 +79,8 @@
   min-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
-  width: 200px;
+  width: clamp(60px, 15vw, 200px); /* Smoothly scales with viewport */
+  flex-shrink: 1;
 }
 
 .tag-wrapper {
@@ -84,7 +95,8 @@
   max-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
-  width: 400px;
+  width: clamp(120px, 25vw, 400px); /* Smoothly scales with viewport */
+  flex-shrink: 1;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
@@ -165,13 +177,13 @@
 
 .log-btn, .reg-btn {
   text-decoration: none;
-  padding: 6px 12px; /* Reduced padding to make buttons smaller */
+  padding: clamp(3px, 1vw, 6px) clamp(6px, 2vw, 12px);
   border-radius: 0; /* Remove border radius for seamless connection */
   font-weight: 500;
   font-size: 0.85rem; /* Slightly smaller font */
   transition: all 0.3s ease;
   text-align: center;
-  min-width: 60px; /* Reduced minimum width */
+  min-width: clamp(40px, 8vw, 60px);
   margin: 0; /* Remove any default margins */
   display: inline-block; /* Ensure proper inline-block behavior */
 }
