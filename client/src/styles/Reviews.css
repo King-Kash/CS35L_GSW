@@ -403,7 +403,7 @@ body, #root, .app {
   text-align: right;
   padding-top: 10px;
   border-top: 1px dashed #e6dcc1;
-
+}
   
  /* Responsive design */
 @media (max-width: 1200px) {

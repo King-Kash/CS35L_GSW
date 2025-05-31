@@ -114,6 +114,8 @@ export default function Reviews() {
     },
   ];
 
+  const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+
   // Normalize review object based on whether it's from the backend or sample data
   const normalizeReview = (review) => {
     return {
@@ -123,7 +125,7 @@ export default function Reviews() {
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
-      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      image: review.image || DEFAULT_IMAGE,
       tags: review.tags || []
     };
   };

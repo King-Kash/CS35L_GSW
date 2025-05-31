@@ -10,6 +10,9 @@ const LocationSelector = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  
+  // Define a default image for study spots
+  const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
 
   useEffect(() => {
     fetchLocations();
@@ -35,6 +38,11 @@ const LocationSelector = () => {
     navigate('/location-view', { state: { location } });
   };
 
+  const handleImageError = (e) => {
+    e.target.onerror = null; // Prevent infinite loops
+    e.target.src = DEFAULT_IMAGE;
+  };
+
   if (loading) {
     return <div className="loading">Loading locations...</div>;
   }
@@ -58,13 +66,13 @@ const LocationSelector = () => {
             className="location-card"
             onClick={() => handleLocationSelect(location)}
           >
-            {location.image && (
-              <img 
-                src={location.image} 
-                alt={location.name}
-                className="location-image"
-              />
-            )}
+            {/* Always render an image, using the default if none exists */}
+            <img 
+              src={location.image || DEFAULT_IMAGE} 
+              alt={location.name}
+              className="location-image"
+              onError={handleImageError}
+            />
             <div className="location-info">
               <h3>{location.name}</h3>
               {location.description && (
@@ -95,4 +103,4 @@ const Locations = () => {
   );
 };
 
-export default Locations; 
+export default Locations;
