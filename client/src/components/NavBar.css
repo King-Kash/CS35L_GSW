@@ -5,6 +5,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .nav-links {
@@ -26,19 +28,22 @@
 .search-tag-container {
   display: flex;
   align-items: center;
-  width: 800; /* Adjust width as needed */
+  width: 600px; /* Reduced width to make room for auth buttons */
+  flex-shrink: 1;
 }
 
 .search-button {
   background-color: #112132;
   color: white;
   border: 1px solid #000000;
-  padding: 0.5rem 0.5rem;
+  padding: 0 0.5rem; /* Horizontal padding only, let height control vertical */
   cursor: pointer;
   font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 2.5rem; /* Match the height of search and tag wrappers */
+  border-radius: 0; /* Remove border radius to connect with inputs */
 }
 .search-button:hover {
   background-color: #0056b3;
@@ -150,4 +155,52 @@
 
 .highlighted {
   background-color: #f0f0f0;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0; /* No gap between buttons */
+  flex-shrink: 0; /* Prevent auth buttons from shrinking */
+}
+
+.log-btn, .reg-btn {
+  text-decoration: none;
+  padding: 6px 12px; /* Reduced padding to make buttons smaller */
+  border-radius: 0; /* Remove border radius for seamless connection */
+  font-weight: 500;
+  font-size: 0.85rem; /* Slightly smaller font */
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 60px; /* Reduced minimum width */
+  margin: 0; /* Remove any default margins */
+  display: inline-block; /* Ensure proper inline-block behavior */
+}
+
+.log-btn {
+  color: #333;
+  border: 2px solid #333;
+  background-color: transparent;
+  border-radius: 6px 0 0 6px; /* Round only left corners */
+  border-right: 1px solid #333; /* Thinner right border */
+}
+
+.log-btn:hover {
+  background-color: #333;
+  color: white;
+}
+
+.reg-btn {
+  color: white;
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 0 6px 6px 0; /* Round only right corners */
+  border-left: none; /* Remove left border to eliminate double border */
+}
+
+.reg-btn:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
