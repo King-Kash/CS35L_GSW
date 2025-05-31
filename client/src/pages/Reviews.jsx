@@ -29,7 +29,7 @@ export default function Reviews() {
         if (dateFilter) params.append('dateFilter', dateFilter);
         
         const queryString = params.toString() ? `?${params.toString()}` : '';
-        const url = `${API_URL}reviews${queryString}`;
+        const url = `${API_URL}/reviews${queryString}`;
         console.log("Fetching from:", url);
         const response = await fetch(url, {
           method: 'GET',
