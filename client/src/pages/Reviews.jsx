@@ -225,7 +225,7 @@ export default function Reviews() {
         </div>
 
         <div className="reviews-content">
-          <h1 className="reviews-heading">Community Reviews</h1>
+          <h1 className="reviews-heading">Recommended Reviews</h1>
           
           {filteredReviews.length === 0 ? (
             <p className="no-reviews">No reviews match your filters.</p>
