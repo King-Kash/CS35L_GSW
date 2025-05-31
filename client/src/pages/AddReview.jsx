@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AddReview.css';
+import NavBar from '../components/NavBar';
 
 const LocationSelector = ({ onLocationSelect }) => {
   const [locations, setLocations] = useState([]);
@@ -215,6 +216,7 @@ const AddReview = () => {
 
   return (
     <div className="add-review-page">
+      <NavBar />
       {selectedLocation ? (
         <ReviewForm 
           location={selectedLocation}

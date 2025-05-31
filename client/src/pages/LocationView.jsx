@@ -33,7 +33,6 @@ export default function LocationView({ selectedSpot, setShowLocationView }) {
     console.log(selectedSpot.image)
     return (
       <div className="location-view-container">
-        <NavBar />
         <div className="location-view">
             <button className="close-button" onClick={() => setShowLocationView(false)}>×</button>
             <h1>{selectedSpot.name}</h1>

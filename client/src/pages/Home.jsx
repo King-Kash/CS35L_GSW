@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import '../styles/Home.css'; 
 import penImage from '../assets/pendrawing.png';
+import NavBar from '../components/NavBar';
 
 export default function Home() {
   return (
     <div className="homepage">
-
+      <NavBar />
       {/* Login/Register Buttons */}
       <div className="auth-buttons">
         <Link to="/login" className="log-btn">LOGIN</Link>

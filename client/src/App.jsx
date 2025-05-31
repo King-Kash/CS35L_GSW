@@ -12,7 +12,6 @@ import AddReview from './pages/AddReview';
 function App() {
   return (
     <div className="app">
-      <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/reviews" element={<Reviews />} />
