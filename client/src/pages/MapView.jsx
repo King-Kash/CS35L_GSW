@@ -40,7 +40,7 @@ export default function MapView() {
     const [isAddMode, setIsAddMode] = useState(false);
     const isAddModeRef = useRef(false);
     const tempMarkerRef = useRef(null);
-    const [spots, setSpots] = useState(studySpots);
+    const [spots, setSpots] = useState([]);
     const [newSpotName, setNewSpotName] = useState('');
     const [newSpotDescription, setNewSpotDescription] = useState('');
     const [newSpotImage, setNewSpotImage] = useState(null);
@@ -54,6 +54,30 @@ export default function MapView() {
     useEffect(() => {
         mapInstanceRef.current = map;
     }, [map]);
+
+    useEffect(() => {
+      const fetchSpots = async () => {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/locations/all`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch spots");
+          }
+  
+          const data = await response.json();
+          setSpots(data);
+        } catch (error) {
+          console.error("Error fetching spots:", error);
+        }
+      };
+  
+      fetchSpots();
+    }, []);
+
+    useEffect(() => {
+      if (map && spots.length > 0) {
+          addStudySpotMarkers(map, spots);
+      }
+    }, [map, spots]);
 
     useEffect(() => {
         // Initialize the map when the component mounts
@@ -349,9 +373,15 @@ export default function MapView() {
         // Add new markers
         spots.forEach(spot => {
             // Create marker element
+            let [lng, lat] = []
+            if (spot?.location?.coordinates) {
+              [lng, lat] = spot.location.coordinates;
+            } else {
+              [lat, lng] = [spot.location.lat, spot.location.lng];
+            }
             const markerView = new window.google.maps.marker.AdvancedMarkerElement({
                 map,
-                position: spot.location,
+                position: {lat, lng},
                 title: spot.name,
             });
 
