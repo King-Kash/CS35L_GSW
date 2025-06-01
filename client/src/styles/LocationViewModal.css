@@ -73,10 +73,7 @@
 }
 
 .reviews-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  
   background-color: #875050;
   color: white;
   padding: 12px 24px;
@@ -85,6 +82,7 @@
   border-radius: 6px;
   cursor: pointer;
   z-index: 1000;
+  width: 17vw;
 }
 
 .reviews-button:hover {
@@ -92,10 +90,7 @@
 }
 
 .location-view-link {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+
   background-color: #938878;;
   color: white;
   padding: 12px 24px;
@@ -104,8 +99,22 @@
   border-radius: 6px;
   cursor: pointer;
   z-index: 1000;
+  width: 17vw;
 }
 
 .location-view-link:hover {
   background-color: #7a6e5e;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;     /* Ensure horizontal layout */
+  gap: 20px;               /* Space between buttons */
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically if inside a tall container */
+  margin-top: 20px;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
 }
