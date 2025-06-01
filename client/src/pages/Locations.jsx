@@ -41,7 +41,7 @@ const LocationSelector = () => {
 
   return (
     <div className="location-selector">
-      <h1>Select a Location Explore or Review</h1>
+      <h1 className="location-title">Select a Location to Explore or Review</h1>
       <div className="search-container">
         <input
           type="text"

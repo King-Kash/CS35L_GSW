@@ -47,7 +47,7 @@ body, #root, .app {
   }
 
   .add-review-button:hover {
-    background-color: #c7c0a5; /* Darker blue on hover */
+    background-color: #7a6e5e !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
@@ -223,9 +223,10 @@ body, #root, .app {
   }
   
   .reviews-heading {
-    font-size: 2rem;
     margin-bottom: 25px;
     color: #333;
+    margin-top: 25px;
+    font-size: 40px !important;
   }
   
   .reviews-list {

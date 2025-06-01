@@ -15,6 +15,11 @@
   font-weight: 600;
 }
 
+.location-title {
+  margin-top: 25px;
+  font-size: 40px !important;
+}
+
 .search-container {
   margin-bottom: 30px;
 }
@@ -55,7 +60,6 @@
 .location-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: #007bff;
 }
 
 .location-image {
