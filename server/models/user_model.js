@@ -53,7 +53,35 @@ const userSchema = new mongoose.Schema({
     profile_pic: {
         type: String
     },
-
+    searchHistory: [{
+        searchTerm: String,
+        tags: [String],
+        timestamp: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+    viewedLocations: [{
+        location: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Location'
+        },
+        viewCount: {
+            type: Number,
+            default: 1
+        },
+        lastViewed: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+    preferences: {
+        preferredTags: [String],
+        avgRatingGiven: {
+            type: Number,
+            default: 0
+        }
+    }
 }, {
     timestamps: true // createdAt, updatedAt
 });

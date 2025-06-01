@@ -12,6 +12,7 @@ import { AuthProvider } from './AuthContext';
 import Locations from './pages/Locations';
 import LocationView from './pages/LocationView';
 import Review from './pages/Review';
+import Results from './pages/Results';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/locations" element={<Locations />} />
         <Route path="/location-view/:locationId" element={<LocationView />} />
         <Route path="/review" element={<ProtectedRoute><Review /></ProtectedRoute>} />
+        <Route path="/results" element={<Results />} />
       </Routes>
       </AuthProvider>
 
