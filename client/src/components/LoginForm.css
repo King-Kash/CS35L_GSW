@@ -1,3 +1,9 @@
+.login-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
 .poppins-regular {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -35,7 +41,7 @@ body {
 
 .wrapper {
     width: 420px;
-    background: transparent;
+    background: #875050;
     border: 2px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(30px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

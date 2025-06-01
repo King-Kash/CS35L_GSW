@@ -84,6 +84,10 @@ app.delete('/logout', (req, res, next) => {
     if (err) {
         return next(err);
     }
+    req.session.destroy(() => {
+        res.clearCookie('connect.sid');
+        res.status(200).json({ message: 'Logged out successfully' });
+    }) 
   });
 });
 
