@@ -15,7 +15,7 @@ export default function LocationView() {
     const normalizeReview = (review) => {
       return {
         id: review._id || review.id,
-        username: review.user?.username || review.username,
+        username: review.user?.username || review.user?.name || review.username,
         locationName: review.location?.name || review.locationName,
         locationId: review.location?._id,
         rating: review.rating,
@@ -102,8 +102,6 @@ export default function LocationView() {
         rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
     };
 
-    console.log(processedSpot.reviews)
-
     return (
         <div className="location-view-page">
             <NavBar />
@@ -120,7 +118,6 @@ export default function LocationView() {
                           )}
                       </div>
                       <div className="right-part">
-                        <p className="location-tags-2">{processedSpot.tags.length > 0 ? `Tags: {processedSpot.tags}` : "No tags yet"}</p>
                         <p className="location-description-2">{processedSpot.description || "No description available."}</p>
                         <div className="rating">
                             {processedSpot.reviews.length === 0 ? (
@@ -137,6 +134,7 @@ export default function LocationView() {
                                 </>
                             )}
                         </div>
+                        <p className="location-tags-2">{processedSpot.tags.length > 0 ? `Tags: {processedSpot.tags}` : "No tags yet"}</p>
                         <button className="reviews-button-2" onClick={goToReviews}>
                             Write a Review
                         </button>
@@ -147,6 +145,7 @@ export default function LocationView() {
                         <p>No reviews yet.</p>
                       ) : ( processedSpot.reviews.map(review => {
                           const normalizedReview = normalizeReview(review);
+                          console.log(normalizedReview)
                           return (
                             <div key={normalizedReview.id} className="review-card">
                               <div className="review-info">

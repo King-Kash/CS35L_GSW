@@ -17,7 +17,7 @@
 
 .location-title {
   margin-top: 25px;
-  font-size: 30px !important;
+  font-size: 40px !important;
 }
 
 .search-container {
@@ -44,8 +44,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  margin: 20px;
-  padding-bottom: 20px;
+  margin-top: 20px;
 }
 
 .location-card {
@@ -126,17 +125,17 @@
 }
 
 .selected-location {
-  background: #f8f9fa;
+  background-color: #faf6eb;
   padding: 25px;
   border-radius: 12px;
   margin-bottom: 30px;
-  border-left: 4px solid #007bff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .selected-location h2 {
   margin: 0 0 15px 0;
-  color: #007bff;
-  font-size: 1.5rem;
+  color: #333;
+  font-size: 30px;
 }
 
 .location-header {
@@ -159,7 +158,7 @@
 }
 
 .review-form-container {
-  background: white;
+  background-color: #faf6eb;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -181,6 +180,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  width: 100%;
+  justify-content: center;
 }
 
 .star {
@@ -235,7 +236,7 @@
 }
 
 .submit-button {
-  background: #007bff;
+  background: #875050;
   color: white;
   border: none;
   padding: 15px 30px;
@@ -248,7 +249,7 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background: #0056b3;
+  background: #724343;
 }
 
 .submit-button:disabled {
@@ -286,3 +287,8 @@
     font-size: 1.5rem;
   }
 } 
+
+#review-content:focus {      
+  border-color: #875050; 
+  outline: none;         
+}

@@ -38,7 +38,7 @@
 }
 
 .close-btn {
-  background-color: #007bff;
+  background-color: #875050;
   padding: 15px 20px;
   border-radius: 10px;
   border: none;
@@ -49,6 +49,6 @@
 }
 
 .close-btn:hover {
-  background-color: #0056b3;
+  background-color: #724343;
   cursor: pointer;
 }
