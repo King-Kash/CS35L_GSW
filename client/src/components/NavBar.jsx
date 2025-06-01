@@ -18,8 +18,7 @@ export default function Navbar() {
   const [width, setWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const {user} = useContext(AuthContext);
-    const { checkAuth } = useContext(AuthContext);
-  const isAuthenticated = checkAuth()
+
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);

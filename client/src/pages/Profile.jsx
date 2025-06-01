@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
 import NavBar from '../components/NavBar';
@@ -10,68 +10,30 @@ const API_URL = 'http://localhost:5000';
 export default function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  //const { user, setUser, checkAuth, loading } = useContext(AuthContext);
-  
-  // sample user data
-  const [user, setUser] = useState({
-    id: 1,
-    name: "Name",
-    email: "jane.smith@example.com",
-    profilePicture: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
-    description: "description"
-  });
+  const { user, setUser, checkAuth, loading } = useContext(AuthContext);
+  console.log("user from context:", user);
+  const [ reviews, setReviews ] = useState([]);
 
-  // sample reviews data with photos
-  const [reviews] = useState([
-    {
-      id: 1,
-      locationName: "Koreatown Cafe",
-      rating: 4,
-      content: "Great atmosphere and friendly staff. The coffee was excellent, and they have good WiFi. Perfect spot for studying.",
-      createdAt: "2025-04-15T14:30:00Z",
-      image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-      id: 2,
-      locationName: "Westwood Diner",
-      rating: 5,
-      content: "Absolutely loved this place! The food was amazing, especially their pancakes. It can get crowded on weekends, so go early.",
-      createdAt: "2025-04-02T18:45:00Z",
-      image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-      id: 3,
-      locationName: "Powell Library",
-      rating: 3,
-      content: "A decent study spot but can get really packed during finals week. The ambient noise can be distracting at times.",
-      createdAt: "2025-03-20T10:15:00Z",
-      image: "https://images.unsplash.com/photo-1568667256549-094345857637?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-      id: 4,
-      locationName: "Bruin Plate Dining Hall",
-      rating: 4,
-      content: "One of the best dining halls on campus. The food is fresh and they have plenty of healthy options.",
-      createdAt: "2025-03-10T12:30:00Z",
-      image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-      id: 5,
-      locationName: "Ackerman Union",
-      rating: 4,
-      content: "Great central location with lots of food options. Can get crowded during lunch hours but overall a nice place to meet friends.",
-      createdAt: "2025-02-25T15:10:00Z", 
-      image: "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-      id: 6,
-      locationName: "Kerckhoff Coffee House",
-      rating: 5,
-      content: "My favorite spot on campus! The atmosphere is cozy, coffee is great, and it's perfect for both studying and socializing.",
-      createdAt: "2025-02-10T12:30:00Z",
-      image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+
+  const filterReviews = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/reviews/', {
+        withCredentials: true
+      });
+      console.log(res.data);
+      const allReviews = res.data;
+  
+      const userReviews = allReviews.filter(review => (
+        String(review.user._id) === user.id
+      ));
+      console.log(res.data);
+  
+  
+      setReviews(userReviews);
+    } catch (error) {
+      console.error("Failed to fetch reviews", error);
     }
-  ]);
+  };
 
   const handleProfilePictureClick = () => {
     fileInputRef.current.click();
@@ -121,18 +83,13 @@ export default function Profile() {
           withCredentials: true,
         }
       );
-      await checkAuth();
       navigate('/');
+      await checkAuth();
     }
     catch (err) {
       console.error("Logout Failed:", err);
     }
   };
-
-  // const handleLogout = () => {
-  //   alert("Logout clicked");
-  //   navigate('/login');
-  // }
 
   const handleDeleteAccount = () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
@@ -141,6 +98,12 @@ export default function Profile() {
       navigate('/login');
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      filterReviews();
+    }
+  }, [user]);
 
   return (
     <div className="profile-page">
@@ -233,3 +196,69 @@ export default function Profile() {
     </div>
   );
 }
+
+
+
+
+
+
+  // // sample user data
+  // const [user, setUser] = useState({
+  //   id: 1,
+  //   name: "Name",
+  //   email: "jane.smith@example.com",
+  //   profilePicture: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
+  //   description: "description"
+  // });
+
+  // sample reviews data with photos
+  // const [reviews] = useState([
+  //   {
+  //     id: 1,
+  //     locationName: "Koreatown Cafe",
+  //     rating: 4,
+  //     content: "Great atmosphere and friendly staff. The coffee was excellent, and they have good WiFi. Perfect spot for studying.",
+  //     createdAt: "2025-04-15T14:30:00Z",
+  //     image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   },
+  //   {
+  //     id: 2,
+  //     locationName: "Westwood Diner",
+  //     rating: 5,
+  //     content: "Absolutely loved this place! The food was amazing, especially their pancakes. It can get crowded on weekends, so go early.",
+  //     createdAt: "2025-04-02T18:45:00Z",
+  //     image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   },
+  //   {
+  //     id: 3,
+  //     locationName: "Powell Library",
+  //     rating: 3,
+  //     content: "A decent study spot but can get really packed during finals week. The ambient noise can be distracting at times.",
+  //     createdAt: "2025-03-20T10:15:00Z",
+  //     image: "https://images.unsplash.com/photo-1568667256549-094345857637?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   },
+  //   {
+  //     id: 4,
+  //     locationName: "Bruin Plate Dining Hall",
+  //     rating: 4,
+  //     content: "One of the best dining halls on campus. The food is fresh and they have plenty of healthy options.",
+  //     createdAt: "2025-03-10T12:30:00Z",
+  //     image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   },
+  //   {
+  //     id: 5,
+  //     locationName: "Ackerman Union",
+  //     rating: 4,
+  //     content: "Great central location with lots of food options. Can get crowded during lunch hours but overall a nice place to meet friends.",
+  //     createdAt: "2025-02-25T15:10:00Z", 
+  //     image: "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   },
+  //   {
+  //     id: 6,
+  //     locationName: "Kerckhoff Coffee House",
+  //     rating: 5,
+  //     content: "My favorite spot on campus! The atmosphere is cozy, coffee is great, and it's perfect for both studying and socializing.",
+  //     createdAt: "2025-02-10T12:30:00Z",
+  //     image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+  //   }
+  // ]);
