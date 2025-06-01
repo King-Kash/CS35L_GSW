@@ -71,16 +71,15 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                     </div>
                     <div className="bottom-part">
                         <p>{processedSpot.description || "No description available."}</p>
-                        <p>{processedSpot.tags || "No tags yet"}</p>
-                        <button className="reviews-button" onClick={goToReviews}>
-                            Go to Reviews
-                        </button>
-                        <button className="location-view-link" onClick={goToLocationPage}>
-                            Go to Location Page
-                        </button>
-                        <button className="reviews-button" onClick={goToReviews}>
-                            Write a Review
-                        </button>
+                        <p>{processedSpot.tags?.length > 0 || "No tags yet"}</p>
+                        <div className="button-group">
+                          <button className="location-view-link" onClick={goToLocationPage}>
+                              Go to Location Page
+                          </button>
+                          <button className="reviews-button" onClick={goToReviews}>
+                              Write a Review
+                          </button>
+                        </div>
                     </div>
                 </div>
             </div>

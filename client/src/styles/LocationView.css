@@ -18,7 +18,7 @@
   max-width: 100%;
   width: 100%;
   min-height: calc(100vh - 80px);
-  background: white;
+  background: #f0ead9 !important;
   padding: 40px;
   border-radius: 0;
   box-shadow: none;
@@ -29,12 +29,12 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #f8f9fa;
-  border: 2px solid #dee2e6;
+  background-color: #938878;
+  border: 2px solid #938878;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 500;
-  color: #495057;
+  color: white;
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -44,9 +44,9 @@
 }
 
 .location-view-page .back-button:hover {
-  background-color: #e9ecef;
-  border-color: #adb5bd;
-  color: #212529;
+  background-color: #7a6e5e;
+  border-color: #7a6e5e;
+  color: #white;
   transform: translateX(-2px);
 }
 
@@ -71,8 +71,8 @@
 }
 
 .location-view-page .reviews-button-2:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+  background-color: #724343;
+  box-shadow: 0 4px 15px #72434342;
 }
 
 /* Page title */
@@ -135,7 +135,7 @@
 
 .reviews-button-2 {
   margin: 20px auto 0;
-  background-color: #007bff;
+  background-color: #875050;
   color: white;
   padding: 10px 20px;
   font-size: 20px;
@@ -144,7 +144,7 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 10px #87505041;
 }
 
 .location-description-2 {

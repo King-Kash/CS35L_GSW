@@ -295,11 +295,11 @@ export default function MapView() {
     
 
     const handleAddSpot = async () => {
-        if (!selectedSpot || !newSpotName) {
-          if (!newSpotName) {
-            setAddError("Study spot name required")
-          } else {
+        if (!selectedSpot || !newSpotName || !newSpotDescription || !newSpotImage) {
+          if (!selectedSpot) {
             setAddError("Client error")
+          } else {
+            setAddError("All fields required")
           }
           return;
         }
