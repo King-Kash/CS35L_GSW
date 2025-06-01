@@ -40,38 +40,44 @@ export default function Profile() {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Check if the file is an image
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
-        return;
-      }
+        // Check if the file is an image
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            return;
+        }
 
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size should be less than 5MB');
-        return;
-      }
+        // Check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size should be less than 5MB');
+            return;
+        }
 
-      // Create a FileReader to read the image
-      const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        // Update the user state with the base64 image data
-        setUser(prevUser => ({
-          ...prevUser,
-          profilePicture: e.target.result
-        }));
-      };
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
 
-      reader.onerror = () => {
-        alert('Error reading the file');
-      };
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/profile`, {
+                method: 'POST',
+                body: formData
+            });
 
-      // Read the file as a data URL (base64)
-      reader.readAsDataURL(file);
+            const data = await response.json();
+            if (data.imageUrl) {
+                // Update the user state with the new image URL
+                setUser(prevUser => ({
+                    ...prevUser,
+                    profilePicture: data.imageUrl
+                }));
+            } else {
+                throw new Error('Failed to get image URL from response');
+            }
+        } catch (error) {
+            console.error('Error uploading profile picture:', error);
+            alert('Failed to upload profile picture');
+        }
     }
   };
 
