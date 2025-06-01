@@ -15,8 +15,17 @@ import cors from 'cors'
 //establish backend + connect to mongo
 import reviewRoutes from "./routers/review_router.js";
 import locationRoutes from './routers/location_router.js';
+import imageRoutes from './routers/image_router.js';
+
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow both ports
+  credentials: true
+}));
+
 app.use(express.json());
 connectDB();
 
@@ -80,6 +89,7 @@ app.delete('/logout', (req, res, next) => {
 app.use(express.json()); // Middleware to parse JSON
 app.use("/reviews", reviewRoutes); // Add review routes at /reviews
 app.use("/locations", locationRoutes); // Add location routes at /locations
+app.use('/api/images', imageRoutes);
 
 // app.get("/posts", checkAuthenticated, (req,res) => {
 //     res.json(posts)
@@ -91,5 +101,5 @@ app.use("/locations", locationRoutes); // Add location routes at /locations
 
 //establish connection
 app.listen(3000, () => {
-    console.log('Server started at http://localhost:3000');
+    console.log('Server started at http://localhost:3001');
 });

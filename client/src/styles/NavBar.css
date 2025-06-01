@@ -1,0 +1,228 @@
+.navbar {
+  background-color: #875050; /* #978080 */
+  padding: clamp(1rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(0.25rem, 5vw, 6rem); /* Responsive gap */
+  flex-shrink: 1; /* Allow nav links to shrink */
+  align-items: center;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  height: 2.65rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #ffffff; /* #333 */
+  font-weight: 500;
+  font-size: clamp(0.75rem, 2.5vw, 1.25rem); /* Responsive font size */
+  transition: color 0.3s, font-size 0.3s; /* Smooth transitions */
+  white-space: nowrap; /* Prevent text wrapping */
+  padding: 0; /* Remove any default padding */
+  margin: 0; /* Remove any default margin */
+  display: inline-block; /* Only take up text width */
+}
+
+.nav-link:hover {
+  /*color: #85c0ff;*/
+  color: rgba(254, 245, 222, 0.9)
+}
+
+.search-tag-container {
+  display: flex;
+  align-items: center;
+  max-width: clamp(100px, 50vw, 600px); /* Smoothly scales from 200px to 600px */
+  min-width: 100px;
+  flex: 1;
+  margin: 0 clamp(0.25rem, 1vw, 1rem);
+}
+
+.search-button {
+  background-color: #112132;
+  color: white;
+  border: 1px solid #000000;
+  padding: 0 0.5rem; /* Horizontal padding only, let height control vertical */
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem; /* Match the height of search and tag wrappers */
+  border-radius: 0; /* Remove border radius to connect with inputs */
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.search-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3; 
+}
+
+.divider {
+  width: 1px;
+  background-color: #ddd;
+  height: 100%;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.search-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  background-color: white;
+  white-space: nowrap;
+  width: clamp(300px, 15vw, 500px); /* Smoothly scales with viewport */
+  flex-shrink: 1;
+}
+
+.tag-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0rem;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
+  background-color: white;
+  white-space: nowrap;
+  width: clamp(0px, 20vw, 225px); /* Smoothly scales with viewport */
+  flex-shrink: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
+  scrollbar-color: #ccc transparent; /* For Firefox: customize scrollbar colors */
+}
+
+.tag {
+  background-color: #007bff;
+  color: white;
+  padding: 0.3rem 0.3rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag-button {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.remove-tag-button:hover {
+  color: #ff4d4d;
+}
+
+.dropdown-input {
+  border: none !important;
+  flex: 1;
+  font-size: 1rem;
+  outline: none;
+  min-width: 10px; /* Ensure the input is always visible */
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  background-color: white;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 4px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.no-matches {
+  color: #999;
+}
+
+.unclickable {
+  pointer-events: none; /* Disable click events */
+}
+
+.highlighted {
+  background-color: #f0f0f0;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0; /* No gap between buttons */
+  flex-shrink: 0; /* Prevent auth buttons from shrinking */
+}
+
+.log-btn, .reg-btn {
+  text-decoration: none;
+  padding: clamp(3px, 1vw, 6px) clamp(6px, 2vw, 12px);
+  border-radius: 0; /* Remove border radius for seamless connection */
+  font-weight: 500;
+  font-size: 1rem; /* Slightly smaller font */
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: clamp(40px, 8vw, 60px);
+  margin: 0; /* Remove any default margins */
+  display: inline-block; /* Ensure proper inline-block behavior */
+}
+
+.log-btn {
+  color: white;
+  border: 2px solid white;
+  background-color: transparent;
+  border-radius: 6px 0 0 6px; /* Round only left corners */
+  border-right: 0px; /* Thinner right border */
+}
+
+.log-btn:hover {
+  background-color: #f9da9d;
+  border-color: #f9da9d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
+}
+
+.reg-btn {
+  color: black;
+  background-color: rgba(254, 245, 222, 0.9);
+  border: 2px solid rgba(254, 245, 222, 0.9);
+  border-radius: 0 6px 6px 0; /* Round only right corners */
+  border-left: none; /* Remove left border to eliminate double border */
+}
+
+.reg-btn:hover {
+  background-color: #f9da9d;
+  border-color: #f9da9d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
+}

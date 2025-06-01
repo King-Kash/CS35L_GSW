@@ -1,63 +1,140 @@
 import { useEffect, useRef, useState } from 'react';
-import './LocationView.css';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import '../styles/LocationView.css';
 import NavBar from '../components/NavBar';
 
-export default function LocationView({ selectedSpot, setShowLocationView }) {
+const API_URL = import.meta.env.VITE_API_URL;
 
-    const locationObject = {
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -118.2437,
-                34.0522
-            ]
-        },
-        "_id": "6828d5c6590e03c2a8fb3e68",
-        "name": "Updated Location Name",
-        "rating": {
-            "$numberDecimal": "4.5"
-        },
-        "reviews": [],
-        "image": "https://example.com/new-image.jpg",
-        "description": "This is an updated description of the location.",
-        "tags": ["library", "quiet", "crowded"],
-        "createdAt": "2025-05-17T18:30:30.767Z",
-        "updatedAt": "2025-05-17T18:39:34.332Z",
-        "__v": 0
-    }
+export default function LocationView() {
+    const navigate = useNavigate();
+    const { locationId } = useParams();
+    const [selectedSpot, setSelectedSpot] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${API_URL}/locations/all`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch locations');
+                }
+                const locations = await response.json();
+                const location = locations.find(loc => loc._id === locationId);
+                
+                if (!location) {
+                    throw new Error('Location not found');
+                }
+                
+                setSelectedSpot(location);
+            } catch (err) {
+                setError(err.message);
+                console.error('Error fetching location:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (locationId) {
+            fetchLocation();
+        } else {
+            navigate('/locations');
+        }
+    }, [locationId, navigate]);
 
     const goToReviews = () => {
-      console.log("go to reviews")
+        if (selectedSpot) {
+            navigate('/review', { state: { location: selectedSpot } });
+        }
     }
 
-    console.log(selectedSpot.image)
-    return (
-      <div className="location-view-container">
-        <NavBar />
-        <div className="location-view">
-            <button className="close-button" onClick={() => setShowLocationView(false)}>×</button>
-            <h1>{selectedSpot.name}</h1>
-            <div className="location-image"></div>
-            <p>{selectedSpot.description || "No description available."}</p>
-            <div className="rating">
-              {selectedSpot.rating === 0 ? (
-                <span>Be the first to review this study spot!</span>
-              ) : (
-                <>
-                  <span>Rating: </span>
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} style={{ color: i < selectedSpot.rating ? "#FFD700" : "#ccc" }}>
-                      &#9733;
-                    </span>
-                  ))}
-                  &nbsp; ({selectedSpot.rating})
-                </>
-              )}
+    const goBack = () => {
+        // Check if there's history to go back to
+        if (window.history.length > 1) {
+            navigate(-1);
+        } else {
+            navigate('/locations');
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="location-view-page">
+                <NavBar />
+                <div className="location-view-container">
+                    <div className="loading">Loading location...</div>
+                </div>
             </div>
-            <button className="reviews-button" onClick={goToReviews}>
-              Go to Reviews
-            </button>
+        );
+    }
+
+    if (error || !selectedSpot) {
+        return (
+            <div className="location-view-page">
+                <NavBar />
+                <div className="location-view-container">
+                    <div className="error">
+                        <p>Error: {error || 'Location not found'}</p>
+                        <button onClick={goBack}>← Back to All Locations</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Process rating data
+    const processedSpot = {
+        ...selectedSpot,
+        rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
+    };
+
+    let label;
+    if (selectedSpot.reviews?.length == 0 || !selectedSpot.reviews) {
+      label = "No Reviews Yet"
+    }
+    if (selectedSpot.reviews?.length > 0 && selectedSpot.reviews?.length < 5) {
+      label = "Underground Spot"
+    }
+    if (selectedSpot.reviews?.length > 5) {
+      label = "Popular Spot"
+    }
+
+    return (
+        <div className="location-view-page">
+            <NavBar />
+            <div className="location-view-container">
+                <div className="location-view">
+                    <button className="back-button" onClick={goBack}>
+                        ← Back
+                    </button>
+                    <h1>{processedSpot.name}</h1>
+                    <div className="location-image">
+                        {processedSpot.image && (
+                            <img src={processedSpot.image} alt={processedSpot.name} />
+                        )}
+                    </div>
+                    <p>{processedSpot.description || "No description available."}</p>
+                    <div className="rating">
+                        {processedSpot.rating === 0 ? (
+                            <span>Be the first to review this study spot!</span>
+                        ) : (
+                            <>
+                                <span>Rating: </span>
+                                {[...Array(5)].map((_, i) => (
+                                    <span key={i} style={{ color: i < processedSpot.rating ? "#FFD700" : "#ccc" }}>
+                                        &#9733;
+                                    </span>
+                                ))}
+                                &nbsp; ({processedSpot.rating})
+                            </>
+                        )}
+                    </div>
+                    <button className="reviews-button" onClick={goToReviews}>
+                        Write a Review
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     );
 }

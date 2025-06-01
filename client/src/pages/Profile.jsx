@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Profile.css';
+import '../styles/Profile.css';
 import NavBar from '../components/NavBar';
+
+const API_URL = 'http://localhost:5000';
 
 export default function Profile() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   
   // sample user data
-  const [user] = useState({
+  const [user, setUser] = useState({
     id: 1,
     name: "Name",
     email: "jane.smith@example.com",
@@ -67,6 +70,45 @@ export default function Profile() {
     }
   ]);
 
+  const handleProfilePictureClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check if the file is an image
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size should be less than 5MB');
+        return;
+      }
+
+      // Create a FileReader to read the image
+      const reader = new FileReader();
+      
+      reader.onload = (e) => {
+        // Update the user state with the base64 image data
+        setUser(prevUser => ({
+          ...prevUser,
+          profilePicture: e.target.result
+        }));
+      };
+
+      reader.onerror = () => {
+        alert('Error reading the file');
+      };
+
+      // Read the file as a data URL (base64)
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleLogout = () => {
     // For now, just navigate to the login page
     alert("Logout clicked");
@@ -87,11 +129,25 @@ export default function Profile() {
       <div className="profile-container">
         <div className="profile-left-column">
           <div className="profile-card">
-            <div className="profile-image-container">
+            <div 
+              className="profile-image-container"
+              onClick={handleProfilePictureClick}
+              style={{ cursor: 'pointer' }}
+            >
               <img 
                 src={user.profilePicture || '/default-avatar.png'} 
                 alt="Profile" 
                 className="profile-image" 
+              />
+              <div className="profile-image-overlay">
+                <span>Click to change picture</span>
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                style={{ display: 'none' }}
               />
             </div>
             

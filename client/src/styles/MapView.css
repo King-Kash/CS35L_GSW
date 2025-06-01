@@ -1,6 +1,6 @@
 .mapview-container {
   width: 100%;
-  height: calc(100vh - 64px); /* Subtract navbar height */
+  height: calc(100vh - 74px); /* Subtract navbar height */
   position: relative;
 }
 
@@ -9,6 +9,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .controls {
@@ -275,12 +276,16 @@
 .add-spot-name {
   height: 1.5em; /* Single-line input */
   margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
 }
 
 .add-spot-description {
   flex: 0 0 calc(1.5em * 5 + 10px); /* 7 lines high */
   resize: none; /* Prevent user resizing */
   margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
 }
 
 .image-placeholder {
@@ -291,4 +296,12 @@
 
 .add-spot-flex-box button {
   align-self: stretch; /* Full width button */
+}
+
+.add-error {
+  position: absolute;
+  bottom: 15px;
+  color: red;
+  left: 50%;
+  transform: translateX(-50%);
 }

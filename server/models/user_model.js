@@ -14,6 +14,23 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
     },
     password: {
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    profilePicture: {
+        type: String,
+        default: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+    },
+    description: {
+        type: String,
+        default: ""
+    },
+    username: {
         type: String,
         required: true,
     },
