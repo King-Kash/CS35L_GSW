@@ -23,7 +23,7 @@ function App() {
         <Route path="/map" element={<MapView />}/>
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/signup" element={<Register />} />
         <Route path="/locations" element={<Locations />} />
         <Route path="/location-view/:locationId" element={<LocationView />} />
         <Route path="/review" element={<ProtectedRoute><Review /></ProtectedRoute>} />

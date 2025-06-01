@@ -55,6 +55,9 @@ const RegisterForm = () => {
                 <div className='register-link'>
                     <p className='poppins-regular'>Have an account? <a href="/login">Login</a></p>
                 </div>
+                <div className='register-link'>
+                    <p className='poppins-regular'>Return to <a href="/">Home</a></p>
+                </div>
             </form>
         </div>     
     </div>
