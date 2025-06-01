@@ -72,7 +72,7 @@ app.use("/users", userRouter);
 app.get("/api/auth/status", (req, res) => {
     if(req.isAuthenticated())
     {
-        res.status(200).json({authenticated: true, user: {name: req.user.name, id: req.user.id}})
+        res.status(200).json({authenticated: true, user: {name: req.user.name, id: req.user.id, email: req.user.email, profilePicture: req.user.profilePicture, description: req.user.description}})
     } 
     else
     {
