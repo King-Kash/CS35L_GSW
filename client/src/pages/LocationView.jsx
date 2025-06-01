@@ -120,6 +120,7 @@ export default function LocationView() {
                           )}
                       </div>
                       <div className="right-part">
+                        <p className="location-tags-2">{processedSpot.tags.length > 0 ? `Tags: {processedSpot.tags}` : "No tags yet"}</p>
                         <p className="location-description-2">{processedSpot.description || "No description available."}</p>
                         <div className="rating">
                             {processedSpot.reviews.length === 0 ? (

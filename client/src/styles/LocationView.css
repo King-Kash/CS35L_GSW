@@ -75,13 +75,6 @@
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
 }
 
-/* Page rating styles */
-.location-view-page .rating {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 24px;
-}
-
 /* Page title */
 .location-view-page .location-view-2 h1 {
   text-align: center;

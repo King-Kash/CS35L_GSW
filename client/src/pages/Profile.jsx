@@ -2,12 +2,15 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
 import NavBar from '../components/NavBar';
+import { AuthContext } from '../AuthContext';
+import axios from 'axios';
 
 const API_URL = 'http://localhost:5000';
 
 export default function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  //const { user, setUser, checkAuth, loading } = useContext(AuthContext);
   
   // sample user data
   const [user, setUser] = useState({
@@ -125,6 +128,11 @@ export default function Profile() {
       console.error("Logout Failed:", err);
     }
   };
+
+  // const handleLogout = () => {
+  //   alert("Logout clicked");
+  //   navigate('/login');
+  // }
 
   const handleDeleteAccount = () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
