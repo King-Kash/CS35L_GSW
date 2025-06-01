@@ -6,26 +6,31 @@ import Reviews from './pages/Reviews';
 import MapView from './pages/MapView';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Register from './pages/Register';
+import ProtectedRoute from './ProtectedRoute';
+import { AuthProvider } from './AuthContext';
 import Locations from './pages/Locations';
 import LocationView from './pages/LocationView';
 import Review from './pages/Review';
 
 function App() {
   return (
-    <div className="app">
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/reviews" element={<Reviews />} />
-        <Route path="/map" element={<MapView />} />
+        <Route path="/map" element={
+            <MapView />
+          }/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/locations" element={<Locations />} />
         <Route path="/location-view/:locationId" element={<LocationView />} />
         <Route path="/review" element={<Review />} />
       </Routes>
-    </div>
+      </AuthProvider>
+
   );
 }
 
