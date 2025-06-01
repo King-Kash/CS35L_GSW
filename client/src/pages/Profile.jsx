@@ -109,10 +109,21 @@ export default function Profile() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // For now, just navigate to the login page
-    alert("Logout clicked");
-    navigate('/login');
+    try {
+      await axios.delete(
+        'http://localhost:3000/logout',
+        {
+          withCredentials: true,
+        }
+      );
+      await checkAuth();
+      navigate('/');
+    }
+    catch (err) {
+      console.error("Logout Failed:", err);
+    }
   };
 
   const handleDeleteAccount = () => {
