@@ -18,7 +18,7 @@
   right: 10px;
   background: transparent;
   border: none;
-  font-size: 48px;
+  font-size: 24px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
@@ -29,9 +29,6 @@
   color: #6a6a6a;
 }
 
-<<<<<<< HEAD
-.location-view-modal-overlay .location-image {
-=======
 .top-part {
   margin-top: 15px;
   display: flex;
@@ -69,7 +66,6 @@
 }
 
 /* .location-view-modal-overlay .location-image {
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   width: 100%;
   max-width: 400px;
   height: 250px;
@@ -80,11 +76,7 @@
   background-color: #f0f0f0;
   border-radius: 8px;
   overflow: hidden;
-<<<<<<< HEAD
-}
-=======
 } */
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
 
 .location-view-modal-overlay .location-image img {
   width: 100%;
