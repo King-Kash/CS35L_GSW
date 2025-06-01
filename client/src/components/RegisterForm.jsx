@@ -43,7 +43,7 @@ const RegisterForm = () => {
                 <FaUser className='icon'/>
             </div>
             <div className='input-box'>
-                <input type="text" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
+                <input type="password" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
                 <FaLock className='icon'/>
             </div>
 

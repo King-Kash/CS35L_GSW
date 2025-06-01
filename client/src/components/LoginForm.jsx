@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './LoginForm.css'
 import { FaUser, FaLock } from "react-icons/fa"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../AuthContext'
 
 const LoginForm = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
+    const { checkAuth } = useContext(AuthContext);
 
     const handleSumbit = async e => {
         e.preventDefault();
@@ -20,7 +22,19 @@ const LoginForm = () => {
                     withCredentials: true
                 }
             );
-            console.log('Logged in user:', response.data.user)
+            const reps2 = await axios.get(
+                'http://localhost:3000/api/auth/status',
+                {
+                    withCredentials: true
+                }
+            )
+            if (reps2.status == 200) {
+                console.log('Logged in user:', reps2.data)
+            }
+            else {
+                console.warn('Login succeedd but /api/auth/status said unauthenticated.')
+            }
+            await checkAuth()
             navigate('/')
         } catch (err) {
             console.error(err);
@@ -37,7 +51,7 @@ const LoginForm = () => {
                 <FaUser className='icon'/>
             </div>
             <div className='input-box'>
-                <input type="text" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
+                <input type="password" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
                 <FaLock className='icon'/>
             </div>
 
