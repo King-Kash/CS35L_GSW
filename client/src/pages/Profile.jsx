@@ -101,6 +101,14 @@ export default function Profile() {
     }
   };
 
+  const handleReviewClick = (review) => {
+    if (review.location?._id) {
+      navigate(`/location-view/${review.location._id}`);
+    } else {
+      alert('Location not available for this review');
+    }
+  };
+
   useEffect(() => {
     if (user) {
       filterReviews();
@@ -170,7 +178,12 @@ export default function Profile() {
             ) : (
               <div className="reviews-list">
                 {reviews.map(review => (
-                  <div key={review.id} className="review-card">
+                  <div 
+                    key={review.id} 
+                    className="review-card"
+                    onClick={() => handleReviewClick(review)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="review-main-content">
                       <h3 className="review-location">{review.locationName}</h3>
                       <div className="review-rating">
