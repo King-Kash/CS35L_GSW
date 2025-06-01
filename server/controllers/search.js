@@ -81,7 +81,9 @@ export const search = async (req, res) => {
 // Recommendation algorithm based on user's rating history
 export const getRecommendations = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
+    
+    console.log('Recommendations request for userId:', userId);
     
     if (!userId) {
       return res.status(401).json({ 
@@ -95,11 +97,15 @@ export const getRecommendations = async (req, res) => {
       .populate('location')
       .sort({ rating: -1 });
     
+    console.log('User reviews found:', userReviews.length);
+    
     if (userReviews.length === 0) {
       // If user has no reviews, return popular locations
       const popularLocations = await Location.find()
         .sort({ rating: -1 })
         .limit(10);
+      
+      console.log('No user reviews, returning popular locations:', popularLocations.length);
       
       return res.status(200).json({
         success: true,
@@ -112,14 +118,18 @@ export const getRecommendations = async (req, res) => {
     const userAvgRating = userReviews.reduce((sum, review) => sum + review.rating, 0) / userReviews.length;
     const reviewedLocationIds = userReviews.map(review => review.location._id);
     
+    console.log('User avg rating:', userAvgRating, 'Reviewed locations:', reviewedLocationIds.length);
+    
     // Find users with similar rating patterns (collaborative filtering)
     const similarUsers = await findSimilarUsers(userId, userReviews);
+    
+    console.log('Similar users found:', similarUsers.length);
     
     // Get locations highly rated by similar users that current user hasn't reviewed
     let recommendations = [];
     
     if (similarUsers.length > 0) {
-      const similarUserIds = similarUsers.map(user => user.userId);
+      const similarUserIds = similarUsers.map(user => user.id);
       
       const similarUserReviews = await Review.find({
         user: { $in: similarUserIds },
@@ -128,6 +138,8 @@ export const getRecommendations = async (req, res) => {
       })
       .populate('location')
       .sort({ rating: -1 });
+      
+      console.log('Similar user reviews found:', similarUserReviews.length);
       
       // Group by location and calculate average rating from similar users
       const locationRatings = {};
@@ -158,10 +170,13 @@ export const getRecommendations = async (req, res) => {
         .map(item => item.location);
     }
     
+    console.log('Collaborative recommendations:', recommendations.length);
+    
     // If not enough collaborative recommendations, fall back to content-based
     if (recommendations.length < 5) {
       const contentBasedRecs = await getContentBasedRecommendations(userReviews, reviewedLocationIds);
       recommendations = [...recommendations, ...contentBasedRecs].slice(0, 10);
+      console.log('After content-based, total recommendations:', recommendations.length);
     }
     
     // If still not enough, add popular locations
@@ -173,7 +188,10 @@ export const getRecommendations = async (req, res) => {
       .limit(10 - recommendations.length);
       
       recommendations = [...recommendations, ...popularLocations];
+      console.log('After popular locations, total recommendations:', recommendations.length);
     }
+    
+    console.log('Final recommendations count:', recommendations.length);
     
     res.status(200).json({
       success: true,
@@ -228,7 +246,7 @@ async function findSimilarUsers(userId, userReviews) {
       
       if (similarity > 0.3) { // Threshold for similarity
         similarities.push({
-          userId: otherUserId,
+          id: otherUserId,
           similarity: similarity
         });
       }

@@ -1,5 +1,6 @@
 import express from "express";
 import { search, getRecommendations } from "../controllers/search.js";
+import { checkAuthenticated } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -7,6 +8,6 @@ const router = express.Router();
 router.post("/", search);
 
 // Route for user recommendations (requires authentication)
-router.get("/recommendations", getRecommendations);
+router.get("/recommendations", checkAuthenticated, getRecommendations);
 
 export default router; 

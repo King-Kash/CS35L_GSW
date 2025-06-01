@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import { AuthContext } from '../AuthContext';
+import { useContext } from 'react';
 import '../styles/Results.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -8,6 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const Results = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
   
   // Get search parameters from URL
   const searchTerm = searchParams.get('search') || '';
@@ -21,10 +24,9 @@ const Results = () => {
   // State for results
   const [locations, setLocations] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('locations'); // 'locations', 'reviews', 'recommendations'
+  const [activeTab, setActiveTab] = useState('locations'); // 'locations', 'reviews'
 
   useEffect(() => {
     fetchResults();
@@ -35,9 +37,6 @@ const Results = () => {
     setError(null);
     
     try {
-      // Get user token for recommendations
-      const token = localStorage.getItem('accessToken');
-      
       // Prepare search parameters
       const searchData = {
         searchTerm,
@@ -48,9 +47,9 @@ const Results = () => {
       const searchResponse = await fetch(`${API_URL}/search`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          ...(token && { 'Authorization': `Bearer ${token}` })
+          'Content-Type': 'application/json'
         },
+        credentials: 'include', // Use cookies for authentication
         body: JSON.stringify(searchData)
       });
 
@@ -61,25 +60,6 @@ const Results = () => {
       const searchResults = await searchResponse.json();
       setLocations(searchResults.locations || []);
       setReviews(searchResults.reviews || []);
-
-      // Fetch recommendations if user is logged in
-      if (token) {
-        try {
-          const recommendationsResponse = await fetch(`${API_URL}/recommendations`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          if (recommendationsResponse.ok) {
-            const recommendationsData = await recommendationsResponse.json();
-            setRecommendations(recommendationsData.recommendations || []);
-          }
-        } catch (recError) {
-          console.warn('Failed to fetch recommendations:', recError);
-          // Don't throw here, just continue without recommendations
-        }
-      }
 
     } catch (err) {
       console.error('Error fetching results:', err);
@@ -126,7 +106,6 @@ const Results = () => {
             <span className="review-author">by {review.user?.username || 'Anonymous'}</span>
             <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>
           </div>
-          {/* Temporarily always show the button for debugging */}
           <div className="review-actions">
             <button 
               className="view-location-btn"
@@ -178,25 +157,6 @@ const Results = () => {
           </div>
         );
       
-      case 'recommendations':
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-          return (
-            <div className="no-results">
-              Please <button onClick={() => navigate('/login')} className="login-link">log in</button> to see personalized recommendations.
-            </div>
-          );
-        }
-        return (
-          <div className="results-grid">
-            {recommendations.length > 0 ? (
-              recommendations.map(renderLocationCard)
-            ) : (
-              <div className="no-results">No recommendations available. Try rating some locations first!</div>
-            )}
-          </div>
-        );
-      
       default:
         return null;
     }
@@ -234,12 +194,6 @@ const Results = () => {
             onClick={() => setActiveTab('reviews')}
           >
             Reviews ({reviews.length})
-          </button>
-          <button 
-            className={`tab-button ${activeTab === 'recommendations' ? 'active' : ''}`}
-            onClick={() => setActiveTab('recommendations')}
-          >
-            Recommendations ({recommendations.length})
           </button>
         </div>
 
