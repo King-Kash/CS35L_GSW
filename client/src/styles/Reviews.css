@@ -35,7 +35,7 @@ body, #root, .app {
     justify-content: center;
     width: 100%;
     padding: 20px 15px;
-    background-color: #938878; /* Google blue */
+    background-color: #938878;
     color: white;
     border: none;
     border-radius: 8px;
@@ -47,48 +47,7 @@ body, #root, .app {
   }
 
   .add-review-button:hover {
-    background-color: #c7c0a5; /* Darker blue on hover */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .add-review-button:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-
-  .add-icon {
-    font-size: 18px;
-    margin-right: 8px;
-    font-weight: bold;
-  }
-
-  /* Add Review Button Container */
-  .add-review-container {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-
-  /* Add Review Button */
-  .add-review-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 20px 15px;
-    background-color: #938878; /* Google blue */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .add-review-button:hover {
-    background-color: #c7c0a5; /* Darker blue on hover */
+    background-color: #c7c0a5;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
@@ -248,18 +207,18 @@ body, #root, .app {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-/* Review card styling */
+/* Enhance review cards */
 .review-card {
   display: grid;
   grid-template-columns: 250px 1fr 250px;
   background-color: #faf6eb !important;
   border-radius: 12px;
-  padding: 25px;
+  padding: 28px;
   min-height: 220px;
-  box-shadow: 0 4px 15px rgba(158, 147, 124, 0.15);
+  box-shadow: 0 6px 18px rgba(158, 147, 124, 0.12);
   border: 1px solid #e6dcc1;
-  transition: transform 0.2s, box-shadow 0.3s;
-  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
   overflow: hidden;
   position: relative;
 }
@@ -289,15 +248,13 @@ body, #root, .app {
     align-items: baseline;
     margin-bottom: 8px;
   }
-  
-.review-info {
-  display: flex;
-  flex-direction: column;
-  padding-right: 20px;
-  position: relative;
-  border-right: 2px solid #e6dcc1;
-  height: 100%;
-}
+
+  .review-location {
+    font-size: 1.5rem;
+    margin: 0 0 5px 0;
+    color: #5a4e36;
+    font-weight: 600;
+  }
   
 .review-username {
   color: #6b5d40;
@@ -351,21 +308,23 @@ body, #root, .app {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin: 10px 0 15px 0;
+  margin: 10px 0 10px 0;
 }
 
+/* Enhance tag visibility */
 .review-tag {
   background-color: #f0e6d2;
   color: #6b5d40;
-  font-size: 0.8rem;
-  padding: 3px 8px;
-  border-radius: 12px;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   border: 1px solid #e6dcc1;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+  font-weight: 500;
 }
 
   .review-tag:hover {
@@ -379,14 +338,15 @@ body, #root, .app {
     opacity: 0.6;
   }
 
-.review-content {
-  line-height: 1.7;
-  color: #5a4e36;
-  font-size: 1.05rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+ .review-content {
+    line-height: 1.7;
+    color: #5a4e36;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
 .review-content p {
   margin-top: 0;
@@ -394,46 +354,79 @@ body, #root, .app {
   flex-grow: 1;
 }
 
-.review-date {
-  display: block;
-  color: #9e937c;
-  font-size: 0.9rem;
-  margin-top: auto;
-  font-style: italic;
-  text-align: right;
-  padding-top: 10px;
-  border-top: 1px dashed #e6dcc1;
-}
-  
- /* Responsive design */
+  .review-date {
+    display: block;
+    color: #9e937c;
+    font-size: 0.9rem;
+    margin-top: auto;
+  }
+ 
+   /* View Location Button */
+  .view-location-button {
+    margin-top: 5px;
+    padding: 10px 16px;
+    background-color: #938878;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .view-location-button:hover {
+    background-color: #7a6e5e;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .view-location-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  } 
+
+/* Responsive design */
 @media (max-width: 1200px) {
   .review-card {
     grid-template-columns: 220px 1fr 200px;
   }
+}
   
-  /* Responsive design */
-  @media (max-width: 900px) {
-    .reviews-container {
-      flex-direction: column;
-    }
-    
-    .filter-column {
-      max-width: 100%;
-      position: static;
-      margin-bottom: 20px;
-    }
-    
-    .review-card {
-      flex-direction: column;
-    }
-    
-    .review-main-content {
-      padding-right: 0;
-      padding-bottom: 15px;
-    }
-    
-    .review-image-container {
-      max-width: 100%;
-      height: 200px;
-    }
+/* Responsive design for smaller screens */
+@media (max-width: 900px) {
+  .reviews-container {
+    flex-direction: column;
   }
+  
+  .filter-column {
+    max-width: 100%;
+    position: static;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-right: none;
+    border-bottom: 1px solid #9e937c;
+    padding-bottom: 20px;
+  }
+  
+  .review-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 15px;
+  }
+  
+  .review-info, .review-main-content {
+    border-right: none;
+    border-bottom: 2px solid #e6dcc1;
+    padding-bottom: 15px;
+    padding-right: 0;
+  }
+  
+  .review-image-container {
+    max-width: 100%;
+    height: 200px;
+  }
+}

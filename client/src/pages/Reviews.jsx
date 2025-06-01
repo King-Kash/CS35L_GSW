@@ -25,6 +25,14 @@ export default function Reviews() {
     navigate('/add-review');
   };
 
+  const handleViewLocation = (locationId) => {
+    if (locationId) {
+      navigate(`/location-view/${locationId}`);
+    } else {
+      alert('Location ID not available');
+    }
+  };
+
   // Fetch reviews from the backend
   useEffect(() => {
     const fetchReviews = async () => {
@@ -285,7 +293,12 @@ export default function Reviews() {
                         <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
                       ))}
                     </div>
-                    <button className="view-location-button" onClick={() => handleViewLocation(normalizedReview.locationId)} > View Location </button>
+                    <button 
+                        className="view-location-button"
+                        onClick={() => handleViewLocation(normalizedReview.locationId)}
+                      >
+                        View Location
+                      </button>
                   </div>
                   
                   <div className="review-main-content">
