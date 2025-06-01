@@ -22,15 +22,7 @@ export default function Reviews() {
 
   // Handle navigation to add review page
   const handleAddReview = () => {
-    navigate('/locations');
-  };
-
-  const handleViewLocation = (locationId) => {
-    if (locationId) {
-      navigate(`/location-view/${locationId}`);
-    } else {
-      alert('Location ID not available');
-    }
+    navigate('/add-review');
   };
 
   // Fetch reviews from the backend
@@ -122,19 +114,16 @@ export default function Reviews() {
     },
   ];
 
-  const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-
   // Normalize review object based on whether it's from the backend or sample data
   const normalizeReview = (review) => {
     return {
       id: review._id || review.id,
       username: review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
-      locationId: review.location?._id,
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
-      image: review.image || DEFAULT_IMAGE,
+      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
       tags: review.tags || []
     };
   };
@@ -266,32 +255,44 @@ export default function Reviews() {
           ) : reviews.length === 0 ? (
             <p className="no-reviews">No reviews match your filters.</p>
           ) : (
-            <div className="reviews-list">
-              {reviews.map(review => {
-                const normalizedReview = normalizeReview(review);
-                return (
-                  <div key={normalizedReview.id} className="review-card">
-                    <div className="review-info">
-                      <h3 className="review-location">{normalizedReview.locationName}</h3>
-                      <span className="review-username">by {normalizedReview.username}</span>
-                      <span className="review-city-state">{normalizedReview.cityState}</span>
-                      <div className="review-rating">
-                        {Array(5).fill().map((_, i) => (
-                          <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
+          <div className="reviews-list">
+            {reviews.map(review => {
+              const normalizedReview = normalizeReview(review);
+              return (
+                <div key={normalizedReview.id} className="review-card">
+                  <div className="review-info">
+                    <h3 className="review-location">{normalizedReview.locationName}</h3>
+                    <span className="review-username">by {normalizedReview.username}</span>
+                    <span className="review-city-state">{normalizedReview.cityState}</span>
+                    
+                    {/* Tags moved here - between username and rating */}
+                    {normalizedReview.tags && normalizedReview.tags.length > 0 && (
+                      <div className="review-tags">
+                        {normalizedReview.tags.map(tag => (
+                          <span 
+                            key={tag} 
+                            className="review-tag"
+                            onClick={() => setTagFilter(tag === tagFilter ? '' : tag)}
+                          >
+                            {tag}
+                          </span>
                         ))}
                       </div>
-                      <button 
-                        className="view-location-button"
-                        onClick={() => handleViewLocation(normalizedReview.locationId)}
-                      >
-                        View Location
-                      </button>
-                    </div>
+                    )}
                     
-                    <div className="review-main-content">
-                      <div className="review-content">
-                        <p>{normalizedReview.content}</p>
-                        <span className="review-date">{new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
+                    <div className="review-rating">
+                      {Array(5).fill().map((_, i) => (
+                        <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
+                      ))}
+                    </div>
+                    <button className="view-location-button" onClick={() => handleViewLocation(normalizedReview.locationId)} > View Location </button>
+                  </div>
+                  
+                  <div className="review-main-content">
+                    <div className="review-content">
+                      <p>{normalizedReview.content}</p>
+                      <span className="review-date">
+                        {new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric'
