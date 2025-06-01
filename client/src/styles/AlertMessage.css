@@ -1,5 +1,5 @@
 .alert-box {
-  height: 300px;
+  height: 250px;
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
 }
 
 .alert-msg {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 
 .close-btn {
@@ -44,7 +44,7 @@
   border: none;
   color: white;
   font-size: 15px;
-  margin-top: 50px;
+  margin-top: 40px;
   transition: 0.2s
 }
 
