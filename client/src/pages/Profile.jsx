@@ -59,6 +59,7 @@ export default function Profile() {
             const formData = new FormData();
             formData.append('image', file);
 
+            // First, upload the image to Google Cloud Storage
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/profile`, {
                 method: 'POST',
                 body: formData
@@ -66,11 +67,22 @@ export default function Profile() {
 
             const data = await response.json();
             if (data.imageUrl) {
-                // Update the user state with the new image URL
-                setUser(prevUser => ({
-                    ...prevUser,
-                    profilePicture: data.imageUrl
-                }));
+                // Then, update the user's profile picture in the database
+                const updateResponse = await axios.put(
+                    `${import.meta.env.VITE_API_URL}/users/profile-picture`,
+                    { profilePicture: data.imageUrl },
+                    { withCredentials: true }
+                );
+
+                if (updateResponse.data) {
+                    // Update the user state with the new image URL
+                    setUser(prevUser => ({
+                        ...prevUser,
+                        profilePicture: data.imageUrl
+                    }));
+                } else {
+                    throw new Error('Failed to update profile picture in database');
+                }
             } else {
                 throw new Error('Failed to get image URL from response');
             }

@@ -13,7 +13,7 @@ initializePassport(
 
 
 const login = (req, res, next) => {
-  // 1) Tell Passport to run its “local” strategy on this request,
+  // 1) Tell Passport to run its "local" strategy on this request,
   //    but give us a custom callback to handle the outcome:
   passport.authenticate('local', (err, user, info) => {
     
@@ -22,16 +22,16 @@ const login = (req, res, next) => {
     
     // 3) Did the credentials fail (wrong email/password)?
     //    In that case, `user` will be falsey, and `info.message`
-    //    holds the “why” (e.g. “Password incorrect”).
+    //    holds the "why" (e.g. "Password incorrect").
     if (!user) return res.status(401).json({ error: info.message });
 
     // 4) Credentials were valid! Now we ask Passport to
-    //    “log in” this user—i.e. establish a session cookie.
+    //    "log in" this user—i.e. establish a session cookie.
     req.logIn(user, err => {
       if (err) return next(err);
 
-      // 5) Finally, send back JSON with the user’s basic info.
-      //    This signals to the React front end “you’re now logged in.”
+      // 5) Finally, send back JSON with the user's basic info.
+      //    This signals to the React front end "you're now logged in."
       return res.json({
         user: { id: user.id, name: user.name, email: user.email }
       });
@@ -61,8 +61,37 @@ const signup = async (req, res) => {
     }
 }
 
+const updateProfilePicture = async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) {
+            return res.status(401).json({ error: 'Not authenticated' });
+        }
+
+        const { profilePicture } = req.body;
+        if (!profilePicture) {
+            return res.status(400).json({ error: 'Profile picture URL is required' });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            { profilePicture },
+            { new: true }
+        ).select('-password');
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(updatedUser);
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        res.status(500).json({ error: 'Failed to update profile picture' });
+    }
+};
+
 export {
     login,
     signup,
+    updateProfilePicture
 }
 
