@@ -19,15 +19,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/reviews" element={<Reviews />} />
-        <Route path="/map" element={
-            <MapView />
-          }/>
+        <Route path="/map" element={<MapView />}/>
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/locations" element={<Locations />} />
         <Route path="/location-view/:locationId" element={<LocationView />} />
-        <Route path="/review" element={<Review />} />
+        <Route path="/review" element={<ProtectedRoute><Review /></ProtectedRoute>} />
       </Routes>
       </AuthProvider>
 
