@@ -76,7 +76,7 @@ export default function LocationView() {
                 <div className="location-view-container">
                     <div className="error">
                         <p>Error: {error || 'Location not found'}</p>
-                        <button onClick={goBack}>← Back to All Locations</button>
+                        <button onClick={goBack}>← Go Back</button>
                     </div>
                 </div>
             </div>

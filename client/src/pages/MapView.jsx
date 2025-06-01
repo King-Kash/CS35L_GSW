@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import '../styles/MapView.css';
 import LocationViewModal from '../components/LocationViewModal';
 import NavBar from '../components/NavBar';
+import { AuthContext } from '../AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 // Sample study spots data - you can replace this with data from your backend
 const studySpots = [
@@ -47,6 +49,18 @@ export default function MapView() {
     const [newSpotRating, setNewSpotRating] = useState(0);
     const [imagePreview, setImagePreview] = useState(null);
     const [addError, setAddError] = useState('')
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { checkAuth } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+      const verifyAuth = async () => {
+        const success = await checkAuth();
+        setIsAuthenticated(!!success);
+      };
+
+      verifyAuth();
+    }, [checkAuth]);
 
     useEffect(() => {
         isAddModeRef.current = isAddMode;
@@ -203,7 +217,7 @@ export default function MapView() {
             console.log('Created a new temporary marker');
             tempMarkerRef.current = marker;
             setSelectedSpot({
-                id: Date.now(), // Temporary ID
+                _id: Date.now(), // Temporary ID
                 name: '',
                 location: { lat: e.latLng.lat(), lng: e.latLng.lng() },
                 rating: 0,
@@ -280,7 +294,7 @@ export default function MapView() {
     };
     
 
-    const handleAddSpot = () => {
+    const handleAddSpot = async () => {
         if (!selectedSpot || !newSpotName) {
           if (!newSpotName) {
             setAddError("Study spot name required")
@@ -318,7 +332,7 @@ export default function MapView() {
               title: newSpot.name,
               draggable: false
           });
-          addSpotToDatabase(newSpot)
+          const dbSpot = await addSpotToDatabase(newSpot)
             /*new window.google.maps.Marker({
                 position: newSpot.location,
                 map: mapInstanceRef.current,
@@ -359,8 +373,7 @@ export default function MapView() {
                 // Open this marker's info window
                 //infoWindow.open(mapInstanceRef.current, marker);
                 setShowLocationView(true)
-                setSelectedSpot(newSpot);
-          
+                setSelectedSpot(dbSpot);
             });
 
             // Store marker and its info window
@@ -370,7 +383,7 @@ export default function MapView() {
             // Reset form
             setNewSpotName('');
             setNewSpotDescription('');
-            setSelectedSpot(newSpot);
+            setSelectedSpot(dbSpot);
 
             setNewSpotImage(null);
             setNewSpotRating(0);
@@ -502,6 +515,9 @@ export default function MapView() {
                         className={`mode-toggle ${isAddMode ? 'active' : ''}`}
                         onClick={(e) => {
                             e.preventDefault();
+                            if (!isAuthenticated) {
+                              navigate('/login')
+                            }
                             console.log('Mode toggle button clicked. Current mode:', isAddMode);
                             toggleMode();
                             setShowLocationView(false)
