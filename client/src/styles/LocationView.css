@@ -18,7 +18,7 @@
   max-width: 100%;
   width: 100%;
   min-height: calc(100vh - 80px);
-  background: white;
+  background: #f0ead9 !important;
   padding: 40px;
   border-radius: 0;
   box-shadow: none;
