@@ -155,3 +155,33 @@
   height: 160px !important;
   min-height: 160px !important;
 }
+
+/* Pin button container styles for LocationView */
+.location-view-page .pin-button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make the pin button larger and more prominent in LocationView */
+.location-view-page .pin-button.large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .location-top-part-2 {
+    flex-direction: column;
+  }
+  
+  .location-image-2,
+  .right-part {
+    max-width: 100%;
+  }
+  
+  .location-view-page .pin-button-container {
+    justify-content: center;
+    margin-top: 15px;
+  }
+}

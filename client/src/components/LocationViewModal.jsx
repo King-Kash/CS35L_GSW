@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/LocationViewModal.css';
+import PinButton from './PinButton';
 
 export default function LocationViewModal({ selectedSpot, setShowLocationView }) {
     const navigate = useNavigate();
@@ -62,6 +63,9 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                             </div>
                             <div className="rating-info">
                                 <div className="label">{label}</div>
+                            </div>
+                            <div className="pin-button-container">
+                                <PinButton locationId={processedSpot._id} className="large" />
                             </div>
                         </div>
                     </div>

@@ -17,6 +17,7 @@ import reviewRoutes from "./routers/review_router.js";
 import locationRoutes from './routers/location_router.js';
 import imageRoutes from './routers/image_router.js';
 import searchRoutes from './routers/search_router.js';
+import pinsRoutes from './routers/pins_router.js';
 
 
 const app = express();
@@ -95,8 +96,8 @@ app.use(express.json()); // Middleware to parse JSON
 app.use("/reviews", reviewRoutes); // Add review routes at /reviews
 app.use("/locations", locationRoutes); // Add location routes at /locations
 app.use('/api/images', imageRoutes);
-app.use("/search", searchRoutes); // Add search routes at /search
-app.use("/recommendations", checkAuthenticated, searchRoutes); // Add recommendations routes with auth
+app.use("/search", searchRoutes); // Add search routes at /search (includes recommendations)
+app.use("/pins", pinsRoutes); // Add pins routes at /pins
 
 // app.get("/posts", checkAuthenticated, (req,res) => {
 //     res.json(posts)

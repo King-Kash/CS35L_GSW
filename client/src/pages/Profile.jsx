@@ -4,6 +4,7 @@ import '../styles/Profile.css';
 import NavBar from '../components/NavBar';
 import { AuthContext } from '../AuthContext';
 import axios from 'axios';
+import PinnedLocations from '../components/PinnedLocations';
 
 const API_URL = 'http://localhost:5000';
 
@@ -115,6 +116,7 @@ export default function Profile() {
   const handleLogout = async () => {
     // For now, just navigate to the login page
     try {
+      alert("Logout clicked");
       await axios.delete(
         'http://localhost:3000/logout',
         {
@@ -228,6 +230,8 @@ export default function Profile() {
               </div>
             )}
           </div>
+          
+          <PinnedLocations />
         </div>
       </div>
     </div>

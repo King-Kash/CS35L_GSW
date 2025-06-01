@@ -81,7 +81,17 @@ const userSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
-    }
+    },
+    pinnedLocations: [{
+        location: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Location'
+        },
+        pinnedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }]
 }, {
     timestamps: true // createdAt, updatedAt
 });

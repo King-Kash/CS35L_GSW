@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../styles/LocationView.css';
 import NavBar from '../components/NavBar';
+import PinButton from '../components/PinButton';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -102,8 +103,6 @@ export default function LocationView() {
         rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
     };
 
-    console.log(processedSpot.reviews)
-
     return (
         <div className="location-view-page">
             <NavBar />
@@ -140,6 +139,9 @@ export default function LocationView() {
                         <button className="reviews-button-2" onClick={goToReviews}>
                             Write a Review
                         </button>
+                        <div className="pin-button-container">
+                            <PinButton locationId={processedSpot._id} className="large" />
+                        </div>
                       </div>
                     </div>
                     <div className="reviews-section">
