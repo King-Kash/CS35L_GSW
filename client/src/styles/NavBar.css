@@ -184,7 +184,7 @@
   flex-shrink: 0; /* Prevent auth buttons from shrinking */
 }
 
-.log-btn, .reg-btn {
+.log-btn, .reg-btn, .profile-btn {
   text-decoration: none;
   padding: clamp(3px, 1vw, 6px) clamp(6px, 2vw, 12px);
   border-radius: 0; /* Remove border radius for seamless connection */
@@ -222,6 +222,22 @@
 }
 
 .reg-btn:hover {
+  background-color: #f9da9d;
+  border-color: #f9da9d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
+}
+
+.profile-btn {
+  color: white;
+  border: 2px solid white;
+  background-color: transparent;
+  border-radius: 6px 6px;
+  /* Round only left corners */
+}
+
+.profile-btn:hover {
   background-color: #f9da9d;
   border-color: #f9da9d;
   transform: translateY(-1px);

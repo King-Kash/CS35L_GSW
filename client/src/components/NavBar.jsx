@@ -4,6 +4,8 @@ import DropdownInput from './DropdownInput';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
+import { AuthContext } from '../AuthContext';
+import { useContext } from 'react';
 
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +17,9 @@ export default function Navbar() {
   const [highlightedTagIndex, setHighlightedTagIndex] = useState(-1); // Track the highlighted item
   const [width, setWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
+    const { checkAuth } = useContext(AuthContext);
+  const isAuthenticated = checkAuth()
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -196,12 +201,18 @@ export default function Navbar() {
         <button className="search-button" onClick={handleSearchButtonClick}>
             <FaSearch />
         </button>
-      </div>}
-      {/* Login/Register Buttons */}
-      <div className="auth-buttons">
-        <Link to="/login" className="log-btn">Login</Link>
-        <Link to="/signup" className="reg-btn">Register</Link>
-      </div>
+        </div>}
+        {/* Login/Register Buttons */}
+        <div className="auth-buttons">
+              {!user ? (
+                <>
+                  <Link to="/login" className="log-btn">Login</Link>
+                  <Link to="/signup" className="reg-btn">Register</Link>
+                </>
+              ) : (
+                  <Link to="/profile" className="profile-btn">Profile</Link>
+              )}
+        </div>
     </nav>
   );
 }

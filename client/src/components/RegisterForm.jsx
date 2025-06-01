@@ -30,31 +30,33 @@ const RegisterForm = () => {
     }
 
   return (
-    <div className='wrapper'>
-        <form onSubmit={handleSubmit}>
-            <h1 className='poppins-bold'>Register</h1>
+    <div className='login-page'>
+        <div className='wrapper'>
+            <form onSubmit={handleSubmit}>
+                <h1 className='poppins-bold'>Register</h1>
 
-            <div className='input-box'>
-                <input type="text" name="name" placeholder='Name' required className='poppins-regular' value={name} onChange={e => setName(e.target.value)}/>
-                <FaUser className='icon'/>
-            </div>
-            <div className='input-box'>
-                <input type="text" name="email" placeholder='Email' required className='poppins-regular' value={email} onChange={e => setEmail(e.target.value)}/>
-                <FaUser className='icon'/>
-            </div>
-            <div className='input-box'>
-                <input type="password" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
-                <FaLock className='icon'/>
-            </div>
+                <div className='input-box'>
+                    <input type="text" name="name" placeholder='Name' required className='poppins-regular' value={name} onChange={e => setName(e.target.value)}/>
+                    <FaUser className='icon'/>
+                </div>
+                <div className='input-box'>
+                    <input type="text" name="email" placeholder='Email' required className='poppins-regular' value={email} onChange={e => setEmail(e.target.value)}/>
+                    <FaUser className='icon'/>
+                </div>
+                <div className='input-box'>
+                    <input type="text" name="password" placeholder='Password' required className='poppins-regular' value={password} onChange={e => setPassword(e.target.value)}/>
+                    <FaLock className='icon'/>
+                </div>
 
-            <button type="submit">Register</button>
+                <button type="submit">Register</button>
 
-            {error && <div className="poppins-regular" style={{paddingTop: '1rem'}} >{error}</div>}
+                {error && <div className="poppins-regular" style={{paddingTop: '1rem'}} >{error}</div>}
 
-            <div className='register-link'>
-                <p className='poppins-regular'>Have an account? <a href="/login">Login</a></p>
-            </div>
-        </form>
+                <div className='register-link'>
+                    <p className='poppins-regular'>Have an account? <a href="/login">Login</a></p>
+                </div>
+            </form>
+        </div>     
     </div>
   )
 }
