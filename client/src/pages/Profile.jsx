@@ -6,30 +6,20 @@ import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 import PinnedLocations from '../components/PinnedLocations';
 
-const API_URL = 'http://localhost:5000';
-
 export default function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const { user, setUser, checkAuth, loading } = useContext(AuthContext);
-  console.log("user from context:", user);
-  const [ reviews, setReviews ] = useState([]);
-
+  const { user, setUser, checkAuth } = useContext(AuthContext);
+  const [reviews, setReviews] = useState([]);
 
   const filterReviews = async () => {
     try {
       const res = await axios.get('http://localhost:3000/reviews/', {
         withCredentials: true
       });
-      console.log(res.data);
-      const allReviews = res.data;
-  
-      const userReviews = allReviews.filter(review => (
+      const userReviews = res.data.filter(review => 
         String(review.user._id) === user.id
-      ));
-      console.log(res.data);
-  
-  
+      );
       setReviews(userReviews);
     } catch (error) {
       console.error("Failed to fetch reviews", error);
@@ -42,71 +32,57 @@ export default function Profile() {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-        // Check if the file is an image
-        if (!file.type.startsWith('image/')) {
-            alert('Please select an image file');
-            return;
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size should be less than 5MB');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/profile`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (data.imageUrl) {
+        const updateResponse = await axios.put(
+          `${import.meta.env.VITE_API_URL}/users/profile-picture`,
+          { profilePicture: data.imageUrl },
+          { withCredentials: true }
+        );
+
+        if (updateResponse.data) {
+          setUser(prevUser => ({
+            ...prevUser,
+            profilePicture: data.imageUrl
+          }));
         }
-
-        // Check file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('File size should be less than 5MB');
-            return;
-        }
-
-        try {
-            const formData = new FormData();
-            formData.append('image', file);
-
-            // First, upload the image to Google Cloud Storage
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/images/profile`, {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data.imageUrl) {
-                // Then, update the user's profile picture in the database
-                const updateResponse = await axios.put(
-                    `${import.meta.env.VITE_API_URL}/users/profile-picture`,
-                    { profilePicture: data.imageUrl },
-                    { withCredentials: true }
-                );
-
-                if (updateResponse.data) {
-                    // Update the user state with the new image URL
-                    setUser(prevUser => ({
-                        ...prevUser,
-                        profilePicture: data.imageUrl
-                    }));
-                } else {
-                    throw new Error('Failed to update profile picture in database');
-                }
-            } else {
-                throw new Error('Failed to get image URL from response');
-            }
-        } catch (error) {
-            console.error('Error uploading profile picture:', error);
-            alert('Failed to upload profile picture');
-        }
+      }
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      alert('Failed to upload profile picture');
     }
   };
 
   const handleLogout = async () => {
     // For now, just navigate to the login page
     try {
-      alert("Logout clicked");
-      await axios.delete(
-        'http://localhost:3000/logout',
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.delete('http://localhost:3000/logout', {
+        withCredentials: true,
+      });
       navigate('/');
       await checkAuth();
-    }
-    catch (err) {
+    } catch (err) {
       console.error("Logout Failed:", err);
     }
   };
