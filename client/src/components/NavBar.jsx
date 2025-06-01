@@ -133,7 +133,6 @@ export default function Navbar() {
     .filter((tag) => !selectedTags.includes(tag)) // Exclude selected tags
     .filter((tag) => tag.toLowerCase().includes(tagInput.toLowerCase())); // Filter based on input
 
-  console.log(width)
   return (
     <nav className="navbar">
       <div className="nav-links">

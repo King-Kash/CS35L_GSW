@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Locations.css';
 import NavBar from '../components/NavBar';
+import { AuthContext } from '../AuthContext';
+import AlertMessage from '../components/AlertMessage';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,9 +12,12 @@ const Review = () => {
   const location = useLocation();
   const locationData = location.state?.location;
 
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(1);
   const [contents, setContents] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [alert, setAlert] = useState(null);
+
+  const { checkAuth } = useContext(AuthContext);
 
   // Redirect if no location data is provided
   if (!locationData) {
@@ -28,9 +33,8 @@ const Review = () => {
       return;
     }
 
-    // Get user token from localStorage (assuming authentication is implemented)
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
+    const isAuthenticated = await checkAuth();
+    if (!isAuthenticated) {
       alert('Please log in to submit a review.');
       return;
     }
@@ -41,19 +45,18 @@ const Review = () => {
       const response = await fetch(API_URL + '/reviews/addReview', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           rating,
           contents,
-          location: locationData._id
+          location: locationData._id,
+          user: isAuthenticated.id,
         })
       });
 
       if (response.ok) {
-        alert('Review submitted successfully!');
-        navigate('/locations');
+        setAlert({ message: 'Your review has been posted! We appreciate your feedback', type: 'success' });
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message || 'Failed to submit review'}`);
@@ -85,6 +88,16 @@ const Review = () => {
   return (
     <div className="locations-page">
       <NavBar />
+      {alert && (
+        <AlertMessage
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            navigate('/locations');
+          }} 
+        />
+      )}
       <div className="review-form">
         <button className="back-button" onClick={handleBack}>
           ← Back
