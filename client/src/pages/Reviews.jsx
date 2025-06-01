@@ -20,7 +20,15 @@ export default function Reviews() {
 
   // Handle navigation to add review page
   const handleAddReview = () => {
-    navigate('/add-review');
+    navigate('/locations');
+  };
+
+  const handleViewLocation = (locationId) => {
+    if (locationId) {
+      navigate(`/location-view/${locationId}`);
+    } else {
+      alert('Location ID not available');
+    }
   };
 
   // Fetch reviews from the backend
@@ -103,6 +111,7 @@ export default function Reviews() {
       id: review._id || review.id,
       username: review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
+      locationId: review.location?._id,
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
@@ -235,6 +244,12 @@ export default function Reviews() {
                           <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
                         ))}
                       </div>
+                      <button 
+                        className="view-location-button"
+                        onClick={() => handleViewLocation(normalizedReview.locationId)}
+                      >
+                        View Location
+                      </button>
                     </div>
                     
                     <div className="review-main-content">

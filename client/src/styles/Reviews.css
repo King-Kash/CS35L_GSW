@@ -376,4 +376,30 @@ body, #root, .app {
     }
   }
 
+  /* View Location Button */
+  .view-location-button {
+    margin-top: 15px;
+    padding: 10px 16px;
+    background-color: #938878;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .view-location-button:hover {
+    background-color: #7a6e5e;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .view-location-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
   
