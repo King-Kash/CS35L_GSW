@@ -22,6 +22,7 @@ export function AuthProvider({children}) {
             );
             if (authStatus.data.user) {
                 setUser(authStatus.data.user);
+                return authStatus.data.user;
             }
             else {
                 setUser(null);

@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../AuthContext'
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const LoginForm = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -16,14 +18,14 @@ const LoginForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:3000/users/login',
+                API_URL + '/users/login',
                 {email, password},
                 {
                     withCredentials: true
                 }
             );
             const reps2 = await axios.get(
-                'http://localhost:3000/api/auth/status',
+                API_URL + '/api/auth/status',
                 {
                     withCredentials: true
                 }
@@ -32,7 +34,7 @@ const LoginForm = () => {
                 console.log('Logged in user:', reps2.data)
             }
             else {
-                console.warn('Login succeedd but /api/auth/status said unauthenticated.')
+                console.warn('Login succeeded but /api/auth/status said unauthenticated.')
             }
             await checkAuth()
             navigate('/')
