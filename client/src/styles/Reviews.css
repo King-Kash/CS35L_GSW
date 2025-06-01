@@ -390,7 +390,7 @@ body, #root, .app {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    width: 160px;
   }
 
   .view-location-button:hover {
