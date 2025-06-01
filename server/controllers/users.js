@@ -43,7 +43,6 @@ const login = (req, res, next) => {
 };
 
 
-/* TODO */
 const signup = async (req, res) => {
     try {
         const existingUser = await User.findOne({email: req.body.email})

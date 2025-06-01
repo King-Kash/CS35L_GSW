@@ -22,9 +22,9 @@ function initialize(passport) {
     }
     passport.use(new LocalStrategy({usernameField: 'email', passwordField: 'password'}, authenticateUser))
     passport.serializeUser((user, done) => done(null, user.id))    
-    passport.deserializeUser((id, done) => {
+    passport.deserializeUser(async (id, done) => {
             try {
-                const user = User.findById(id).select('-password') //prevents password from getting exposed
+                const user = await User.findById(id).select('-password') //prevents password from getting exposed
                 return done(null, user) //might have to change this
             } catch (error) {
                 return done(error);

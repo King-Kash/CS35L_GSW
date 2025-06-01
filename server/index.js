@@ -31,6 +31,13 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //only for .ejs file
 
+
+//cors
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true //needed for cookies to go back and forth
+}));
+
 //passport sessions configuration
 app.use(flash()) //used by passport.js
 //This sets up express sessions (cookies)
@@ -45,18 +52,23 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
 
-//cors
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true //needed for cookies to go back and forth
-}));
+
 
 //called mounting
 //any time /user is appeneded to route, the routes specfically within userRouter can be used.
 app.use("/users", userRouter);
-app.get("/", checkAuthenticated, (req, res) => {
-    res.render('index.ejs', {name: req.user.name})
+//or you can just define the route and the function in index.js
+app.get("/api/auth/status", (req, res) => {
+    if(req.isAuthenticated())
+    {
+        res.status(200).json({authenticated: true, user: {name: req.user.name, id: req.user.id}})
+    } 
+    else
+    {
+        res.status(401).json({authenticated: false})
+    }
 });
+
 app.delete('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) {
@@ -69,11 +81,12 @@ app.use(express.json()); // Middleware to parse JSON
 app.use("/reviews", reviewRoutes); // Add review routes at /reviews
 app.use("/locations", locationRoutes); // Add location routes at /locations
 
-app.get("/posts", checkAuthenticated, (req,res) => {
-    res.json(posts)
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-    res.json({accessToken: accessToken}) //access token has user information saved in it
-});
+// app.get("/posts", checkAuthenticated, (req,res) => {
+//     res.json(posts)
+//     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+//     res.json({accessToken: accessToken}) //access token has user information saved in it
+// });
+
 
 
 //establish connection
