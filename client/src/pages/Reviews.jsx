@@ -22,7 +22,15 @@ export default function Reviews() {
 
   // Handle navigation to add review page
   const handleAddReview = () => {
-    navigate('/add-review');
+    navigate('/locations');
+  };
+
+  const handleViewLocation = (locationId) => {
+    if (locationId) {
+      navigate(`/location-view/${locationId}`);
+    } else {
+      alert('Location ID not available');
+    }
   };
 
   // Fetch reviews from the backend
@@ -122,6 +130,7 @@ export default function Reviews() {
       id: review._id || review.id,
       username: review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
+      locationId: review.location?._id,
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
@@ -257,43 +266,32 @@ export default function Reviews() {
           ) : reviews.length === 0 ? (
             <p className="no-reviews">No reviews match your filters.</p>
           ) : (
-          <div className="reviews-list">
-            {reviews.map(review => {
-              const normalizedReview = normalizeReview(review);
-              return (
-                <div key={normalizedReview.id} className="review-card">
-                  <div className="review-info">
-                    <h3 className="review-location">{normalizedReview.locationName}</h3>
-                    <span className="review-username">by {normalizedReview.username}</span>
-                    <span className="review-city-state">{normalizedReview.cityState}</span>
-                    
-                    {/* Tags moved here - between username and rating */}
-                    {normalizedReview.tags && normalizedReview.tags.length > 0 && (
-                      <div className="review-tags">
-                        {normalizedReview.tags.map(tag => (
-                          <span 
-                            key={tag} 
-                            className="review-tag"
-                            onClick={() => setTagFilter(tag === tagFilter ? '' : tag)}
-                          >
-                            {tag}
-                          </span>
+            <div className="reviews-list">
+              {reviews.map(review => {
+                const normalizedReview = normalizeReview(review);
+                return (
+                  <div key={normalizedReview.id} className="review-card">
+                    <div className="review-info">
+                      <h3 className="review-location">{normalizedReview.locationName}</h3>
+                      <span className="review-username">by {normalizedReview.username}</span>
+                      <span className="review-city-state">{normalizedReview.cityState}</span>
+                      <div className="review-rating">
+                        {Array(5).fill().map((_, i) => (
+                          <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
                         ))}
                       </div>
-                    )}
-                    
-                    <div className="review-rating">
-                      {Array(5).fill().map((_, i) => (
-                        <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
-                      ))}
+                      <button 
+                        className="view-location-button"
+                        onClick={() => handleViewLocation(normalizedReview.locationId)}
+                      >
+                        View Location
+                      </button>
                     </div>
-                  </div>
-                  
-                  <div className="review-main-content">
-                    <div className="review-content">
-                      <p>{normalizedReview.content}</p>
-                      <span className="review-date">
-                        {new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
+                    
+                    <div className="review-main-content">
+                      <div className="review-content">
+                        <p>{normalizedReview.content}</p>
+                        <span className="review-date">{new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric'

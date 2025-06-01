@@ -1,10 +1,6 @@
 .navbar {
-  background-color: #978080;
-<<<<<<< HEAD
-  padding: clamp(0.25rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
-=======
+  background-color: #875050; /* #978080 */
   padding: clamp(1rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -18,17 +14,14 @@
   gap: clamp(0.25rem, 5vw, 6rem); /* Responsive gap */
   flex-shrink: 1; /* Allow nav links to shrink */
   align-items: center;
-<<<<<<< HEAD
-=======
   margin-right: 1rem;
   margin-left: 1rem;
   height: 2.65rem;
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
 }
 
 .nav-link {
   text-decoration: none;
-  color: #333;
+  color: #ffffff; /* #333 */
   font-weight: 500;
   font-size: clamp(0.75rem, 2.5vw, 1.25rem); /* Responsive font size */
   transition: color 0.3s, font-size 0.3s; /* Smooth transitions */
@@ -39,7 +32,8 @@
 }
 
 .nav-link:hover {
-  color: #85c0ff;
+  /*color: #85c0ff;*/
+  color: rgba(254, 245, 222, 0.9)
 }
 
 .search-tag-container {
@@ -63,9 +57,12 @@
   justify-content: center;
   height: 2.5rem; /* Match the height of search and tag wrappers */
   border-radius: 0; /* Remove border radius to connect with inputs */
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .search-button:hover {
   background-color: #0056b3;
+  border-color: #0056b3; 
 }
 
 .divider {
@@ -89,11 +86,7 @@
   min-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
-<<<<<<< HEAD
-  width: clamp(60px, 15vw, 200px); /* Smoothly scales with viewport */
-=======
   width: clamp(300px, 15vw, 500px); /* Smoothly scales with viewport */
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   flex-shrink: 1;
 }
 
@@ -109,11 +102,7 @@
   max-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
-<<<<<<< HEAD
-  width: clamp(120px, 25vw, 400px); /* Smoothly scales with viewport */
-=======
   width: clamp(0px, 20vw, 225px); /* Smoothly scales with viewport */
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   flex-shrink: 1;
   overflow-x: auto;
   overflow-y: hidden;
@@ -198,7 +187,7 @@
   padding: clamp(3px, 1vw, 6px) clamp(6px, 2vw, 12px);
   border-radius: 0; /* Remove border radius for seamless connection */
   font-weight: 500;
-  font-size: 0.85rem; /* Slightly smaller font */
+  font-size: 1rem; /* Slightly smaller font */
   transition: all 0.3s ease;
   text-align: center;
   min-width: clamp(40px, 8vw, 60px);
@@ -207,29 +196,33 @@
 }
 
 .log-btn {
-  color: #333;
-  border: 2px solid #333;
+  color: white;
+  border: 2px solid white;
   background-color: transparent;
   border-radius: 6px 0 0 6px; /* Round only left corners */
-  border-right: 1px solid #333; /* Thinner right border */
+  border-right: 0px; /* Thinner right border */
 }
 
 .log-btn:hover {
-  background-color: #333;
-  color: white;
+  background-color: #f9da9d;
+  border-color: #f9da9d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
 }
 
 .reg-btn {
-  color: white;
-  background-color: #007bff;
-  border: 2px solid #007bff;
+  color: black;
+  background-color: rgba(254, 245, 222, 0.9);
+  border: 2px solid rgba(254, 245, 222, 0.9);
   border-radius: 0 6px 6px 0; /* Round only right corners */
   border-left: none; /* Remove left border to eliminate double border */
 }
 
 .reg-btn:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: #f9da9d;
+  border-color: #f9da9d;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
 }

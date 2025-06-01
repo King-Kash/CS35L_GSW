@@ -200,8 +200,8 @@ export default function Navbar() {
       </div>}
       {/* Login/Register Buttons */}
       <div className="auth-buttons">
-        <Link to="/login" className="log-btn">LOGIN</Link>
-        <Link to="/signup" className="reg-btn">REGISTER</Link>
+        <Link to="/login" className="log-btn">Login</Link>
+        <Link to="/signup" className="reg-btn">Register</Link>
       </div>
     </nav>
   );

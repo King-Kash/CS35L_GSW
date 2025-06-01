@@ -16,7 +16,7 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
     }
 
     const goToLocationPage = () => {
-        navigate('/location-view', { state: { location: selectedSpot } });
+        navigate(`/location-view/${selectedSpot._id}`);
     }
 
     const closeModal = () => {

@@ -29,10 +29,7 @@ const studySpots = [
 ];
 
 export default function MapView() {
-<<<<<<< HEAD
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
-=======
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const [map, setMap] = useState(null);

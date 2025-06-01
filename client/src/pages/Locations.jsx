@@ -35,7 +35,7 @@ const LocationSelector = () => {
   );
 
   const handleLocationSelect = (location) => {
-    navigate('/location-view', { state: { location } });
+    navigate(`/location-view/${location._id}`);
   };
 
   const handleImageError = (e) => {
@@ -49,7 +49,7 @@ const LocationSelector = () => {
 
   return (
     <div className="location-selector">
-      <h1>Select a Location to View</h1>
+      <h1>Select a Location Explore or Review</h1>
       <div className="search-container">
         <input
           type="text"
