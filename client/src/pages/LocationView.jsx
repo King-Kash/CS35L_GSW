@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import '../styles/LocationView.css';
 import NavBar from '../components/NavBar';
+import PinButton from '../components/PinButton';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,6 +16,19 @@ export default function LocationView() {
     const [selectedSpot, setSelectedSpot] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const normalizeReview = (review) => {
+      return {
+        id: review._id || review.id,
+        username: review.user?.username || review.user?.name || review.username,
+        locationName: review.location?.name || review.locationName,
+        locationId: review.location?._id,
+        rating: review.rating,
+        content: review.contents || review.content,
+        createdAt: review.timestamp || review.createdAt,
+        image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      };
+    };
 
     useEffect(() => {
         const fetchLocation = async () => {
@@ -80,7 +94,7 @@ export default function LocationView() {
                 <div className="location-view-container">
                     <div className="error">
                         <p>Error: {error || 'Location not found'}</p>
-                        <button onClick={goBack}>← Back to All Locations</button>
+                        <button onClick={goBack}>← Go Back</button>
                     </div>
                 </div>
             </div>
@@ -93,55 +107,98 @@ export default function LocationView() {
         rating: parseFloat(selectedSpot.rating?.$numberDecimal ?? selectedSpot.rating),
     };
 
-    let label;
-    if (selectedSpot.reviews?.length == 0 || !selectedSpot.reviews) {
-      label = "No Reviews Yet"
-    }
-    if (selectedSpot.reviews?.length > 0 && selectedSpot.reviews?.length < 5) {
-      label = "Underground Spot"
-    }
-    if (selectedSpot.reviews?.length > 5) {
-      label = "Popular Spot"
-    }
-
     return (
         <div className="location-view-page">
             <NavBar />
             <div className="location-view-container">
-                <div className="location-view">
+                <div className="location-view-2">
                     <button className="back-button" onClick={goBack}>
                         ← Back
                     </button>
-                    <h1>{processedSpot.name}</h1>
-                    <div className="location-image">
-                        <img 
+                    
+                    <h1 className="location-view-title">{processedSpot.name}</h1>
+                    
+                    <div className="location-top-part-2">
+                      <div className="location-image-2">
+                          <img 
                             src={processedSpot.image || DEFAULT_IMAGE} 
                             alt={processedSpot.name}
                             onError={(e) => {
                                 e.target.onerror = null; // Prevent infinite loops
                                 e.target.src = DEFAULT_IMAGE;
                             }}
-                        />
+                          />
+                      </div>
+                      
+                      <div className="right-part">
+                        <p className="location-description-2">{processedSpot.description || "No description available."}</p>
+                        
+                        <div className="rating">
+                            {processedSpot.reviews?.length === 0 ? (
+                                <span>Be the first to review this study spot!</span>
+                            ) : (
+                                <>
+                                    <span>Rating: </span>
+                                    {[...Array(5)].map((_, i) => (
+                                        <span key={i} style={{ color: i < processedSpot.rating ? "#FFD700" : "#ccc" }}>
+                                            &#9733;
+                                        </span>
+                                    ))}
+                                    &nbsp; ({processedSpot.rating.toFixed(1)})
+                                </>
+                            )}
+                        </div>
+                        
+                        <p className="location-tags-2">
+                            {processedSpot.tags?.length > 0 
+                                ? `Tags: ${processedSpot.tags.join(', ')}` 
+                                : "No tags yet"}
+                        </p>
+                        
+                        <button className="reviews-button-2" onClick={goToReviews}>
+                            Write a Review
+                        </button>
+                        
+                        <div className="pin-button-container">
+                            <PinButton locationId={processedSpot._id} className="large" />
+                        </div>
+                      </div>
                     </div>
-                    <p>{processedSpot.description || "No description available."}</p>
-                    <div className="rating">
-                        {processedSpot.rating === 0 ? (
-                            <span>Be the first to review this study spot!</span>
-                        ) : (
-                            <>
-                                <span>Rating: </span>
-                                {[...Array(5)].map((_, i) => (
-                                    <span key={i} style={{ color: i < processedSpot.rating ? "#FFD700" : "#ccc" }}>
-                                        &#9733;
-                                    </span>
-                                ))}
-                                &nbsp; ({processedSpot.rating})
-                            </>
-                        )}
+                    
+                    <div className="reviews-section">
+                      {!processedSpot.reviews || processedSpot.reviews.length === 0 ? (
+                        <p>No reviews yet.</p>
+                      ) : ( 
+                        processedSpot.reviews.map(review => {
+                          const normalizedReview = normalizeReview(review);
+                          return (
+                            <div key={normalizedReview.id} className="review-card">
+                              <div className="review-info">
+                                <h3 className="review-location">{normalizedReview.locationName}</h3>
+                                <span className="review-username">by {normalizedReview.username}</span>
+                                <span className="review-city-state">{normalizedReview.cityState}</span>
+                                <div className="review-rating">
+                                  {Array(5).fill().map((_, i) => (
+                                    <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
+                                  ))}
+                                </div>
+                              </div>
+                              
+                              <div className="review-main-content">
+                                <div className="review-content">
+                                  <p>{normalizedReview.content}</p>
+                                  <span className="review-date">{new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                  })}</span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
                     </div>
-                    <button className="reviews-button" onClick={goToReviews}>
-                        Write a Review
-                    </button>
                 </div>
             </div>
         </div>

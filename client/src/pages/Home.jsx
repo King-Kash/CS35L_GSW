@@ -15,7 +15,7 @@ export default function Home() {
         <div className="main-container">
 
           {/* App Name */}
-          <h1 className="app-title">NAME OF APP</h1>
+          <h1 className="app-title">GSW Study Spots</h1>
 
           {/* Pen Graphic */}
           <div className="image-container">
@@ -27,8 +27,8 @@ export default function Home() {
 
           {/* Description Section */}
           <div className="description">
-            <h2>A brief description of our application</h2>
-            <p>blah blah</p>
+            <h2>Discover Your Perfect Study Space</h2>
+            <p>GSW Study Spots helps UCLA students find and share the best study locations on campus. Whether you're looking for a quiet corner in the library, a collaborative space for group projects, or a cozy spot with good coffee, our community-driven platform makes it easy to discover, rate, and review study spots that match your preferences.</p>
           </div>
 
         </div>

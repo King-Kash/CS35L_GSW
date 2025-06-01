@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/LocationViewModal.css';
+import PinButton from './PinButton';
 
 export default function LocationViewModal({ selectedSpot, setShowLocationView }) {
     
@@ -16,6 +17,7 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
     }
 
     const goToLocationPage = () => {
+        console.log(selectedSpot._id)
         navigate(`/location-view/${selectedSpot._id}`);
     }
 
@@ -72,20 +74,22 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                             <div className="rating-info">
                                 <div className="label">{label}</div>
                             </div>
+                            <div className="pin-button-container">
+                                <PinButton locationId={processedSpot._id} className="large" />
+                            </div>
                         </div>
                     </div>
                     <div className="bottom-part">
                         <p>{processedSpot.description || "No description available."}</p>
-                        <p>{processedSpot.tags || "No tags yet"}</p>
-                        <button className="reviews-button" onClick={goToReviews}>
-                            Go to Reviews
-                        </button>
-                        <button className="location-view-link" onClick={goToLocationPage}>
-                            Go to Location Page
-                        </button>
-                        <button className="reviews-button" onClick={goToReviews}>
-                            Write a Review
-                        </button>
+                        <p>{processedSpot.tags?.length > 0 || "No tags yet"}</p>
+                        <div className="button-group">
+                          <button className="location-view-link" onClick={goToLocationPage}>
+                              Go to Location Page
+                          </button>
+                          <button className="reviews-button" onClick={goToReviews}>
+                              Write a Review
+                          </button>
+                        </div>
                     </div>
                 </div>
             </div>

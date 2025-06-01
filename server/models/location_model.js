@@ -32,7 +32,12 @@ const locationSchema = new mongoose.Schema({
   description: {
       type: String,
       required: false,
-  }
+  },
+  tags: [{
+      type: String,
+      lowercase: true,
+      trim: true
+  }]
 }, {
   timestamps: true //Adds createdAt and updatedAt
 });

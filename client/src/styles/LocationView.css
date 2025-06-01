@@ -13,12 +13,12 @@
   width: 100%;
 }
 
-.location-view-page .location-view {
+.location-view-page .location-view-2 {
   position: relative;
   max-width: 100%;
   width: 100%;
   min-height: calc(100vh - 80px);
-  background: white;
+  background: #f0ead9 !important;
   padding: 40px;
   border-radius: 0;
   box-shadow: none;
@@ -29,12 +29,12 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #f8f9fa;
-  border: 2px solid #dee2e6;
+  background-color: #938878;
+  border: 2px solid #938878;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 500;
-  color: #495057;
+  color: white;
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -44,9 +44,9 @@
 }
 
 .location-view-page .back-button:hover {
-  background-color: #e9ecef;
-  border-color: #adb5bd;
-  color: #212529;
+  background-color: #7a6e5e;
+  border-color: #7a6e5e;
+  color: white;
   transform: translateX(-2px);
 }
 
@@ -80,7 +80,7 @@
 
 .location-view-page .location-image {
   width: 100%;
-  max-width: 800px;
+  max-width: 50%;
   height: 400px;
   margin: 30px auto;
   display: flex;
@@ -92,41 +92,19 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.location-view-page .location-image img {
+.location-view-page .location-image-2 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.location-view-page .reviews-button {
-  display: block;
-  margin: 40px auto 0;
-  background-color: #007bff;
-  color: white;
-  padding: 18px 40px;
-  font-size: 20px;
-  font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
-}
-
-.location-view-page .reviews-button:hover {
-  background-color: #0056b3;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-}
-
-/* Page rating styles */
-.location-view-page .rating {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 24px;
+.location-view-page .reviews-button-2:hover {
+  background-color: #724343;
+  box-shadow: 0 4px 15px #72434342;
 }
 
 /* Page title */
-.location-view-page .location-view h1 {
+.location-view-page .location-view-2 h1 {
   text-align: center;
   margin: 80px 0 30px 0;
   color: #333;
@@ -135,7 +113,7 @@
 }
 
 /* Page description */
-.location-view-page .location-view p {
+.location-view-page .location-view-2 p {
   text-align: center;
   color: #666;
   line-height: 1.8;
@@ -143,4 +121,95 @@
   font-size: 18px;
   max-width: 800px;
 }
+
+
+.location-view-2 {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
   
+.location-view-title {
+  margin-top: 25px !important;
+  margin-bottom: 10px !important;
+}
+
+.location-image-2 {
+  margin-top: 0px !important;
+}
+
+.right-part {
+  flex: 1;
+}
+
+.location-top-part-2 {
+  display: flex;
+  gap: 20px;
+}
+
+.location-image-2 {
+  flex: 1;
+  max-width: 50%;
+}
+
+.location-info-2 {
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.reviews-button-2 {
+  margin: 20px auto 0;
+  background-color: #875050;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px #87505041;
+}
+
+.location-description-2 {
+  margin-top: 10% !important;
+}
+
+.location-view-2 .review-card {
+  height: 160px !important;
+  min-height: 160px !important;
+}
+
+/* Pin button container styles for LocationView */
+.location-view-page .pin-button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make the pin button larger and more prominent in LocationView */
+.location-view-page .pin-button.large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .location-top-part-2 {
+    flex-direction: column;
+  }
+  
+  .location-image-2,
+  .right-part {
+    max-width: 100%;
+  }
+  
+  .location-view-page .pin-button-container {
+    justify-content: center;
+    margin-top: 15px;
+  }
+}

@@ -47,7 +47,7 @@ body, #root, .app {
   }
 
   .add-review-button:hover {
-    background-color: #c7c0a5;
+    background-color: #7a6e5e !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
@@ -187,9 +187,10 @@ body, #root, .app {
   }
   
   .reviews-heading {
-    font-size: 2rem;
     margin-bottom: 25px;
     color: #333;
+    margin-top: 25px;
+    font-size: 40px !important;
   }
   
   .reviews-list {
@@ -374,7 +375,7 @@ body, #root, .app {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    width: 160px;
   }
 
   .view-location-button:hover {

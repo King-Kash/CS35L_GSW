@@ -155,6 +155,15 @@ export const addReview = async (req, res) => {
             location,
             { $push: { reviews: newReview._id } }
         );
+
+        const locationReviews = await Review.find({ location });
+        const totalRating = locationReviews.reduce((sum, review) => sum + review.rating, 0);
+        const averageRating = Math.round((totalRating / locationReviews.length) * 10) / 10;
+
+        await Location.findByIdAndUpdate(
+            location,
+            { rating: averageRating }
+        );
         
         res.status(201).json({ success: true, data: newReview });
     } catch (error) {

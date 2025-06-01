@@ -73,25 +73,26 @@
 
 .mode-toggle {
   padding: 12px 16px;
-  background-color: #007bff;
+  background-color: #875050;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .mode-toggle:hover {
-  background-color: #0056b3;
+  background-color: #724343;
 }
 
 .mode-toggle.active {
-  background-color: #28a745;
+  background-color: #875050;
 }
 
 .mode-toggle.active:hover {
-  background-color: #1e7e34;
+  background-color: #724343;
 }
 
 .spot-details {
@@ -123,7 +124,7 @@
   width: 40%;
   bottom: 10px;
   z-index: 1000;
-  background: white;
+  background: #f6f0e8;;
   padding: 20px;
   border-radius: 8px;
   border: none;
@@ -134,10 +135,10 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  background: white;
+  background: #f6f0e8;
   padding: 20px;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   max-width: 300px;
   z-index: 1000;
 }
@@ -145,7 +146,7 @@
 .add-spot-form button {
   width: 100%;
   padding: 8px;
-  background-color: #28a745;
+  background-color: #938878;
   color: white;
   border: none;
   border-radius: 4px;
@@ -155,7 +156,7 @@
 }
 
 .add-spot-form button:hover {
-  background-color: #218838;
+  background-color: #7a6e5e;
 }
 
 .rating-container {
@@ -297,11 +298,25 @@
 .add-spot-flex-box button {
   align-self: stretch; /* Full width button */
 }
-
 .add-error {
   position: absolute;
   bottom: 15px;
   color: red;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.add-spot-form input:focus,
+.add-spot-form textarea:focus {
+  color: black;         
+  border-color: #875050; 
+  outline: none;         
+}
+
+.add-spot-form input {
+  padding: 12px 2px;
+}
+
+.add-spot-form textarea {
+  padding: 5px;
 }

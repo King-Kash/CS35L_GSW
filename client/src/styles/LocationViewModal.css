@@ -5,11 +5,12 @@
   width: 40%;
   bottom: 10px;
   z-index: 1000;
-  background: white;
+  background: #f6f0e8;
   padding: 20px;
   border-radius: 8px;
   border: none;
   color: black;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .close-button {
@@ -45,12 +46,12 @@
   width: 100%;
 }
 
-.label {
+.location-view-modal-overlay .label {
   margin-top: 25px;
-  background-color: #28a745;
+  background-color: #938878;;
   border-radius: 15px;
-  padding: 10px;
-  width: 100px;
+  padding: 5px;
+  width: 150px;
   margin: 0 auto;
   color: white;
   font-family: Arial, sans-serif;
@@ -58,25 +59,12 @@
 }
 
 .location-view-modal-overlay .location-image {
-  background-color: red;
+  background-color: #875050;
   width: 50% !important;
   height: 275px !important;
   border-radius: 5px;
   aspect-ratio: 1;
 }
-
-/* .location-view-modal-overlay .location-image {
-  width: 100%;
-  max-width: 400px;
-  height: 250px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  overflow: hidden;
-} */
 
 .location-view-modal-overlay .location-image img {
   width: 100%;
@@ -85,11 +73,8 @@
 }
 
 .reviews-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #007bff;
+  
+  background-color: #875050;
   color: white;
   padding: 12px 24px;
   font-size: 16px;
@@ -97,18 +82,16 @@
   border-radius: 6px;
   cursor: pointer;
   z-index: 1000;
+  width: 17vw;
 }
 
 .reviews-button:hover {
-  background-color: #0056b3;
+  background-color: #724343;
 }
 
 .location-view-link {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #28a745;
+
+  background-color: #938878;;
   color: white;
   padding: 12px 24px;
   font-size: 16px;
@@ -116,8 +99,22 @@
   border-radius: 6px;
   cursor: pointer;
   z-index: 1000;
+  width: 17vw;
 }
 
 .location-view-link:hover {
-  background-color: #1e7e34;
+  background-color: #7a6e5e;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;     /* Ensure horizontal layout */
+  gap: 20px;               /* Space between buttons */
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically if inside a tall container */
+  margin-top: 20px;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
 }

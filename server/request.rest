@@ -1,38 +1,11 @@
-
-POST http://localhost:3000/signup
-Content-Type: application/json
-
-{
-  "name": "Test User",
-  "email": "test2@example.com",
-  "password": "password123",
-  "username": "testuser2"
-}
-
-### 
-
-POST http://localhost:3000/locations
-Content-Type: application/json
-
-{
-  "name": "Test Coffee Shop",
-  "address": "123 Test Street",
-  "city": "Los Angeles",
-  "state": "CA",
-  "zipCode": "90001",
-  "type": "cafe"
-}
-
 ###
-
-POST http://localhost:3000/reviews/addReview
+POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-  "user": "REPLACE_WITH_USER_ID", 
-  "location": "REPLACE_WITH_LOCATION_ID", 
-  "rating": 4,
-  "contents": "This place has a great atmosphere and friendly staff. The coffee was excellent!"
+    "name": "Kash",
+    "email": "Kash@test.com",
+    "password": "password"
 }
 
 ### 
@@ -75,28 +48,20 @@ Content-Type: application/json
 
 ###
 
-<<<<<<< HEAD
-POST http://localhost:3001/reviews/addReview
-=======
 POST http://localhost:3000/reviews/addReview
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
 Content-Type: application/json
 
 {
   "user": "683b5cb4f8e36cacd54c8c9d", 
   "location": "683b605c9fa056c3a2d94281", 
   "rating": 4,
-<<<<<<< HEAD
   "contents": "TAG REVIEW",
   "tags": ["cozy", "wifi", "study"]
 }
 ###
 
 GET http://localhost:3001/reviews
-=======
-  "contents": "This is a test review from the API"
-}
 ###
 
 GET http://localhost:3000/reviews
->>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
+

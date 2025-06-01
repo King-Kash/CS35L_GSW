@@ -24,4 +24,3 @@ google-cloud-key.json
 *.sln
 *.sw?
 .env
-google-cloud-key.json

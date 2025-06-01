@@ -1,7 +1,6 @@
 .profile-page {
     background-color: #f8f9fa;
     min-height: 100vh;
-    padding: 40px 20px;
   }
   
   .profile-container {
@@ -227,6 +226,7 @@
   
   .no-reviews {
     text-align: center;
+    width: 100%;
     padding: 40px;
     color: #888;
   }

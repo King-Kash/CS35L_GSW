@@ -33,7 +33,9 @@
 
 .nav-link:hover {
   /*color: #85c0ff;*/
-  color: rgba(254, 245, 222, 0.9)
+  color: rgba(254, 245, 222, 1);
+  text-shadow: 0 0 8px rgba(254, 245, 222, 0.8);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .search-tag-container {
@@ -182,7 +184,7 @@
   flex-shrink: 0; /* Prevent auth buttons from shrinking */
 }
 
-.log-btn, .reg-btn {
+.log-btn, .reg-btn, .profile-btn {
   text-decoration: none;
   padding: clamp(3px, 1vw, 6px) clamp(6px, 2vw, 12px);
   border-radius: 0; /* Remove border radius for seamless connection */
@@ -220,6 +222,22 @@
 }
 
 .reg-btn:hover {
+  background-color: #f9da9d;
+  border-color: #f9da9d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px #f9da9d;
+  color: black;
+}
+
+.profile-btn {
+  color: white;
+  border: 2px solid white;
+  background-color: transparent;
+  border-radius: 6px 6px;
+  /* Round only left corners */
+}
+
+.profile-btn:hover {
   background-color: #f9da9d;
   border-color: #f9da9d;
   transform: translateY(-1px);
