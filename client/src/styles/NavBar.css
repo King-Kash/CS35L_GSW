@@ -33,7 +33,9 @@
 
 .nav-link:hover {
   /*color: #85c0ff;*/
-  color: rgba(254, 245, 222, 0.9)
+  color: rgba(254, 245, 222, 1);
+  text-shadow: 0 0 8px rgba(254, 245, 222, 0.8);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .search-tag-container {
