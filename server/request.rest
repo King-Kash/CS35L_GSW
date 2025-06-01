@@ -75,16 +75,28 @@ Content-Type: application/json
 
 ###
 
+<<<<<<< HEAD
 POST http://localhost:3001/reviews/addReview
+=======
+POST http://localhost:3000/reviews/addReview
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
 Content-Type: application/json
 
 {
   "user": "683b5cb4f8e36cacd54c8c9d", 
   "location": "683b605c9fa056c3a2d94281", 
   "rating": 4,
+<<<<<<< HEAD
   "contents": "TAG REVIEW",
   "tags": ["cozy", "wifi", "study"]
 }
 ###
 
 GET http://localhost:3001/reviews
+=======
+  "contents": "This is a test review from the API"
+}
+###
+
+GET http://localhost:3000/reviews
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f

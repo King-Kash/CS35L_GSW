@@ -1,6 +1,10 @@
 .navbar {
   background-color: #978080;
+<<<<<<< HEAD
   padding: clamp(0.25rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
+=======
+  padding: clamp(1rem, 2vw, 1rem) clamp(0.25rem, 2vw, 1rem);
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -14,6 +18,12 @@
   gap: clamp(0.25rem, 5vw, 6rem); /* Responsive gap */
   flex-shrink: 1; /* Allow nav links to shrink */
   align-items: center;
+<<<<<<< HEAD
+=======
+  margin-right: 1rem;
+  margin-left: 1rem;
+  height: 2.65rem;
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
 }
 
 .nav-link {
@@ -79,7 +89,11 @@
   min-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
+<<<<<<< HEAD
   width: clamp(60px, 15vw, 200px); /* Smoothly scales with viewport */
+=======
+  width: clamp(300px, 15vw, 500px); /* Smoothly scales with viewport */
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   flex-shrink: 1;
 }
 
@@ -95,7 +109,11 @@
   max-height: 2.5rem;
   background-color: white;
   white-space: nowrap;
+<<<<<<< HEAD
   width: clamp(120px, 25vw, 400px); /* Smoothly scales with viewport */
+=======
+  width: clamp(0px, 20vw, 225px); /* Smoothly scales with viewport */
+>>>>>>> b5fd5903f75be0d5e27ca498a5343840e700fc8f
   flex-shrink: 1;
   overflow-x: auto;
   overflow-y: hidden;

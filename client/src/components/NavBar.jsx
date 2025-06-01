@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/NavBar.css';
 import DropdownInput from './DropdownInput';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,16 @@ export default function Navbar() {
   const [isTagDropdownVisible, setIsTagDropdownVisible] = useState(false);
   const [highlightedSearchIndex, setHighlightedSearchIndex] = useState(-1); // Track the highlighted item
   const [highlightedTagIndex, setHighlightedTagIndex] = useState(-1); // Track the highlighted item
+  const [width, setWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const tags = ['quiet', 'aesthetic', 'good for collaboration', 'any']; // Some sample tags
   const spots = [ {
@@ -124,6 +133,7 @@ export default function Navbar() {
     .filter((tag) => !selectedTags.includes(tag)) // Exclude selected tags
     .filter((tag) => tag.toLowerCase().includes(tagInput.toLowerCase())); // Filter based on input
 
+  console.log(width)
   return (
     <nav className="navbar">
       <div className="nav-links">
@@ -132,6 +142,7 @@ export default function Navbar() {
         <Link to="/map" className="nav-link">Map</Link>
         <Link to="/locations" className="nav-link">Locations</Link>
       </div>
+      {width > 975 && 
       <div className="search-tag-container">
         <DropdownInput
           value={searchTerm}
@@ -157,6 +168,7 @@ export default function Navbar() {
           className="search-wrapper" // Add a class for styling
         />
         <div className="divider"></div>
+        {width > 1250 && 
         <div className="tag-input-container">
           <DropdownInput
             value={tagInput}
@@ -181,11 +193,11 @@ export default function Navbar() {
             onRemoveItem={handleTagRemove} // Pass the remove function
             className="tag-wrapper" // Add a class for styling
           />
-        </div>
+        </div>}
         <button className="search-button" onClick={handleSearchButtonClick}>
             <FaSearch />
         </button>
-      </div>
+      </div>}
       {/* Login/Register Buttons */}
       <div className="auth-buttons">
         <Link to="/login" className="log-btn">LOGIN</Link>
