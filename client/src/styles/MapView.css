@@ -297,7 +297,6 @@
 .add-spot-flex-box button {
   align-self: stretch; /* Full width button */
 }
-
 .add-error {
   position: absolute;
   bottom: 15px;
