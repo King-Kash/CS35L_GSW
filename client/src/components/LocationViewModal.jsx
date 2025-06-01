@@ -13,6 +13,7 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
     }
 
     const goToLocationPage = () => {
+        console.log(selectedSpot._id)
         navigate(`/location-view/${selectedSpot._id}`);
     }
 
