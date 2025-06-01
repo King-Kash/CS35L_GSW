@@ -64,7 +64,7 @@ const LoginForm = () => {
 
 
                 <div className='register-link'>
-                    <p className='poppins-regular'>Don't have an account? <a href="/register">Register</a></p>
+                    <p className='poppins-regular'>Don't have an account? <a href="/signup">Register</a></p>
                 </div>
                 <div className='register-link'>
                     <p className='poppins-regular'>Return to <a href="/">Home</a></p>
