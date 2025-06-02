@@ -289,16 +289,16 @@ body, #root, .app {
 .review-image-container {
   height: 100%;
   width: 100%;
-  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .review-image {
+  border-radius: 8px;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .review-card:hover .review-image {
