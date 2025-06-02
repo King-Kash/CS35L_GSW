@@ -7,3 +7,132 @@ Content-Type: application/json
     "email": "Kash@test.com",
     "password": "password"
 }
+
+### 
+
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test2@example.com",
+  "password": "password123",
+  "username": "testuser2"
+}
+
+###
+
+POST http://localhost:3001/login
+Content-Type: application/json
+
+{
+  "email": "test2@example.com",
+  "password": "password123"
+}
+
+### 
+
+POST http://localhost:3000/locations/createLocation
+Content-Type: application/json
+
+{
+  "name": "Westwood Coffee House",
+  "location": {
+    "type": "Point",
+    "coordinates": [-118.445082, 34.063900]
+  },
+  "rating": 4.5,
+  "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+  "description": "A cozy coffee shop in the heart of Westwood with free WiFi and plenty of seating for studying."
+}
+
+###
+
+POST http://localhost:3000/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 4,
+  "contents": "TAG REVIEW",
+  "tags": ["cozy", "wifi", "study"]
+}
+###
+
+GET http://localhost:3001/reviews
+###
+
+GET http://localhost:3000/reviews
+
+
+###
+
+POST http://localhost:3001/locations/createLocation
+Content-Type: application/json
+
+{
+  "name": "Bruin Study Lounge",
+  "location": {
+    "type": "Point",
+    "coordinates": [-118.448245, 34.068691]
+  },
+  "rating": 4.7,
+  "image": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+  "description": "Modern study space with large tables, quiet atmosphere, and premium coffee options. Open late for night owls."
+}
+
+###
+
+POST http://localhost:3001/locations/createLocation
+Content-Type: application/json
+
+{
+  "name": "Powell Library Cafe",
+  "location": {
+    "type": "Point",
+    "coordinates": [-118.442322, 34.071654]
+  },
+  "rating": 4.2,
+  "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+  "description": "Historic spot with gorgeous architecture. Balanced noise level and excellent natural lighting for productive study sessions."
+}
+
+###
+
+POST http://localhost:3001/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 5,
+  "contents": "Perfect spot for group projects! The tables are spacious and the ambient noise is just right. Their chai latte is incredible.",
+  "tags": ["group-friendly", "ambient", "spacious"]
+}
+
+###
+
+POST http://localhost:3001/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 3,
+  "contents": "Great coffee but gets extremely crowded during midterms week. Had to wait 20 minutes for a table. Outlets are limited.",
+  "tags": ["crowded", "good-coffee", "limited-outlets"]
+}
+
+###
+
+POST http://localhost:3001/reviews/addReview
+Content-Type: application/json
+
+{
+  "user": "683b5cb4f8e36cacd54c8c9d", 
+  "location": "683b605c9fa056c3a2d94281", 
+  "rating": 4.5,
+  "contents": "Quiet environment perfect for deep focus. The window seats have amazing natural lighting. Staff is incredibly friendly and they never rush you.",
+  "tags": ["quiet", "natural-light", "friendly-staff"]
+}

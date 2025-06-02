@@ -135,4 +135,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-google-cloud-key.json
+
+**/google-cloud-key.json

@@ -15,6 +15,9 @@ const LocationSelector = () => {
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [recommendationsError, setRecommendationsError] = useState(null);
   const navigate = useNavigate();
+  
+  // Define a default image for study spots
+  const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -79,19 +82,23 @@ const LocationSelector = () => {
     navigate(`/location-view/${location._id}`);
   };
 
+  const handleImageError = (e) => {
+    e.target.onerror = null; // Prevent infinite loops
+    e.target.src = DEFAULT_IMAGE;
+  };
+  
   const renderLocationCard = (location, isRecommendation = false) => (
     <div
       key={location._id}
       className={`location-card ${isRecommendation ? 'recommendation-card' : ''}`}
       onClick={() => handleLocationSelect(location)}
     >
-      {location.image && (
-        <img 
-          src={location.image} 
-          alt={location.name}
-          className="location-image"
-        />
-      )}
+      <img 
+        src={location.image || DEFAULT_IMAGE} 
+        alt={location.name}
+        className="location-image"
+        onError={handleImageError}
+      />
       <div className="location-info">
         <h3>{location.name}</h3>
         {location.description && (
@@ -175,4 +182,4 @@ const Locations = () => {
   );
 };
 
-export default Locations; 
+export default Locations;

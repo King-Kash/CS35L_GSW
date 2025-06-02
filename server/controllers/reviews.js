@@ -4,10 +4,8 @@ import mongoose from "mongoose";
 
 // Get all reviews with optional filtering
 export const getReviews = async (req, res) => {
-
-
   try {
-    const { minRating, location, dateFilter } = req.query;
+    const { minRating, location, dateFilter, tag } = req.query;
     
     // Build filter object
     const filter = {};
@@ -29,6 +27,11 @@ export const getReviews = async (req, res) => {
           filter.location = location;
         }
       }
+    }
+    
+    // Apply tag filter (moved outside of dateFilter condition)
+    if (tag) {
+      filter.tags = tag;
     }
     
     // Apply date filter
@@ -128,7 +131,7 @@ export const getReviews = async (req, res) => {
 // testing when no authentication
 export const addReview = async (req, res) => {
     // Get user ID from request body instead of auth token
-    const { user, location, rating, contents } = req.body;
+    const { user, location, rating, contents, tags } = req.body;
     
     // Verify that all required fields are present
     if (!user || !location || !rating || !contents) {
@@ -141,7 +144,8 @@ export const addReview = async (req, res) => {
             user,
             location,
             rating,
-            contents
+            contents,
+            tags: Array.isArray(tags) ? tags : [] // Handle tags array or default to empty array
         });
         
         await newReview.save();

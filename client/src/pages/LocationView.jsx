@@ -8,6 +8,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LocationView() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [reviews, setReviews] = useState([]);
+    const [availableTags, setAvailableTags] = useState([]);
+    const [locationFilter, setLocationFilter] = useState('');
+    
+    // Define a default image URL
+    const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
     const { locationId } = useParams();
     const [selectedSpot, setSelectedSpot] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -25,6 +32,64 @@ export default function LocationView() {
         image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
       };
     };
+
+    useEffect(() => {
+        if (selectedSpot && selectedSpot._id) {
+            setLocationFilter(selectedSpot._id);
+        }
+    }, [selectedSpot]);
+
+    useEffect(() => {
+      const fetchReviews = async () => {
+        try {
+          setLoading(true);
+          
+          // Build query parameters for filtering
+          const params = new URLSearchParams();
+          if (locationFilter) params.append('location', locationFilter);
+          
+          const queryString = params.toString() ? `?${params.toString()}` : '';
+          const url = `${API_URL}/reviews${queryString}`;
+          console.log("Fetching from:", url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            mode: 'cors'
+          });
+          
+          if (!response.ok) {
+            console.error("Response error:", response.status, response.statusText);
+            throw new Error(`Failed to fetch reviews: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          setReviews(data);
+          
+          // Extract unique locations if no filter is applied
+          if (data.length > 0) {
+            let allTags = [];
+              data.forEach(review => {
+                const reviewTags = review.tags || [];
+                allTags = [...allTags, ...reviewTags];
+              });
+              const uniqueTags = [...new Set(allTags)];
+              setAvailableTags(uniqueTags);
+          }
+          
+        } catch (err) {
+          console.error('Error fetching reviews:', err);
+          setError(err.message);
+          // Fall back to sample data if API fails
+          setReviews([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      fetchReviews();
+    }, [locationFilter]);
 
     useEffect(() => {
         const fetchLocation = async () => {
@@ -111,17 +176,26 @@ export default function LocationView() {
                     <button className="back-button" onClick={goBack}>
                         ← Back
                     </button>
+                    
                     <h1 className="location-view-title">{processedSpot.name}</h1>
+                    
                     <div className="location-top-part-2">
                       <div className="location-image-2">
-                          {processedSpot.image && (
-                              <img src={processedSpot.image} alt={processedSpot.name} />
-                          )}
+                          <img 
+                            src={processedSpot.image || DEFAULT_IMAGE} 
+                            alt={processedSpot.name}
+                            onError={(e) => {
+                                e.target.onerror = null; // Prevent infinite loops
+                                e.target.src = DEFAULT_IMAGE;
+                            }}
+                          />
                       </div>
+                      
                       <div className="right-part">
                         <p className="location-description-2">{processedSpot.description || "No description available."}</p>
+                        
                         <div className="rating">
-                            {processedSpot.reviews.length === 0 ? (
+                            {processedSpot.reviews?.length === 0 ? (
                                 <span>Be the first to review this study spot!</span>
                             ) : (
                                 <>
@@ -131,25 +205,33 @@ export default function LocationView() {
                                             &#9733;
                                         </span>
                                     ))}
-                                    &nbsp; ({processedSpot.rating})
+                                    &nbsp; ({processedSpot.rating.toFixed(1)})
                                 </>
                             )}
                         </div>
-                        <p className="location-tags-2">{processedSpot.tags.length > 0 ? `Tags: {processedSpot.tags}` : "No tags yet"}</p>
+                        
+                        <p className="location-tags-2">
+                            {processedSpot.tags?.length > 0 
+                                ? `Tags: ${processedSpot.tags.join(', ')}` 
+                                : "No tags yet"}
+                        </p>
+                        
                         <button className="reviews-button-2" onClick={goToReviews}>
                             Write a Review
                         </button>
+                        
                         <div className="pin-button-container">
                             <PinButton locationId={processedSpot._id} className="large" />
                         </div>
                       </div>
                     </div>
+                    
                     <div className="reviews-section">
-                      {processedSpot.reviews.length === 0 ? (
+                      {!processedSpot.reviews || processedSpot.reviews.length === 0 ? (
                         <p>No reviews yet.</p>
-                      ) : ( processedSpot.reviews.map(review => {
+                      ) : ( 
+                        reviews.map(review => {
                           const normalizedReview = normalizeReview(review);
-                          console.log(normalizedReview)
                           return (
                             <div key={normalizedReview.id} className="review-card">
                               <div className="review-info">

@@ -17,6 +17,8 @@ export default function Reviews() {
   const [locationFilter, setLocationFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const [locations, setLocations] = useState([]);
+  const [tagFilter, setTagFilter] = useState('');
+  const [availableTags, setAvailableTags] = useState([]);
 
   // Handle navigation to add review page
   const handleAddReview = () => {
@@ -42,6 +44,7 @@ export default function Reviews() {
         if (ratingFilter > 0) params.append('minRating', ratingFilter);
         if (locationFilter) params.append('location', locationFilter);
         if (dateFilter) params.append('dateFilter', dateFilter);
+        if (tagFilter) params.append('tag', tagFilter);
         
         const queryString = params.toString() ? `?${params.toString()}` : '';
         const url = `${API_URL}/reviews${queryString}`;
@@ -63,11 +66,24 @@ export default function Reviews() {
         setReviews(data);
         
         // Extract unique locations if no filter is applied
-        if (!locationFilter && data.length > 0) {
-          const uniqueLocations = [...new Set(data.map(review => 
-            review.location?.name || review.locationName
-          ))];
-          setLocations(uniqueLocations);
+        if (data.length > 0) {
+          if (!locationFilter) {
+            const uniqueLocations = [...new Set(data.map(review => 
+              review.location?.name || review.locationName
+            ))];
+            setLocations(uniqueLocations);
+          }
+          
+          if (!tagFilter) {
+            // Collect all tags from all reviews
+            let allTags = [];
+            data.forEach(review => {
+              const reviewTags = review.tags || [];
+              allTags = [...allTags, ...reviewTags];
+            });
+            const uniqueTags = [...new Set(allTags)];
+            setAvailableTags(uniqueTags);
+          }
         }
         
       } catch (err) {
@@ -83,12 +99,13 @@ export default function Reviews() {
     };
     
     fetchReviews();
-  }, [ratingFilter, locationFilter, dateFilter]);
+  }, [ratingFilter, locationFilter, dateFilter, tagFilter]);
 
   const clearFilters = () => {
     setRatingFilter(0);
     setLocationFilter('');
     setDateFilter('');
+    setTagFilter('');
   };
 
   // Sample reviews data as fallback
@@ -100,22 +117,23 @@ export default function Reviews() {
       rating: 4,
       content: "Great atmosphere and friendly staff. The coffee was excellent, and they have good WiFi. Perfect spot for studying.",
       createdAt: "2025-04-15T14:30:00Z",
-      image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      tags: ["Coffee", "Study Spot", "WiFi"]
     },
-    // ... other sample reviews
   ];
 
   // Normalize review object based on whether it's from the backend or sample data
   const normalizeReview = (review) => {
     return {
       id: review._id || review.id,
-      username: review.user?.username || review.username,
+      username: review.user?.username || review.user?.name || review.username,
       locationName: review.location?.name || review.locationName,
       locationId: review.location?._id,
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
-      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      tags: review.tags || []
     };
   };
 
@@ -209,6 +227,22 @@ export default function Reviews() {
               </div>
             </div>
 
+            <div className="filter-section">
+              <h3>Tags</h3>
+              <select 
+                value={tagFilter}
+                onChange={(e) => setTagFilter(e.target.value)}
+                className="filter-select"
+              >
+                <option value="">All Tags</option>
+                {availableTags.map(tag => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <button className="clear-filters-button" onClick={clearFilters}>
               Clear All Filters
             </button>
@@ -230,49 +264,68 @@ export default function Reviews() {
           ) : reviews.length === 0 ? (
             <p className="no-reviews">No reviews match your filters.</p>
           ) : (
-            <div className="reviews-list">
-              {reviews.map(review => {
-                const normalizedReview = normalizeReview(review);
-                return (
-                  <div key={normalizedReview.id} className="review-card">
-                    <div className="review-info">
-                      <h3 className="review-location">{normalizedReview.locationName}</h3>
-                      <span className="review-username">by {normalizedReview.username}</span>
-                      <span className="review-city-state">{normalizedReview.cityState}</span>
-                      <div className="review-rating">
-                        {Array(5).fill().map((_, i) => (
-                          <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
+          <div className="reviews-list">
+            {reviews.map(review => {
+              const normalizedReview = normalizeReview(review);
+              return (
+                <div key={normalizedReview.id} className="review-card">
+                  <div className="review-info">
+                    <h3 className="review-location">{normalizedReview.locationName}</h3>
+                    <span className="review-username">by {normalizedReview.username}</span>
+                    <span className="review-city-state">{normalizedReview.cityState}</span>
+                    
+                    {/* Tags moved here - between username and rating */}
+                    {normalizedReview.tags && normalizedReview.tags.length > 0 && (
+                      <div className="review-tags">
+                        {normalizedReview.tags.map(tag => (
+                          <span 
+                            key={tag} 
+                            className="review-tag"
+                            onClick={() => setTagFilter(tag === tagFilter ? '' : tag)}
+                          >
+                            {tag}
+                          </span>
                         ))}
                       </div>
-                      <button 
+                    )}
+                    
+                    <div className="review-rating">
+                      {Array(5).fill().map((_, i) => (
+                        <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
+                      ))}
+                    </div>
+                    <button 
                         className="view-location-button"
                         onClick={() => handleViewLocation(normalizedReview.locationId)}
                       >
                         View Location
                       </button>
-                    </div>
-                    
-                    <div className="review-main-content">
-                      <div className="review-content">
-                        <p>{normalizedReview.content}</p>
-                        <span className="review-date">{new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
+                  </div>
+                  
+                  <div className="review-main-content">
+                    <div className="review-content">
+                      <p>{normalizedReview.content}</p>
+                      <span className="review-date">
+                        {new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric'
-                        })}</span>
-                      </div>
-                    </div>
-                    <div className="review-image-container">
-                      <img 
-                        src={normalizedReview.image} 
-                        alt={normalizedReview.locationName}
-                        className="review-image" 
-                      />
+                        })}
+                      </span>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                  
+                  <div className="review-image-container">
+                    <img 
+                      src={normalizedReview.image} 
+                      alt={normalizedReview.locationName}
+                      className="review-image" 
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           )}
         </div>
       </div>

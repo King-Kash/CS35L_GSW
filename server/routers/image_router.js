@@ -22,6 +22,7 @@ const upload = multer({
 
 // Routes
 router.post('/upload', upload.single('image'), uploadImage);
+router.post('/profile', upload.single('image'), uploadImage);
 router.get('/:fileId', getImage);
 
 export default router;
