@@ -5,31 +5,6 @@ import NavBar from '../components/NavBar';
 import { AuthContext } from '../AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-// Sample study spots data - you can replace this with data from your backend
-const studySpots = [
-    {
-        id: 1,
-        name: "Powell Library",
-        location: { lat: 34.0716, lng: -118.4417 },
-        rating: 4.5,
-        description: "UCLA's main library, open 24/7 during finals"
-    },
-    {
-        id: 2,
-        name: "Young Research Library",
-        location: { lat: 34.0747, lng: -118.4397 },
-        rating: 4.3,
-        description: "Quiet study spaces and group study rooms"
-    },
-    {
-        id: 3,
-        name: "Ackerman Union",
-        location: { lat: 34.0712, lng: -118.4453 },
-        rating: 4.0,
-        description: "Food court and study spaces"
-    }
-];
-
 export default function MapView() {
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
     const mapRef = useRef(null);
