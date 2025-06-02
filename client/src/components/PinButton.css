@@ -1,6 +1,7 @@
 .pin-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border: 2px solid #e0e0e0;
@@ -13,6 +14,7 @@
     transition: all 0.3s ease;
     outline: none;
     user-select: none;
+    min-width: 100px;
 }
 
 .pin-button:hover {
@@ -82,10 +84,59 @@
 
 /* Large version for prominent placement */
 .pin-button.large {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.85rem 1.8rem;
+    font-size: 1.1rem;
+    min-width: 140px;
+    border-width: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .pin-button.large .pin-icon {
-    font-size: 1.3rem;
-} 
+    font-size: 1.4rem;
+}
+
+.pin-button.large .pin-text {
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.pin-button.card-pin-button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background-color: #faf6eb;
+    border-color: #e6dcc1;
+    margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pin-button.card-pin-button.pinned {
+    background-color: #f0e6d2;
+    border-color: #d5c7a9;
+    color: #6b5d40;
+}
+
+.pin-button.card-pin-button:hover {
+    background-color: #e6dcc1;
+    color: #6b5d40;
+    border-color: #d5c7a9;
+}
+
+/* Custom style for LocationViewModal */
+.location-view-modal-overlay .pin-button.large {
+    background-color: #faf6eb;
+    border-color: #938878;
+    color: #6b5d40;
+    margin-top: 5px;
+}
+
+.location-view-modal-overlay .pin-button.large.pinned {
+    background-color: #938878;
+    border-color: #7a6e5e;
+    color: white;
+}
+
+.location-view-modal-overlay .pin-button.large:hover {
+    background-color: #e6dcc1;
+    transform: translateY(-2px);
+}

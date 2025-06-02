@@ -355,11 +355,15 @@ export default function MapView() {
                 content: `
                     <div class="info-window">
                         <h3>${newSpot.name}</h3>
-                        ${newSpot.image ? `<img src="${newSpot.image}" alt="${newSpot.name}" style="max-width: 200px; margin: 10px 0;">` : ''}
-                        <p>Rating: ${'⭐'.repeat(newSpot.rating)}</p>
-                        <p>${newSpot.description}</p>
+                        ${newSpot.image ? `<img src="${newSpot.image}" alt="${newSpot.name}">` : ''}
+                        <p><strong>Rating:</strong> ${parseFloat(newSpot.rating?.$numberDecimal ?? newSpot.rating).toFixed(1)} ★</p>
+                        <p>${newSpot.description || 'No description available.'}</p>
+                        <div class="info-window-tags">
+                            <p>New location - no tags yet</p>
+                        </div>
                     </div>
-                `
+                `,
+                maxWidth: 300
             });
 
             // Add click listener
@@ -420,13 +424,15 @@ export default function MapView() {
                 content: `
                     <div class="info-window">
                         <h3>${spot.name}</h3>
-                        <p>Rating: ${spot.rating} ⭐</p>
-                        <p>${spot.description}</p>
+                        ${spot.image ? `<img src="${spot.image}" alt="${spot.name}">` : ''}
+                        <p><strong>Rating:</strong> ${parseFloat(spot.rating?.$numberDecimal ?? spot.rating).toFixed(1)} ★</p>
+                        <p>${spot.description || 'No description available.'}</p>
                         <div class="info-window-tags" id="tags-${spot._id}">
                             <p>Loading tags...</p>
                         </div>
                     </div>
-                `
+                `,
+                maxWidth: 300
             });
 
             // Fetch top tags for this location
@@ -441,13 +447,14 @@ export default function MapView() {
                             const tagsElement = document.getElementById(`tags-${spot._id}`);
                             if (tagsElement) {
                                 tagsElement.innerHTML = `
-                                    <p>Top tags: ${topTags.map(tag => `<span class="info-tag">${tag}</span>`).join(' ')}</p>
+                                    <p><strong>Top tags:</strong></p>
+                                    <div>${topTags.map(tag => `<span class="info-tag">${tag}</span>`).join(' ')}</div>
                                 `;
                             }
                         } else {
                             const tagsElement = document.getElementById(`tags-${spot._id}`);
                             if (tagsElement) {
-                                tagsElement.innerHTML = '';
+                                tagsElement.innerHTML = '<p>No tags yet</p>';
                             }
                         }
                     })

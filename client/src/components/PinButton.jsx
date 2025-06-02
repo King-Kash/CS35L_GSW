@@ -85,10 +85,10 @@ const PinButton = ({ locationId, onPinToggle, className = '' }) => {
                 </span>
             )}
             <span className="pin-text">
-                {isPinned ? 'Pinned' : 'Pin'}
+                {isPinned ? 'Pinned' : 'Pin This Location'}
             </span>
         </button>
     );
 };
 
-export default PinButton; 
+export default PinButton;

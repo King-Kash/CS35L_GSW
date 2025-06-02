@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Locations.css';
 import NavBar from '../components/NavBar';
+import PinButton from '../components/PinButton';
 import { AuthContext } from '../AuthContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -20,9 +21,27 @@ const LocationSelector = () => {
   const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
   const { user } = useContext(AuthContext);
 
+  const [locationTags, setLocationTags] = useState({});
+
   useEffect(() => {
     fetchLocations();
   }, []);
+
+  useEffect(() => {
+    // Fetch top tags for all locations
+    const fetchAllTags = async () => {
+      const tagsMap = {};
+      for (const location of locations) {
+        const tags = await fetchTopTags(location._id);
+        tagsMap[location._id] = tags;
+      }
+      setLocationTags(tagsMap);
+    };
+    
+    if (locations.length > 0) {
+      fetchAllTags();
+    }
+  }, [locations]);
 
   const fetchLocations = async () => {
     try {
@@ -67,6 +86,21 @@ const LocationSelector = () => {
     }
   };
 
+  // Function to fetch top tags for a location
+  const fetchTopTags = async (locationId) => {
+    try {
+      const response = await fetch(`${API_URL}/locations/${locationId}/top-tags`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.topTags || [];
+      }
+      return [];
+    } catch (error) {
+      console.error('Error fetching top tags:', error);
+      return [];
+    }
+  };
+
   const handleShowRecommendations = () => {
     if (!showRecommendations && recommendations.length === 0) {
       fetchRecommendations();
@@ -91,25 +125,36 @@ const LocationSelector = () => {
     <div
       key={location._id}
       className={`location-card ${isRecommendation ? 'recommendation-card' : ''}`}
-      onClick={() => handleLocationSelect(location)}
     >
-      <img 
-        src={location.image || DEFAULT_IMAGE} 
-        alt={location.name}
-        className="location-image"
-        onError={handleImageError}
-      />
-      <div className="location-info">
-        <h3>{location.name}</h3>
-        {location.description && (
-          <p className="location-description">{location.description}</p>
-        )}
-        <div className="location-rating">
-          ⭐ {parseFloat(location.rating?.$numberDecimal ?? location.rating).toFixed(1)}
+      <div className="card-content" onClick={() => handleLocationSelect(location)}>
+        <img 
+          src={location.image || DEFAULT_IMAGE} 
+          alt={location.name}
+          className="location-image"
+          onError={handleImageError}
+        />
+        <div className="location-info">
+          <h3>{location.name}</h3>
+          {location.description && (
+            <p className="location-description">{location.description}</p>
+          )}
+          <div className="location-rating">
+            {parseFloat(location.rating?.$numberDecimal ?? location.rating).toFixed(1)}
+          </div>
+          {locationTags[location._id] && locationTags[location._id].length > 0 && (
+            <div className="location-card-tags">
+              {locationTags[location._id].map(tag => (
+                <span key={tag} className="location-card-tag">{tag}</span>
+              ))}
+            </div>
+          )}
+          {isRecommendation && (
+            <div className="recommendation-badge">Recommended for you</div>
+          )}
         </div>
-        {isRecommendation && (
-          <div className="recommendation-badge">Recommended for you</div>
-        )}
+      </div>
+      <div className="location-card-actions">
+        <PinButton locationId={location._id} className="card-pin-button" />
       </div>
     </div>
   );

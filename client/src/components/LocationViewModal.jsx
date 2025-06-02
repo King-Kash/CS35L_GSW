@@ -38,7 +38,6 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
     }
 
     const goToLocationPage = () => {
-        console.log(selectedSpot._id)
         navigate(`/location-view/${selectedSpot._id}`);
     }
 
@@ -90,7 +89,7 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                                     &#9733;
                                 </span>
                                 ))}
-                                &nbsp; ({processedSpot.rating})
+                                <span>&nbsp; ({processedSpot.rating.toFixed(1)})</span>
                             </div>
                             <div className="rating-info">
                                 <div className="label">{label}</div>
@@ -101,34 +100,39 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                         </div>
                     </div>
                     <div className="bottom-part">
-                        <p>{processedSpot.description || "No description available."}</p>
-                        
-                        <div className="location-tags">
-                            {topTags.length > 0 ? (
-                                <>
-                                    <div className="tags-label">Top Tags:</div>
-                                    <div className="tags-list">
-                                        {topTags.map(tag => (
-                                            <span key={tag} className="location-tag">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </>
-                            ) : null}
+                        <div className="location-description">
+                            {processedSpot.description || "No description available."}
                         </div>
                         
+                        {topTags.length > 0 ? (
+                            <div className="location-tags">
+                                <div className="tags-label">Top Tags for this Location</div>
+                                <div className="tags-list">
+                                    {topTags.map(tag => (
+                                        <span key={tag} className="location-tag">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="location-tags empty-tags">
+                                <div className="tags-label">No tags yet</div>
+                                <p className="tags-hint">Write a review and add tags to help others find this spot!</p>
+                            </div>
+                        )}
+                        
                         <div className="button-group">
-                          <button className="location-view-link" onClick={goToLocationPage}>
-                              Go to Location Page
-                          </button>
-                          <button className="reviews-button" onClick={goToReviews}>
-                              Write a Review
-                          </button>
+                            <button className="location-view-link" onClick={goToLocationPage}>
+                                Go to Location Page
+                            </button>
+                            <button className="reviews-button" onClick={goToReviews}>
+                                Write a Review
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-} 
+}
