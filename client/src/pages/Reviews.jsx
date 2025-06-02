@@ -22,7 +22,7 @@ export default function Reviews() {
 
   // Handle navigation to add review page
   const handleAddReview = () => {
-    navigate('/add-review');
+    navigate('/locations');
   };
 
   const handleViewLocation = (locationId) => {
@@ -128,6 +128,7 @@ export default function Reviews() {
       id: review._id || review.id,
       username: review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
+      locationId: review.location?._id,
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
