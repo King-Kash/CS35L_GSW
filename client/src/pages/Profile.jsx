@@ -6,6 +6,8 @@ import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 import PinnedLocations from '../components/PinnedLocations';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -14,13 +16,14 @@ export default function Profile() {
 
   const filterReviews = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/reviews/', {
+      const res = await axios.get(API_URL + '/reviews/', {
         withCredentials: true
       });
       const userReviews = res.data.filter(review => 
         String(review.user._id) === user.id
       );
       setReviews(userReviews);
+      console.log(reviews)
     } catch (error) {
       console.error("Failed to fetch reviews", error);
     }
@@ -77,7 +80,7 @@ export default function Profile() {
   const handleLogout = async () => {
     // For now, just navigate to the login page
     try {
-      await axios.delete('http://localhost:3000/logout', {
+      await axios.delete(API_URL + '/logout', {
         withCredentials: true,
       });
       navigate('/');
@@ -166,14 +169,18 @@ export default function Profile() {
                 {reviews.map(review => (
                   <div key={review.id} className="review-card">
                     <div className="review-main-content">
-                      <h3 className="review-location">{review.locationName}</h3>
+                      <h3 className="review-location">{review.location?.name}</h3>
                       <div className="review-rating">
                         {Array(5).fill().map((_, i) => (
                           <span key={i} className={i < review.rating ? "star filled" : "star"}>★</span>
                         ))}
                       </div>
-                      <p className="review-content">{review.content}</p>
-                      <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>
+                      <p className="review-content">{review.contents}</p>
+                      <span className="review-date">{new Date(review.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}</span>
                     </div>
                     <div className="review-image-container">
                       <img 

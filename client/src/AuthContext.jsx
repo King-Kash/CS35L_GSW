@@ -8,6 +8,8 @@ export const AuthContext = createContext({
     checkAuth: () => {},
 });
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function AuthProvider({children}) {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -15,7 +17,7 @@ export function AuthProvider({children}) {
     async function checkAuth() {
         try {
             const authStatus = await axios.get(
-                'http://localhost:3000/api/auth/status',
+                API_URL + '/api/auth/status',
                 {
                     withCredentials: true
                 }
