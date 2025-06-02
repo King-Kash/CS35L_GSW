@@ -7,11 +7,8 @@ import PinButton from '../components/PinButton';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LocationView() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    
-    // Define a default image URL
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+    const navigate = useNavigate();
     const { locationId } = useParams();
     const [selectedSpot, setSelectedSpot] = useState(null);
     const [loading, setLoading] = useState(true);
