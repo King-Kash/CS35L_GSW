@@ -14,9 +14,11 @@ export const search = async (req, res) => {
     
     // Build conditions array for location search
     const locationConditions = [];
+    // Build conditions array for review search
+    const reviewConditions = [];
     
     if (searchTerm && searchTerm.trim()) {
-      // Search in location name and description
+      // Search in location name and description (case-insensitive)
       locationConditions.push({
         $or: [
           { name: { $regex: searchTerm, $options: 'i' } },
@@ -24,23 +26,30 @@ export const search = async (req, res) => {
         ]
       });
       
-      // Search in review contents
-      reviewQuery.contents = { $regex: searchTerm, $options: 'i' };
+      // Search in review contents (case-insensitive)
+      reviewConditions.push({
+        contents: { $regex: searchTerm, $options: 'i' }
+      });
     }
     
     // Add tags filter if provided
     if (tags && tags.length > 0) {
       const validTags = tags.filter(tag => tag && tag.trim());
       if (validTags.length > 0) {
-        locationConditions.push({
-          tags: { $in: validTags.map(tag => tag.toLowerCase().trim()) }
-        });
+        const tagFilter = { tags: { $in: validTags.map(tag => tag.toLowerCase().trim()) } };
+        // Add tags filter to both locations and reviews
+        locationConditions.push(tagFilter);
+        reviewConditions.push(tagFilter);
       }
     }
     
     // Combine all conditions
     if (locationConditions.length > 0) {
       locationQuery.$and = locationConditions;
+    }
+    
+    if (reviewConditions.length > 0) {
+      reviewQuery.$and = reviewConditions;
     }
     
     // Search locations
@@ -131,10 +140,11 @@ export const getRecommendations = async (req, res) => {
     if (similarUsers.length > 0) {
       const similarUserIds = similarUsers.map(user => user.id);
       
+      // Find locations rated 3.5 or higher from similar users that the current user hasn't reviewed
       const similarUserReviews = await Review.find({
         user: { $in: similarUserIds },
         location: { $nin: reviewedLocationIds },
-        rating: { $gte: 4 } // Only high-rated recommendations
+        rating: { $gte: 3.5 } // Only high-rated recommendations
       })
       .populate('location')
       .sort({ rating: -1 });
@@ -172,17 +182,11 @@ export const getRecommendations = async (req, res) => {
     
     console.log('Collaborative recommendations:', recommendations.length);
     
-    // If not enough collaborative recommendations, fall back to content-based
-    if (recommendations.length < 5) {
-      const contentBasedRecs = await getContentBasedRecommendations(userReviews, reviewedLocationIds);
-      recommendations = [...recommendations, ...contentBasedRecs].slice(0, 10);
-      console.log('After content-based, total recommendations:', recommendations.length);
-    }
-    
-    // If still not enough, add popular locations
+    // If not enough collaborative recommendations, add popular locations with 3.5+ average rating
     if (recommendations.length < 5) {
       const popularLocations = await Location.find({
-        _id: { $nin: [...reviewedLocationIds, ...recommendations.map(r => r._id)] }
+        _id: { $nin: [...reviewedLocationIds, ...recommendations.map(r => r._id)] },
+        rating: { $gte: 3.5 }
       })
       .sort({ rating: -1 })
       .limit(10 - recommendations.length);
@@ -299,28 +303,3 @@ function calculatePearsonCorrelation(userReviews, otherUserRatings) {
   
   return den === 0 ? 0 : num / den;
 }
-
-// Helper function for content-based recommendations
-async function getContentBasedRecommendations(userReviews, excludeLocationIds) {
-  try {
-    // For now, return locations with similar ratings
-    // This can be enhanced with more sophisticated content analysis
-    const avgUserRating = userReviews.reduce((sum, review) => sum + review.rating, 0) / userReviews.length;
-    
-    const recommendations = await Location.find({
-      _id: { $nin: excludeLocationIds },
-      rating: { 
-        $gte: Math.max(avgUserRating - 0.5, 3.5),
-        $lte: Math.min(avgUserRating + 0.5, 5)
-      }
-    })
-    .sort({ rating: -1 })
-    .limit(5);
-    
-    return recommendations;
-    
-  } catch (error) {
-    console.error('Error in content-based recommendations:', error);
-    return [];
-  }
-} 
