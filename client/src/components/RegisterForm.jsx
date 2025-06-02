@@ -4,6 +4,8 @@ import { FaUser, FaLock } from "react-icons/fa"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const RegisterForm = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -15,7 +17,7 @@ const RegisterForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:3000/users/signup',
+                API_URL + '/users/signup',
                 {name, email, password},
                 {
                     withCredentials: true
