@@ -126,7 +126,7 @@ export default function Reviews() {
   const normalizeReview = (review) => {
     return {
       id: review._id || review.id,
-      username: review.user?.username || review.username,
+      username: review.user?.username || review.user?.name || review.username,
       locationName: review.location?.name || review.locationName,
       locationId: review.location?._id,
       rating: review.rating,
