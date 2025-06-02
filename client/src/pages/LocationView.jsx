@@ -9,6 +9,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function LocationView() {
     const navigate = useNavigate();
     const location = useLocation();
+    const [reviews, setReviews] = useState([]);
+    const [availableTags, setAvailableTags] = useState([]);
+    const [locationFilter, setLocationFilter] = useState('');
     
     // Define a default image URL
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
@@ -29,6 +32,64 @@ export default function LocationView() {
         image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
       };
     };
+
+    useEffect(() => {
+        if (selectedSpot && selectedSpot._id) {
+            setLocationFilter(selectedSpot._id);
+        }
+    }, [selectedSpot]);
+
+    useEffect(() => {
+      const fetchReviews = async () => {
+        try {
+          setLoading(true);
+          
+          // Build query parameters for filtering
+          const params = new URLSearchParams();
+          if (locationFilter) params.append('location', locationFilter);
+          
+          const queryString = params.toString() ? `?${params.toString()}` : '';
+          const url = `${API_URL}/reviews${queryString}`;
+          console.log("Fetching from:", url);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            mode: 'cors'
+          });
+          
+          if (!response.ok) {
+            console.error("Response error:", response.status, response.statusText);
+            throw new Error(`Failed to fetch reviews: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          setReviews(data);
+          
+          // Extract unique locations if no filter is applied
+          if (data.length > 0) {
+            let allTags = [];
+              data.forEach(review => {
+                const reviewTags = review.tags || [];
+                allTags = [...allTags, ...reviewTags];
+              });
+              const uniqueTags = [...new Set(allTags)];
+              setAvailableTags(uniqueTags);
+          }
+          
+        } catch (err) {
+          console.error('Error fetching reviews:', err);
+          setError(err.message);
+          // Fall back to sample data if API fails
+          setReviews([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      fetchReviews();
+    }, [locationFilter]);
 
     useEffect(() => {
         const fetchLocation = async () => {
@@ -169,7 +230,7 @@ export default function LocationView() {
                       {!processedSpot.reviews || processedSpot.reviews.length === 0 ? (
                         <p>No reviews yet.</p>
                       ) : ( 
-                        processedSpot.reviews.map(review => {
+                        reviews.map(review => {
                           const normalizedReview = normalizeReview(review);
                           return (
                             <div key={normalizedReview.id} className="review-card">

@@ -61,7 +61,7 @@ export const getReviews = async (req, res) => {
     
     // Fetch reviews with populated user and location fields
     const reviews = await Review.find(filter)
-      .populate('user', 'username') // Populate user info
+      .populate('user')
       .populate('location', 'name') // Populate location info
       .sort({ createdAt: -1 }); // Sort by newest first
     
