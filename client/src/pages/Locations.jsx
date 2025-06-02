@@ -93,14 +93,12 @@ const LocationSelector = () => {
       className={`location-card ${isRecommendation ? 'recommendation-card' : ''}`}
       onClick={() => handleLocationSelect(location)}
     >
-      {location.image && (
-        <img 
-          src={location.image || DEFAULT_IMAGE} 
-          alt={location.name}
-          className="location-image"
-          onError={handleImageError}
-        />
-      )}
+      <img 
+        src={location.image || DEFAULT_IMAGE} 
+        alt={location.name}
+        className="location-image"
+        onError={handleImageError}
+      />
       <div className="location-info">
         <h3>{location.name}</h3>
         {location.description && (
