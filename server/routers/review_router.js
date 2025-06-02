@@ -1,5 +1,5 @@
 import express from "express";
-import { addReview, deleteReview, getReviews } from "../controllers/reviews.js";
+import { addReview, deleteReview, getReviews, getTags } from "../controllers/reviews.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -29,6 +29,7 @@ router.get("/", getReviews); // Route to get all reviews with optional filtering
 router.post("/addReview/", addReview); // Route to add a review
 //router.post("/addReview/", authenticateToken, addReview); // Route to add a review with authentication
 router.delete("/deleteReview/:id", deleteReview); // Route to delete a review by ID
+router.get("/tags", getTags);
 
 export default router;
 

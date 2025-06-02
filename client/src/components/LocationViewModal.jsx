@@ -1,12 +1,33 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import '../styles/LocationViewModal.css';
 import PinButton from './PinButton';
 
 export default function LocationViewModal({ selectedSpot, setShowLocationView }) {
     
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
+    const [topTags, setTopTags] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL;
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchTopTags = async () => {
+            if (!selectedSpot?._id) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/locations/${selectedSpot._id}/top-tags`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTopTags(data.topTags || []);
+                }
+            } catch (error) {
+                console.error('Error fetching top tags:', error);
+            }
+        };
+        
+        fetchTopTags();
+    }, [selectedSpot, API_URL]);
 
     if (!selectedSpot) {
         return null;
@@ -81,7 +102,22 @@ export default function LocationViewModal({ selectedSpot, setShowLocationView })
                     </div>
                     <div className="bottom-part">
                         <p>{processedSpot.description || "No description available."}</p>
-                        <p>{processedSpot.tags?.length > 0 || "No tags yet"}</p>
+                        
+                        <div className="location-tags">
+                            {topTags.length > 0 ? (
+                                <>
+                                    <div className="tags-label">Top Tags:</div>
+                                    <div className="tags-list">
+                                        {topTags.map(tag => (
+                                            <span key={tag} className="location-tag">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </>
+                            ) : null}
+                        </div>
+                        
                         <div className="button-group">
                           <button className="location-view-link" onClick={goToLocationPage}>
                               Go to Location Page

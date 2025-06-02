@@ -1,6 +1,18 @@
 import Review from "../models/review_model.js";
 import Location from "../models/location_model.js";
 import mongoose from "mongoose";
+import { STUDY_SPOT_TAGS } from "../constants/tags.js";
+
+// Get available tags
+export const getTags = async (req, res) => {
+  try {
+    res.status(200).json(STUDY_SPOT_TAGS);
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
 
 // Get all reviews with optional filtering
 export const getReviews = async (req, res) => {

@@ -118,3 +118,55 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Location Tags Styles */
+.location-tags {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.tags-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #6b5d40;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.location-tag {
+  background-color: #f0e6d2;
+  color: #6b5d40;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e6dcc1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.location-tag::before {
+  content: "#";
+  margin-right: 3px;
+  opacity: 0.6;
+}
+
+/* Info Window Tags */
+.info-window-tags {
+  margin-top: 8px;
+}
+
+.info-tag {
+  background-color: #f0e6d2;
+  color: #6b5d40;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  display: inline-flex;
+  margin-right: 4px;
+  border: 1px solid #e6dcc1;
+}

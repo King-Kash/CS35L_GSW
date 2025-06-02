@@ -422,9 +422,37 @@ export default function MapView() {
                         <h3>${spot.name}</h3>
                         <p>Rating: ${spot.rating} ⭐</p>
                         <p>${spot.description}</p>
+                        <div class="info-window-tags" id="tags-${spot._id}">
+                            <p>Loading tags...</p>
+                        </div>
                     </div>
                 `
             });
+
+            // Fetch top tags for this location
+            if (spot._id) {
+                fetch(`${import.meta.env.VITE_API_URL}/locations/${spot._id}/top-tags`)
+                    .then(response => response.ok ? response.json() : { topTags: [] })
+                    .then(data => {
+                        const topTags = data.topTags || [];
+                        
+                        // Update the info window content with tags if there are any
+                        if (topTags.length > 0) {
+                            const tagsElement = document.getElementById(`tags-${spot._id}`);
+                            if (tagsElement) {
+                                tagsElement.innerHTML = `
+                                    <p>Top tags: ${topTags.map(tag => `<span class="info-tag">${tag}</span>`).join(' ')}</p>
+                                `;
+                            }
+                        } else {
+                            const tagsElement = document.getElementById(`tags-${spot._id}`);
+                            if (tagsElement) {
+                                tagsElement.innerHTML = '';
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error fetching top tags:', error));
+            }
 
             // Add click listener
             markerView.addListener('click', () => {

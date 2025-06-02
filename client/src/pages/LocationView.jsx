@@ -12,6 +12,7 @@ export default function LocationView() {
     const [reviews, setReviews] = useState([]);
     const [availableTags, setAvailableTags] = useState([]);
     const [locationFilter, setLocationFilter] = useState('');
+    const [topTags, setTopTags] = useState([]);
     
     // Define a default image URL
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
@@ -91,6 +92,20 @@ export default function LocationView() {
       fetchReviews();
     }, [locationFilter]);
 
+    const fetchTopTags = async (locId) => {
+    try {
+        const response = await fetch(`${API_URL}/locations/${locId}/top-tags`);
+        if (response.ok) {
+        const data = await response.json();
+        setTopTags(data.topTags || []);
+        } else {
+        console.error('Failed to fetch top tags');
+        }
+    } catch (error) {
+        console.error('Error fetching top tags:', error);
+    }
+    };
+
     useEffect(() => {
         const fetchLocation = async () => {
             try {
@@ -107,6 +122,7 @@ export default function LocationView() {
                 }
                 
                 setSelectedSpot(location);
+                fetchTopTags(locationId);
             } catch (err) {
                 setError(err.message);
                 console.error('Error fetching location:', err);
@@ -211,10 +227,19 @@ export default function LocationView() {
                         </div>
                         
                         <p className="location-tags-2">
-                            {processedSpot.tags?.length > 0 
-                                ? `Tags: ${processedSpot.tags.join(', ')}` 
+                            {topTags.length > 0 
+                                ? (
+                                <>
+                                    <span className="tags-label">Top Tags: </span>
+                                    {topTags.map(tag => (
+                                    <span key={tag} className="location-tag">
+                                        {tag}
+                                    </span>
+                                    ))}
+                                </>
+                                ) 
                                 : "No tags yet"}
-                        </p>
+                            </p>
                         
                         <button className="reviews-button-2" onClick={goToReviews}>
                             Write a Review

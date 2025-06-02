@@ -3,6 +3,56 @@
   min-height: 100vh;
 }
 
+/* Tags Styles */
+.tags-section {
+  margin-bottom: 25px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.review-tag {
+  background-color: #f0e6d2;
+  color: #6b5d40;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e6dcc1;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.review-tag::before {
+  content: "#";
+  margin-right: 3px;
+  opacity: 0.6;
+}
+
+.review-tag:hover {
+  background-color: #e6dcc1;
+  transform: translateY(-1px);
+}
+
+.review-tag.selected {
+  background-color: #938878;
+  color: white;
+  border-color: #7a6e5e;
+}
+
+.selected-tags {
+  margin-top: 10px;
+  font-style: italic;
+  color: #6b5d40;
+}
+
 /* Location Selector Styles */
 .location-selector {
   text-align: center;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Locations.css';
 import NavBar from '../components/NavBar';
@@ -16,8 +16,36 @@ const Review = () => {
   const [contents, setContents] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [alert, setAlert] = useState(null);
+  const [availableTags, setAvailableTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { checkAuth } = useContext(AuthContext);
+
+  // Fetch available tags when component mounts
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${API_URL}/reviews/tags`);
+        if (response.ok) {
+          const tags = await response.json();
+          setAvailableTags(tags);
+        } else {
+          console.error('Failed to fetch tags');
+          // Fallback to empty array if fetch fails
+          setAvailableTags([]);
+        }
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+        setAvailableTags([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   // Redirect if no location data is provided
   if (!locationData) {
@@ -52,6 +80,7 @@ const Review = () => {
           contents,
           location: locationData._id,
           user: isAuthenticated.id,
+          tags: selectedTags
         })
       });
 
@@ -66,6 +95,20 @@ const Review = () => {
       alert('Error submitting review. Please try again.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleTagClick = (tag) => {
+    if (selectedTags.includes(tag)) {
+      // Remove tag if already selected
+      setSelectedTags(selectedTags.filter(t => t !== tag));
+    } else {
+      // Add tag if not already selected (max 5 tags)
+      if (selectedTags.length < 5) {
+        setSelectedTags([...selectedTags, tag]);
+      } else {
+        alert('You can select up to 5 tags');
+      }
     }
   };
 
@@ -141,6 +184,30 @@ const Review = () => {
               rows={6}
               required
             />
+          </div>
+
+          <div className="tags-section">
+            <label>Tags (select up to 5):</label>
+            <div className="tags-container">
+              {loading ? (
+                <p>Loading tags...</p>
+              ) : (
+                availableTags.map(tag => (
+                  <span
+                    key={tag}
+                    className={`review-tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
+                    onClick={() => handleTagClick(tag)}
+                  >
+                    {tag}
+                  </span>
+                ))
+              )}
+            </div>
+            {selectedTags.length > 0 && (
+              <div className="selected-tags">
+                <p>Selected tags: {selectedTags.join(', ')}</p>
+              </div>
+            )}
           </div>
 
           <button 

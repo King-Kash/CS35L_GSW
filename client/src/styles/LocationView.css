@@ -1,3 +1,35 @@
+/* Location Tags Styles */
+.location-tags-2 {
+  margin: 15px 0;
+  font-size: 1rem;
+}
+
+.tags-label {
+  font-weight: 600;
+  color: #6b5d40;
+  margin-right: 8px;
+}
+
+.location-tag {
+  background-color: #f0e6d2;
+  color: #6b5d40;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+  margin-bottom: 5px;
+  border: 1px solid #e6dcc1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.location-tag::before {
+  content: "#";
+  margin-right: 3px;
+  opacity: 0.6;
+}
+
 /* Full page container for dedicated LocationView page */
 .location-view-page {
   min-height: 100vh;

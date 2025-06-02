@@ -1,5 +1,46 @@
 import express from "express";
 import Location from "../models/location_model.js";
+import Review from "../models/review_model.js";
+import mongoose from "mongoose";
+
+// Get top tags for a location
+export const getLocationTopTags = async (req, res) => {
+  try {
+    const { locationId } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(locationId)) {
+      return res.status(400).json({ success: false, message: "Invalid location ID." });
+    }
+    
+    // Find all reviews for this location
+    const reviews = await Review.find({ location: locationId });
+    
+    if (!reviews.length) {
+      return res.status(200).json({ success: true, topTags: [] });
+    }
+    
+    // Count tag occurrences
+    const tagCounts = {};
+    reviews.forEach(review => {
+      if (review.tags && review.tags.length) {
+        review.tags.forEach(tag => {
+          tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        });
+      }
+    });
+    
+    // Sort tags by count and get top 3
+    const topTags = Object.entries(tagCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([tag]) => tag);
+    
+    res.status(200).json({ success: true, topTags });
+  } catch (error) {
+    console.error("Error fetching top tags:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
 
 // Controller function to create a new location
 export const createLocation = async (req, res) => {
