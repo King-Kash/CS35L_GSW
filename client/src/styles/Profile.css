@@ -1,11 +1,11 @@
 .profile-page {
-    background-color: #f8f9fa;
+    background-color: #f0ead9 !important;
     min-height: 100vh;
   }
   
   .profile-container {
     display: flex;
-    max-width: 1200px;
+    max-width: 90vw;
     margin: 0 auto;
     gap: 30px;
   }
@@ -145,18 +145,19 @@
   .reviews-container {
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
     flex-grow: 1;
     height: calc(100vh - 180px);
     overflow-y: auto;
     padding: 5px;
   }
   
-  .reviews-list {
+  .reviews-list-2 {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    width: 100%
   }
   
   .review-card {
@@ -206,11 +207,12 @@
   }
   
   .review-image-container {
-    flex: 1;
+    flex: 2;
     max-width: 180px;
     height: 150px;
     border-radius: 6px;
     overflow: hidden;
+    padding-left: 10px;
   }
   
   .review-image {

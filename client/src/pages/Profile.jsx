@@ -14,6 +14,28 @@ export default function Profile() {
   const { user, setUser, checkAuth } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
 
+  const handleViewLocation = (locationId) => {
+    if (locationId) {
+      navigate(`/location-view/${locationId}`);
+    } else {
+      alert('Location ID not available');
+    }
+  };
+
+  const normalizeReview = (review) => {
+    return {
+      id: review._id || review.id,
+      username: review.user?.username || review.user?.name || review.username,
+      locationName: review.location?.name || review.locationName,
+      locationId: review.location?._id,
+      rating: review.rating,
+      content: review.contents || review.content,
+      createdAt: review.timestamp || review.createdAt,
+      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      tags: review.tags || []
+    };
+  }
+
   const filterReviews = async () => {
     try {
       const res = await axios.get(API_URL + '/reviews/', {
@@ -165,32 +187,66 @@ export default function Profile() {
             {reviews.length === 0 ? (
               <p className="no-reviews">You haven't written any reviews yet.</p>
             ) : (
-              <div className="reviews-list">
-                {reviews.map(review => (
-                  <div key={review.id} className="review-card">
-                    <div className="review-main-content">
-                      <h3 className="review-location">{review.location?.name}</h3>
+              <div className="reviews-list-2">
+                {reviews.map(review => {
+                  const normalizedReview = normalizeReview(review);
+                  return (
+                    <div key={normalizedReview.id} className="review-card">
+                    <div className="review-info">
+                      <h3 className="review-location">{normalizedReview.locationName}</h3>
+                      <span className="review-username">by {normalizedReview.username}</span>
+                      <span className="review-city-state">{normalizedReview.cityState}</span>
+                      
+                      {/* Tags moved here - between username and rating */}
+                      {normalizedReview.tags && normalizedReview.tags.length > 0 && (
+                        <div className="review-tags">
+                          {normalizedReview.tags.map(tag => (
+                            <span 
+                              key={tag} 
+                              className="review-tag"
+                              onClick={() => setTagFilter(tag === tagFilter ? '' : tag)}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      
                       <div className="review-rating">
                         {Array(5).fill().map((_, i) => (
-                          <span key={i} className={i < review.rating ? "star filled" : "star"}>★</span>
+                          <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
                         ))}
                       </div>
-                      <p className="review-content">{review.contents}</p>
-                      <span className="review-date">{new Date(review.createdAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}</span>
+                      <button 
+                          className="view-location-button"
+                          onClick={() => handleViewLocation(normalizedReview.locationId)}
+                        >
+                          View Location
+                        </button>
                     </div>
+                    
+                    <div className="review-main-content">
+                      <div className="review-content">
+                        <p>{normalizedReview.content}</p>
+                        <span className="review-date">
+                          {new Date(normalizedReview.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                    
                     <div className="review-image-container">
                       <img 
-                        src={review.image} 
-                        alt={review.locationName}
+                        src={normalizedReview.image} 
+                        alt={normalizedReview.locationName}
                         className="review-image" 
                       />
                     </div>
                   </div>
-                ))}
+                )})}
               </div>
             )}
           </div>
