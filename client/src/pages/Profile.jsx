@@ -120,6 +120,14 @@ export default function Profile() {
     }
   };
 
+  const handleReviewClick = (review) => {
+    if (review.location?._id) {
+      navigate(`/location-view/${review.location._id}`);
+    } else {
+      alert('Location not available for this review');
+    }
+  };
+
   useEffect(() => {
     if (user) {
       filterReviews();
@@ -211,7 +219,6 @@ export default function Profile() {
                           ))}
                         </div>
                       )}
-                      
                       <div className="review-rating">
                         {Array(5).fill().map((_, i) => (
                           <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>
