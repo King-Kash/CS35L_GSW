@@ -1,7 +1,12 @@
 .locations-page {
   margin: 0 auto;
   min-height: 100vh;
-  padding: 0 20px; /* Add padding to the page */
+  padding: 0; /* Remove padding to allow navbar to extend full width */
+}
+
+/* Content container to maintain the same padding for actual content */
+.locations-content {
+  padding: 0 20px;
 }
 
 /* Add padding to the locations grid container */

@@ -222,7 +222,9 @@ const Locations = () => {
   return (
     <div className="locations-page">
       <NavBar />
-      <LocationSelector />
+      <div className="locations-content">
+        <LocationSelector />
+      </div>
     </div>
   );
 };
