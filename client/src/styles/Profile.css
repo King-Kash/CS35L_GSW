@@ -5,22 +5,24 @@
   
   .profile-container {
     display: flex;
-    max-width: 90vw;
     margin: 0 auto;
-    gap: 30px;
   }
   
   /* Left column styling */
   .profile-left-column {
     flex: 1;
-    max-width: 350px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 30px;
+    flex-direction: column;
+    justify-content: center;
+    max-height: calc(100vh - 74px);
   }
   
   .profile-card {
-    background-color: #ffffff;
+    background-color: #faf6eb;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
@@ -106,27 +108,27 @@
   }
   
   .logout-button {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #938878;
+    color: white;
   }
   
   .logout-button:hover {
-    background-color: #e0e0e0;
+    background-color: #7a6e5e;
   }
   
   .delete-button {
-    background-color: #ffeeee;
-    color: #d32f2f;
+    background-color: #875050;
+    color: white;
   }
   
   .delete-button:hover {
-    background-color: #ffdada;
+    background-color: #724343;
   }
   
   /* Divider line */
   .profile-divider {
     width: 1px;
-    background-color: #e0e0e0;
+    background-color: #9e937c;
   }
   
   /* Right column styling */
@@ -134,6 +136,9 @@
     flex: 2;
     display: flex;
     flex-direction: column;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 1100px;
   }
   
   .reviews-heading {
@@ -145,7 +150,7 @@
   .reviews-container {
     background-color: #ffffff;
     border-radius: 10px;
-    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     flex-grow: 1;
     height: calc(100vh - 180px);
     overflow-y: auto;
@@ -157,7 +162,9 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 100%
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
   }
   
   .review-card {
