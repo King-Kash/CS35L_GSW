@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import '../styles/Home.css'; 
 import penImage from '../assets/pendrawing.png';
 import NavBar from '../components/NavBar';
+import Feature3 from '../assets/feature3.png';
 
 export default function Home() {
   return (
@@ -66,7 +67,7 @@ export default function Home() {
               <p>We would implement a map view that shows study spots with interactive pins. Users can explore spots geographically and click on map markers to access detailed reviews.</p>
             </div>
             <div className="feature-image">
-              <img src="/assets/feature3.png" alt="Feature 3" />
+              <img src={Feature3} alt="Feature 3" />
             </div>
           </div>
         </div>
