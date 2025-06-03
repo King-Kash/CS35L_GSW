@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './LoginForm.css'
 import { FaUser, FaLock } from "react-icons/fa"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../AuthContext'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,6 +13,7 @@ const RegisterForm = () => {
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
+    const { checkAuth } = useContext(AuthContext);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -24,7 +26,17 @@ const RegisterForm = () => {
                 }
             )
             console.log('Registered user: ', response.data.user)
-            navigate('/login')
+            const reps2 = await axios.get(
+                API_URL + '/api/auth/status',
+                {
+                    withCredentials: true
+                }
+            )
+            if (reps2.status == 200) {
+                console.log('Logged in user:', reps2.data)
+            }
+            await checkAuth()
+            navigate('/')
         } catch (err) {
             console.error(err)
             setError(err.response?.data?.error || 'Sign Up Failed')
