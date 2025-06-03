@@ -28,7 +28,24 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  const tags = ['quiet', 'aesthetic', 'good for collaboration', 'any']; // Some sample tags
+  const tags = ['quiet',
+    'group-friendly',
+    'wifi',
+    'outlets',
+    'natural-light',
+    'cozy',
+    'spacious',
+    'coffee',
+    'food',
+    'late-hours',
+    'comfortable-seating',
+    'private-rooms',
+    'good-lighting',
+    'affordable',
+    'view',
+    'outdoor-seating'
+  ];
+
   const spots = [ {
     "location": {
         "type": "Point",

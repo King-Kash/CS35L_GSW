@@ -34,6 +34,8 @@ export const getLocationTopTags = async (req, res) => {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)
       .map(([tag]) => tag);
+
+    await Location.findByIdAndUpdate(locationId, { tags: topTags });
     
     res.status(200).json({ success: true, topTags });
   } catch (error) {
