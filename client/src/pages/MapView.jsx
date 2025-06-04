@@ -566,6 +566,7 @@ export default function MapView() {
                               maxLength={200}
                           />
                           <div className="image-placeholder">
+                            Upload an image for your spot:
                               <div className="image-upload">
                                     <input
                                         type="file"
