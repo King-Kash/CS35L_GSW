@@ -245,6 +245,50 @@
   transform: translateY(0);
 }
 
+/* Tags for results */
+.result-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0.75rem 0 0.5rem 0;
+}
+
+.result-tags-loading {
+  margin: 0.75rem 0 0.5rem 0;
+}
+
+.loading-text {
+  color: #666;
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.result-tag {
+  background-color: #f0e6d2;
+  color: #6b5d40;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e6dcc1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.result-tag:hover {
+  background-color: #e6dcc1;
+  transform: translateY(-1px);
+}
+
+.result-tag::before {
+  content: "#";
+  margin-right: 3px;
+  opacity: 0.6;
+}
+
 /* Loading and error states */
 .loading, .error, .no-results {
   text-align: center;

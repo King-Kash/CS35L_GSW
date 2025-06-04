@@ -25,13 +25,14 @@ export default function LocationView() {
     const normalizeReview = (review) => {
       return {
         id: review._id || review.id,
-        username: review.user?.username || review.user?.name || review.username,
+        username: review.user?.name || review.user?.username || review.username,
         locationName: review.location?.name || review.locationName,
         locationId: review.location?._id,
         rating: review.rating,
         content: review.contents || review.content,
         createdAt: review.timestamp || review.createdAt,
-        image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        tags: review.tags || []
       };
     };
 
@@ -265,6 +266,17 @@ export default function LocationView() {
                                 <h3 className="review-location">{normalizedReview.locationName}</h3>
                                 <span className="review-username">by {normalizedReview.username}</span>
                                 <span className="review-city-state">{normalizedReview.cityState}</span>
+                                
+                                {normalizedReview.tags && normalizedReview.tags.length > 0 && (
+                                  <div className="review-tags">
+                                    {normalizedReview.tags.map(tag => (
+                                      <span key={tag} className="review-tag">
+                                        {tag}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                                
                                 <div className="review-rating">
                                   {Array(5).fill().map((_, i) => (
                                     <span key={i} className={i < normalizedReview.rating ? "star filled" : "star"}>★</span>

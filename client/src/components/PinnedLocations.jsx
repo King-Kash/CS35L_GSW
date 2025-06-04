@@ -8,12 +8,58 @@ const PinnedLocations = () => {
     const [pinnedLocations, setPinnedLocations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [locationTags, setLocationTags] = useState({});
+    const [tagsLoading, setTagsLoading] = useState(false);
     const { checkAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchPinnedLocations();
     }, []);
+
+    useEffect(() => {
+        // Fetch top tags for all pinned locations
+        const fetchAllTags = async () => {
+            if (pinnedLocations.length === 0) return;
+            
+            setTagsLoading(true);
+            const tagsMap = {};
+            
+            // Process locations in batches to avoid overwhelming the server
+            const batchSize = 3;
+            for (let i = 0; i < pinnedLocations.length; i += batchSize) {
+                const batch = pinnedLocations.slice(i, i + batchSize);
+                const batchPromises = batch.map(pin => 
+                    fetchTopTags(pin.location._id).then(tags => ({ locationId: pin.location._id, tags }))
+                );
+                
+                const batchResults = await Promise.all(batchPromises); // fetch tag requests simultaneously within batch
+                batchResults.forEach(({ locationId, tags }) => {
+                    tagsMap[locationId] = tags;
+                });
+            }
+            
+            setLocationTags(tagsMap);
+            setTagsLoading(false);
+        };
+        
+        fetchAllTags();
+    }, [pinnedLocations]);
+
+    // Function to fetch top tags for a location
+    const fetchTopTags = async (locationId) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/locations/${locationId}/top-tags`);
+            if (response.ok) {
+                const data = await response.json();
+                return data.topTags || [];
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching top tags:', error);
+            return [];
+        }
+    };
 
     const fetchPinnedLocations = async () => {
         try {
@@ -147,6 +193,18 @@ const PinnedLocations = () => {
                                                 }
                                             </p>
                                         )}
+                                        
+                                        {tagsLoading ? (
+                                            <div className="pin-tags-loading">
+                                                <span className="loading-text">Loading tags...</span>
+                                            </div>
+                                        ) : locationTags[location._id] && locationTags[location._id].length > 0 ? (
+                                            <div className="pin-tags">
+                                                {locationTags[location._id].map(tag => (
+                                                    <span key={tag} className="pin-tag">{tag}</span>
+                                                ))}
+                                            </div>
+                                        ) : null}
                                         
                                         <div className="pin-meta">
                                             <span className="pin-date">

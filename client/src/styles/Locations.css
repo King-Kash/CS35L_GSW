@@ -459,6 +459,18 @@
   margin-bottom: 5px;
 }
 
+.location-card-tags-loading {
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+.loading-text {
+  color: #666;
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 .location-card-tag {
   background-color: #f0e6d2;
   color: #6b5d40;

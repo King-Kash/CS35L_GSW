@@ -60,7 +60,7 @@ export const search = async (req, res) => {
     
     // Search reviews
     const reviews = await Review.find(reviewQuery)
-      .populate('user', 'username')
+      .populate('user', 'name')
       .populate('location', 'name _id')
       .sort({ createdAt: -1 })
       .limit(50);

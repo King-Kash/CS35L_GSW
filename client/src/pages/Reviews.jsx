@@ -126,7 +126,7 @@ export default function Reviews() {
   const normalizeReview = (review) => {
     return {
       id: review._id || review.id,
-      username: review.user?.username || review.user?.name || review.username,
+      username: review.user?.name || review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
       locationId: review.location?._id,
       rating: review.rating,
@@ -250,7 +250,7 @@ export default function Reviews() {
         </div>
 
         <div className="reviews-content">
-          <h1 className="reviews-heading">Recommended Reviews</h1>
+          <h1 className="reviews-heading">Recent Reviews</h1>
           
           {loading ? (
             <div className="loading-container">

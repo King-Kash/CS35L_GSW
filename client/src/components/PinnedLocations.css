@@ -146,6 +146,50 @@
     flex: 1;
 }
 
+/* Pin Tags */
+.pin-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0.75rem 0;
+}
+
+.pin-tags-loading {
+    margin: 0.75rem 0;
+}
+
+.loading-text {
+    color: #666;
+    font-size: 0.8rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.pin-tag {
+    background-color: #f0e6d2;
+    color: #6b5d40;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e6dcc1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.pin-tag:hover {
+    background-color: #e6dcc1;
+    transform: translateY(-1px);
+}
+
+.pin-tag::before {
+    content: "#";
+    margin-right: 3px;
+    opacity: 0.6;
+}
+
 .pin-meta {
     margin-bottom: 1rem;
 }

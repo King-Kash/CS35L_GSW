@@ -27,10 +27,56 @@ const Results = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('locations'); // 'locations', 'reviews'
+  const [locationTags, setLocationTags] = useState({});
+  const [tagsLoading, setTagsLoading] = useState(false);
+
+  // Function to fetch top tags for a location
+  const fetchTopTags = async (locationId) => {
+    try {
+      const response = await fetch(`${API_URL}/locations/${locationId}/top-tags`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.topTags || [];
+      }
+      return [];
+    } catch (error) {
+      console.error('Error fetching top tags:', error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     fetchResults();
   }, [searchTerm, tagsParam]); // Use tagsParam instead of tags array
+
+  useEffect(() => {
+    // Fetch top tags for all locations
+    const fetchAllTags = async () => {
+      if (locations.length === 0) return;
+      
+      setTagsLoading(true);
+      const tagsMap = {};
+      
+      // Process locations in batches to avoid overwhelming the server
+      const batchSize = 5;
+      for (let i = 0; i < locations.length; i += batchSize) {
+        const batch = locations.slice(i, i + batchSize);
+        const batchPromises = batch.map(location => 
+          fetchTopTags(location._id).then(tags => ({ locationId: location._id, tags }))
+        );
+        
+        const batchResults = await Promise.all(batchPromises); // fetch tag requests simultaneously within batch
+        batchResults.forEach(({ locationId, tags }) => {
+          tagsMap[locationId] = tags;
+        });
+      }
+      
+      setLocationTags(tagsMap);
+      setTagsLoading(false);
+    };
+    
+    fetchAllTags();
+  }, [locations]);
 
   const fetchResults = async () => {
     setLoading(true);
@@ -87,6 +133,17 @@ const Results = () => {
         <div className="result-reviews-count">
           {location.reviews?.length || 0} reviews
         </div>
+        {tagsLoading ? (
+          <div className="result-tags-loading">
+            <span className="loading-text">Loading tags...</span>
+          </div>
+        ) : locationTags[location._id] && locationTags[location._id].length > 0 ? (
+          <div className="result-tags">
+            {locationTags[location._id].map(tag => (
+              <span key={tag} className="result-tag">{tag}</span>
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -102,6 +159,13 @@ const Results = () => {
             </div>
           </div>
           <p className="review-content">{review.contents}</p>
+          {review.tags && review.tags.length > 0 && (
+            <div className="result-tags">
+              {review.tags.map(tag => (
+                <span key={tag} className="result-tag">{tag}</span>
+              ))}
+            </div>
+          )}
           <div className="review-meta">
             <span className="review-author">by {review.user?.username || 'Anonymous'}</span>
             <span className="review-date">{new Date(review.createdAt).toLocaleDateString()}</span>

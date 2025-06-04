@@ -27,7 +27,7 @@ export default function Profile() {
   const normalizeReview = (review) => {
     return {
       id: review._id || review.id,
-      username: review.user?.username || review.user?.name || review.username,
+      username: review.user?.name || review.user?.username || review.username,
       locationName: review.location?.name || review.locationName,
       locationId: review.location?._id,
       rating: review.rating,
@@ -285,7 +285,6 @@ export default function Profile() {
                             <span 
                               key={tag} 
                               className="review-tag"
-                              onClick={() => setTagFilter(tag === tagFilter ? '' : tag)}
                             >
                               {tag}
                             </span>

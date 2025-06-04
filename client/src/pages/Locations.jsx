@@ -22,6 +22,7 @@ const LocationSelector = () => {
   const { user } = useContext(AuthContext);
 
   const [locationTags, setLocationTags] = useState({});
+  const [tagsLoading, setTagsLoading] = useState(false);
 
   useEffect(() => {
     fetchLocations();
@@ -30,17 +31,30 @@ const LocationSelector = () => {
   useEffect(() => {
     // Fetch top tags for all locations
     const fetchAllTags = async () => {
+      if (locations.length === 0) return;
+      
+      setTagsLoading(true);
       const tagsMap = {};
-      for (const location of locations) {
-        const tags = await fetchTopTags(location._id);
-        tagsMap[location._id] = tags;
+      
+      // Process locations in batches to avoid overwhelming the server
+      const batchSize = 5;
+      for (let i = 0; i < locations.length; i += batchSize) {
+        const batch = locations.slice(i, i + batchSize);
+        const batchPromises = batch.map(location => 
+          fetchTopTags(location._id).then(tags => ({ locationId: location._id, tags }))
+        );
+        
+        const batchResults = await Promise.all(batchPromises); // fetch tag requests simultaneously within batch
+        batchResults.forEach(({ locationId, tags }) => {
+          tagsMap[locationId] = tags;
+        });
       }
+      
       setLocationTags(tagsMap);
+      setTagsLoading(false);
     };
     
-    if (locations.length > 0) {
-      fetchAllTags();
-    }
+    fetchAllTags();
   }, [locations]);
 
   const fetchLocations = async () => {
@@ -141,13 +155,17 @@ const LocationSelector = () => {
           <div className="location-rating">
             {parseFloat(location.rating?.$numberDecimal ?? location.rating).toFixed(1)}
           </div>
-          {locationTags[location._id] && locationTags[location._id].length > 0 && (
+          {tagsLoading ? (
+            <div className="location-card-tags-loading">
+              <span className="loading-text">Loading tags...</span>
+            </div>
+          ) : locationTags[location._id] && locationTags[location._id].length > 0 ? (
             <div className="location-card-tags">
               {locationTags[location._id].map(tag => (
                 <span key={tag} className="location-card-tag">{tag}</span>
               ))}
             </div>
-          )}
+          ) : null}
           {isRecommendation && (
             <div className="recommendation-badge">Recommended for you</div>
           )}
