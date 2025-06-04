@@ -13,13 +13,14 @@ export default function LocationView() {
     const [availableTags, setAvailableTags] = useState([]);
     const [locationFilter, setLocationFilter] = useState('');
     const [topTags, setTopTags] = useState([]);
-    
+    const [selectedSpot, setSelectedSpot] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [locationLoading, setLocationLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     // Define a default image URL
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80";
     const { locationId } = useParams();
-    const [selectedSpot, setSelectedSpot] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const normalizeReview = (review) => {
       return {
@@ -109,7 +110,8 @@ export default function LocationView() {
     useEffect(() => {
         const fetchLocation = async () => {
             try {
-                setLoading(true);
+                setLocationLoading(true);
+                setError(null); // Clear any previous errors
                 const response = await fetch(`${API_URL}/locations/all`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch locations');
@@ -123,11 +125,11 @@ export default function LocationView() {
                 
                 setSelectedSpot(location);
                 fetchTopTags(locationId);
+                setLocationLoading(false); // Only set locationLoading to false on success
             } catch (err) {
                 setError(err.message);
                 console.error('Error fetching location:', err);
-            } finally {
-                setLoading(false);
+                setLocationLoading(false); // Set locationLoading to false on error
             }
         };
 
@@ -153,7 +155,7 @@ export default function LocationView() {
         }
     }
 
-    if (loading) {
+    if (locationLoading) {
         return (
             <div className="location-view-page">
                 <NavBar />
