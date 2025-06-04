@@ -37,7 +37,7 @@ const LoginForm = () => {
                 console.warn('Login succeeded but /api/auth/status said unauthenticated.')
             }
             await checkAuth()
-            navigate('/')
+            navigate('/reviews')
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.error || 'Login failed');
