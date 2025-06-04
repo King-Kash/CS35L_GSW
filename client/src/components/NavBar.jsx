@@ -7,6 +7,8 @@ import { FaSearch } from 'react-icons/fa';
 import { AuthContext } from '../AuthContext';
 import { useContext } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]); // Store multiple selected tags
@@ -16,9 +18,9 @@ export default function Navbar() {
   const [highlightedSearchIndex, setHighlightedSearchIndex] = useState(-1); // Track the highlighted item
   const [highlightedTagIndex, setHighlightedTagIndex] = useState(-1); // Track the highlighted item
   const [width, setWidth] = useState(window.innerWidth);
+  const [spots, setSpots] = useState([]); // State to hold spots from database
   const navigate = useNavigate();
   const {user} = useContext(AuthContext);
-
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -27,6 +29,30 @@ export default function Navbar() {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Fetch spots from database
+  useEffect(() => {
+    const fetchSpots = async () => {
+      try {
+        const response = await fetch(`${API_URL}/locations/all`);
+        if (response.ok) {
+          const data = await response.json();
+          setSpots(data);
+        } else {
+          console.error('Failed to fetch locations');
+        }
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    fetchSpots();
+  }, []);
+
+  // Reset highlighted index when filtered results change
+  useEffect(() => {
+    setHighlightedSearchIndex(-1);
+  }, [searchTerm, spots]);
   
   const tags = ['quiet',
     'group-friendly',
@@ -46,54 +72,21 @@ export default function Navbar() {
     'outdoor-seating'
   ];
 
-  const spots = [ {
-    "location": {
-        "type": "Point",
-        "coordinates": [
-            -118.2437,
-            34.0522
-        ]
-    },
-    "_id": "6828d5c6590e03c2a8fb3e68",
-    "name": "Peets Coffee",
-    "rating": {
-        "$numberDecimal": "4.5"
-    },
-    "reviews": [],
-    "image": "https://example.com/new-image.jpg",
-    "description": "This is an updated description of the location.",
-    "tags": ["library", "quiet", "crowded"],
-    "createdAt": "2025-05-17T18:30:30.767Z",
-    "updatedAt": "2025-05-17T18:39:34.332Z",
-    "__v": 0
-  } ,
-  {
-    "location": {
-        "type": "Point",
-        "coordinates": [
-            -118.2437,
-            34.0522
-        ]
-    },
-    "_id": "6828d5c6590e03c2a8fb3e68",
-    "name": "Quiet Library",
-    "rating": {
-        "$numberDecimal": "4.5"
-    },
-    "reviews": [],
-    "image": "https://example.com/new-image.jpg",
-    "description": "This is an updated description of the location.",
-    "tags": ["library", "quiet", "crowded"],
-    "createdAt": "2025-05-17T18:30:30.767Z",
-    "updatedAt": "2025-05-17T18:39:34.332Z",
-    "__v": 0
-  }];
-  const common_searches = ['library', 'coffee shop', 'study spot', 'quiet place']; // Some sample searches
+  const common_searches = [
+    'Library',
+    'Cafe',
+    'Bookstore',
+    'Student Union',
+    'Lounge',
+    'Park',
+    'Study Hall',
+    'Computer Lab',
+  ];
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setIsSearchDropdownVisible(true);
-    setHighlightedSearchIndex(-1);
+    setHighlightedSearchIndex(-1); // Reset highlighted index when search changes
   };
 
   const handleTagInputChange = (event) => {
@@ -143,12 +136,27 @@ export default function Navbar() {
     }
   };
 
-  const filteredSearches = [
-    ...spots
-      .map((spot) => spot.name) // Extract names from the spots array
-      .filter((name) => name.toLowerCase().includes(searchTerm.toLowerCase())),
-    ...common_searches.filter((search) => search.toLowerCase().includes(searchTerm.toLowerCase()))
-  ];
+  const filteredSearches = searchTerm.trim() === '' 
+    ? common_searches.slice(0, 8)
+    : (() => {
+        const searchLower = searchTerm.toLowerCase();
+        
+        // Get matching location names (remove duplicates)
+        const matchingLocations = [...new Set(
+          spots
+            .map((spot) => spot.name)
+            .filter((name) => name && name.toLowerCase().includes(searchLower))
+        )];
+        
+        // Get matching common searches
+        const matchingCommonSearches = common_searches.filter((search) => 
+          search.toLowerCase().includes(searchLower)
+        );
+        
+        // Combine and limit results to prevent overly large dropdown
+        const combined = [...matchingLocations, ...matchingCommonSearches];
+        return combined.slice(0, 8); // Limit to 8 items maximum
+      })();
 
   const filteredTags = tags
     .filter((tag) => !selectedTags.includes(tag)) // Exclude selected tags

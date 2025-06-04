@@ -44,7 +44,7 @@ export default function DropdownInput({
       </div>
       {isDropdownVisible && (
         <ul className="dropdown">
-          {filteredItems.slice(0, 5).map((item, index) => (
+          {filteredItems.map((item, index) => (
             <li
               key={item}
               onClick={() => onItemClick(item)}
