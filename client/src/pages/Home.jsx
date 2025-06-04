@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import '../styles/Home.css'; 
 import penImage from '../assets/pendrawing.png';
 import NavBar from '../components/NavBar';
+import Feature1 from '../assets/feature1.png';
+import Feature2 from '../assets/feature2.png';
 import Feature3 from '../assets/feature3.png';
 
 export default function Home() {
@@ -45,7 +47,7 @@ export default function Home() {
               <p>A user's pinned locations will be stored in the database alongside other user information.</p>
             </div>
             <div className="feature-image">
-              <img src="/assets/feature1.png" alt="Feature 1" />
+              <img src={Feature1} alt="Feature 1" />
             </div>
           </div>
 
@@ -56,7 +58,7 @@ export default function Home() {
               <p>Our algorithm would recommend users new study spots to try based on their past history of ratings. It would recommend spots that others with similar ratings have also enjoyed.</p>
             </div>
             <div className="feature-image">
-              <img src="/assets/feature2.png" alt="Feature 2" />
+              <img src={Feature2} alt="Feature 2" />
             </div>
           </div>
 
