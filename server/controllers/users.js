@@ -93,9 +93,35 @@ const updateProfilePicture = async (req, res) => {
     }
 };
 
+const updateDescription = async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) {
+            return res.status(401).json({ error: 'Not authenticated' });
+        }
+
+        const { description } = req.body;
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.id,
+            { description },
+            { new: true }
+        ).select('-password');
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json(updatedUser);
+    } catch (error) {
+        console.error('Error updating description:', error);
+        res.status(500).json({ error: 'Failed to update description' });
+    }
+};
+
 export {
     login,
     signup,
-    updateProfilePicture
+    updateProfilePicture,
+    updateDescription
 }
 

@@ -13,6 +13,8 @@ export default function Profile() {
   const fileInputRef = useRef(null);
   const { user, setUser, checkAuth } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [descriptionText, setDescriptionText] = useState('');
 
   const handleViewLocation = (locationId) => {
     if (locationId) {
@@ -128,9 +130,41 @@ export default function Profile() {
     }
   };
 
+  const handleSaveDescription = async () => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/users/description`,
+        { description: descriptionText },
+        { withCredentials: true }
+      );
+
+      if (response.data) {
+        setUser(prevUser => ({
+          ...prevUser,
+          description: descriptionText
+        }));
+        setIsEditingDescription(false);
+      }
+    } catch (error) {
+      console.error('Error updating description:', error);
+      alert('Failed to update description');
+    }
+  };
+
+  const handleCancelDescription = () => {
+    setDescriptionText(user.description || '');
+    setIsEditingDescription(false);
+  };
+
+  const handleEditDescription = () => {
+    setDescriptionText(user.description || '');
+    setIsEditingDescription(true);
+  };
+
   useEffect(() => {
     if (user) {
       filterReviews();
+      setDescriptionText(user.description || '');
     }
   }, [user]);
 
@@ -164,8 +198,47 @@ export default function Profile() {
             
             <h2 className="profile-name">{user.name}</h2>
             
-            <div className="profile-description">
-              {user.description || 'No description provided.'}
+            <div className="profile-description-container">
+              {isEditingDescription ? (
+                <div className="description-edit-container">
+                  <textarea
+                    value={descriptionText}
+                    onChange={(e) => setDescriptionText(e.target.value)}
+                    placeholder="Tell others about yourself..."
+                    className="description-textarea"
+                    maxLength={300}
+                  />
+                  <div className="description-edit-buttons">
+                    <button 
+                      className="description-save-button"
+                      onClick={handleSaveDescription}
+                    >
+                      Save
+                    </button>
+                    <button 
+                      className="description-cancel-button"
+                      onClick={handleCancelDescription}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  <div className="character-count">
+                    {descriptionText.length}/300
+                  </div>
+                </div>
+              ) : (
+                <div className="description-view-container">
+                  <div className="profile-description">
+                    {user.description || 'No description provided.'}
+                  </div>
+                  <button 
+                    className="description-edit-button"
+                    onClick={handleEditDescription}
+                  >
+                    Edit Description
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           
