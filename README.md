@@ -1,11 +1,11 @@
 # CS35L_GSW
 Spring 2025 CS35L Project
 
-## Getting Started
+## Getting Started (from Github)
 1. Request for repo access from Kashyap
 2. Clone repo
    - Use GitHub Desktop
-3. Download node from the internet (skip if you already set up backend)
+3. Download node from the internet
    - Read https://nodejs.org/en/download
 5. Installing project dependencies
    - `cd CS35L_GSW`
@@ -14,14 +14,29 @@ Spring 2025 CS35L Project
    - `npm install`
 6. Create two separate .env files: one in root and one in client. Get the contents of the .env files from Andrew
 
+## Getting Started (from tar file)
+1. Download node from the internet
+   - Read https://nodejs.org/en/download
+2. Installing project dependencies
+   - `cd CS35L_GSW`
+   - `npm install`
+   - `cd client`
+   - `npm install`
+3. .env files should come pre-installed
+
 ## Starting the dev server 
 ### `npm run dev`
 
 Run the frontend and backend components from two separate terminal windows. The backend server can be run from root, and the frontend client can be run from client.
+1. Terminal window 1 (root)
+   - `npm run dev`
+2. Terminal window 2
+   - `cd client`
+   - `npm run dev`
 
 ## Opening the app
 * In a web browser, navigate to `http://localhost:5173/`
-* Backend routes can be accessed at `http://localhost:3000`
+* Backend routes are accessible at `http://localhost:3000` (for dev purposes only)
 
 The page will auto-reload when edits are made and saved.
 
