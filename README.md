@@ -13,6 +13,7 @@ Spring 2025 CS35L Project
    - `cd client`
    - `npm install`
 6. Create two separate .env files: one in root and one in client. Get the contents of the .env files from Andrew
+7. Create a google-cloud-key.json in root. Get the contents of the google-cloud-key.json file from Nathan
 
 ## Getting Started (from tar file)
 1. Extract `CS35L_GSW` directory from tar file 
@@ -23,7 +24,7 @@ Spring 2025 CS35L Project
    - `npm install`
    - `cd client`
    - `npm install`
-4. .env files should come pre-installed
+4. .env and google-cloud-key.json files should come pre-installed
 
 ## Starting the dev server 
 ### `npm run dev`
