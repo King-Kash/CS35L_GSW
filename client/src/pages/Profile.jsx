@@ -65,8 +65,8 @@ export default function Profile() {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size should be less than 5MB');
+    if (file.size > 1024 * 1024 * 1024) {
+      alert('File size should be less than 1GB');
       return;
     }
 
