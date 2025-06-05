@@ -132,7 +132,7 @@ export default function Reviews() {
       rating: review.rating,
       content: review.contents || review.content,
       createdAt: review.timestamp || review.createdAt,
-      image: review.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      image: review.location?.image || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
       tags: review.tags || []
     };
   };

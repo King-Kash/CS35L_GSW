@@ -47,7 +47,6 @@ export default function Profile() {
         String(review.user._id) === user.id
       );
       setReviews(userReviews);
-      console.log(reviews)
     } catch (error) {
       console.error("Failed to fetch reviews", error);
     }
