@@ -36,7 +36,7 @@ const RegisterForm = () => {
                 console.log('Logged in user:', reps2.data)
             }
             await checkAuth()
-            navigate('/')
+            navigate('/reviews')
         } catch (err) {
             console.error(err)
             setError(err.response?.data?.error || 'Sign Up Failed')

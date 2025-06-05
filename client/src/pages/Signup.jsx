@@ -56,8 +56,8 @@ export default function Signup() {
       localStorage.setItem('token', data.accessToken);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      // Redirect to home page
-      navigate('/');
+      // Redirect to reviews page
+      navigate('/reviews');
     } catch (err) {
       setError(err.message);
     }
