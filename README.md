@@ -15,14 +15,15 @@ Spring 2025 CS35L Project
 6. Create two separate .env files: one in root and one in client. Get the contents of the .env files from Andrew
 
 ## Getting Started (from tar file)
-1. Download node from the internet
+1. Extract `CS35L_GSW` directory from tar file 
+2. Download node from the internet
    - Read https://nodejs.org/en/download
-2. Installing project dependencies
+3. Installing project dependencies
    - `cd CS35L_GSW`
    - `npm install`
    - `cd client`
    - `npm install`
-3. .env files should come pre-installed
+4. .env files should come pre-installed
 
 ## Starting the dev server 
 ### `npm run dev`
